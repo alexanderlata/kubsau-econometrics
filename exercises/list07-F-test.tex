@@ -1,0 +1,2191 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  russian,
+]{article}
+\usepackage{xcolor}
+\usepackage[top=20mm,left=20mm,right=20mm,bottom=20mm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setmainfont[]{Times New Roman}
+  \setsansfont[]{Arial}
+  \setmonofont[]{Courier New}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off,provide=*]{babel}
+\else
+\usepackage[bidi=default,shorthands=off,provide=*]{babel}
+\fi
+\ifPDFTeX
+\else
+\babelfont{rm}[]{Times New Roman}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список Иллюстраций}
+\else
+  \newcommand\listfigurename{Список Иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список Таблиц}
+\else
+  \newcommand\listtablename{Список Таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Список Каталогов}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={Задачи по Эконометрике-1: F-тест},
+  pdfauthor={Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)},
+  pdflang={ru},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Задачи по Эконометрике-1: F-тест}
+\author{Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+Для каждой задачи оцените соответствующие регрессии и проведите F-тест в
+Python.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Важно}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Логарифм натуральный; константа включается в регрессию по умолчанию.
+\item
+  Данные: \texttt{sleep75}, \texttt{wage1}, \texttt{wage2},
+  \texttt{Electricity}, \texttt{Labour} --- в папке \texttt{datasets/},
+  описание --- в \texttt{datasets/data-description.md}.
+\item
+  Округление указано в каждой задаче: до 2-х десятичных знаков в разделе
+  1, до 3-х --- в остальных. Ответы считаются по неокруглённым оценкам.
+\item
+  Коэффициенты подписаны как в statsmodels: \texttt{Intercept} ---
+  константа, \texttt{np.log(x)} --- \(\log x\), \texttt{I(x\ **\ 2)} ---
+  \(x^2\), \texttt{x:z} --- произведение \(x\cdot z\).
+\item
+  F-тест в каждой задаче проводится в двух вариантах: по неробастным и
+  по робастным стандартным ошибкам. Робастные стандартные ошибки --- HC3
+  (\texttt{fit(cov\_type=\textquotesingle{}HC3\textquotesingle{},\ use\_t=True)}),
+  робастный F-тест --- \texttt{f\_test} на той же подгонке. Критические
+  значения и P-значения --- по t- и F-распределениям.
+\item
+  Значимость отдельных коэффициентов (t-тест) проверяется по неробастным
+  стандартным ошибкам.
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{F-тест: значимость
+регрессии}\label{f-ux442ux435ux441ux442-ux437ux43dux430ux447ux438ux43cux43eux441ux442ux44c-ux440ux435ux433ux440ux435ux441ux441ux438ux438}
+
+\subsection{sleep equation \#1}\label{sleep-equation-1}
+
+Для набора данных \texttt{sleep75} рассмотрим несколько регрессий.
+Переменные: \texttt{sleep} --- ночной сон, минут в неделю;
+\texttt{totwrk} --- рабочее время, минут в неделю; \texttt{age} ---
+возраст, лет; остальные регрессоры --- бинарные переменные.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2353}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(1)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(2)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(4)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & sleep & sleep & sleep & sleep \\
+totwrk & -0.167*** & -0.168*** & -0.167*** & \\
+& (0.018) & (0.018) & (0.018) & \\
+age & -7.631 & -6.581 & -6.255 & \\
+& (11.363) & (11.292) & (11.191) & \\
+I(age ** 2) & 0.124 & 0.112 & 0.109 & \\
+& (0.135) & (0.134) & (0.134) & \\
+south & 100.608** & 98.163** & 114.547*** & \\
+& (41.969) & (41.825) & (40.637) & \\
+male & 86.626** & 92.256*** & 90.457*** & \\
+& (35.181) & (34.571) & (34.257) & \\
+smsa & -53.905 & -57.046* & & -57.890* \\
+& (33.199) & (32.979) & & (34.293) \\
+yngkid & -17.960 & -13.366 & & -31.138 \\
+& (50.747) & (50.178) & & (50.424) \\
+marr & 34.984 & & & 60.098 \\
+& (42.452) & & & (44.167) \\
+union & 13.369 & & & 7.327 \\
+& (38.225) & & & (40.530) \\
+Intercept & 3638.289*** & 3650.673*** & 3613.995*** & 3242.521*** \\
+& (223.997) & (223.367) & (218.433) & (44.044) \\
+R-squared & 0.132 & 0.131 & 0.128 & 0.007 \\
+R-squared Adj. & 0.121 & 0.123 & 0.121 & 0.002 \\
+Observations & 706 & 706 & 706 & 706 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- неробастные стандартные ошибки.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{5\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста}
+\item
+  гипотеза: каждая регрессия незначима, т.е. все её коэффициенты, кроме
+  константы, равны нулю
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовые статистики неробастного и робастного F-теста и
+критические значения. Какие из регрессий значимы? \textbf{Ответ
+округлите до 2-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1029}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2206}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Регрессия
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F крит.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Вывод
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Вывод (HC3)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(1) & 11.80 & 9.87 & 1.89 & значима & значима \\
+(2) & 15.09 & 12.60 & 2.02 & значима & значима \\
+(3) & 20.49 & 16.92 & 2.23 & значима & значима \\
+(4) & 1.31 & 1.40 & 2.38 & незначима & незначима \\
+\end{longtable}
+}
+
+\subsection{cost equation \#1}\label{cost-equation-1}
+
+Для набора данных \texttt{Electricity} рассмотрим несколько регрессий.
+Переменные: \texttt{cost} --- общие издержки; \texttt{q} --- выпуск;
+\texttt{pl} --- ставка заработной платы; \texttt{pk} --- индекс цены
+капитала; \texttt{pf} --- цена топлива.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1860}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1628}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1628}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1628}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1628}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1628}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(1)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(2)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(4)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(5)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & np.log(cost) & np.log(cost) & np.log(cost) &
+np.log(cost) & np.log(cost) \\
+np.log(q) & 0.838*** & 0.836*** & 0.839*** & & \\
+& (0.009) & (0.013) & (0.009) & & \\
+np.log(pl) & 0.044 & & & 1.748** & 1.457** \\
+& (0.106) & & & (0.756) & (0.715) \\
+np.log(pk) & 0.188** & & 0.178** & 1.247** & \\
+& (0.087) & & (0.083) & (0.627) & \\
+np.log(pf) & 0.713*** & & 0.720*** & 0.194 & \\
+& (0.064) & & (0.062) & (0.466) & \\
+Intercept & -7.472*** & -3.841*** & -7.061*** & -18.572** & -10.002 \\
+& (1.063) & (0.107) & (0.402) & (7.670) & (6.413) \\
+R-squared & 0.982 & 0.965 & 0.982 & 0.053 & 0.026 \\
+R-squared Adj. & 0.982 & 0.965 & 0.982 & 0.035 & 0.020 \\
+Observations & 158 & 158 & 158 & 158 & 158 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- неробастные стандартные ошибки.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста}
+\item
+  гипотеза: каждая регрессия незначима, т.е. все её коэффициенты, кроме
+  константы, равны нулю
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовые статистики неробастного и робастного F-теста и
+критические значения. Какие из регрессий значимы? \textbf{Ответ
+округлите до 2-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1857}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1286}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1571}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1571}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1571}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2143}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Регрессия
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F крит.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Вывод
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Вывод (HC3)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(1) & 2106.93 & 552.67 & 3.44 & значима & значима \\
+(2) & 4359.64 & 1750.83 & 6.80 & значима & значима \\
+(3) & 2824.32 & 666.82 & 3.91 & значима & значима \\
+(4) & 2.88 & 2.30 & 3.91 & незначима & незначима \\
+(5) & 4.16 & 3.32 & 6.80 & незначима & незначима \\
+\end{longtable}
+}
+
+\subsection{sleep equation \#2}\label{sleep-equation-2}
+
+Для набора данных \texttt{sleep75} рассмотрим несколько регрессий.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2877}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1781}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1781}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1781}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1781}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(1)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(2)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(4)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & sleep & sleep & sleep & sleep \\
+totwrk & -0.147*** & & & \\
+& (0.017) & & & \\
+age & -8.800 & -22.785* & -21.490* & \\
+& (11.428) & (11.907) & (11.737) & \\
+I(age ** 2) & 0.142 & 0.317** & 0.301** & \\
+& (0.136) & (0.141) & (0.140) & \\
+smsa & -69.437** & -57.707* & & -57.890* \\
+& (32.422) & (34.088) & & (34.293) \\
+yngkid & 1.631 & -3.184 & & -31.138 \\
+& (50.691) & (53.338) & & (50.424) \\
+marr & 47.551 & 62.147 & & 60.098 \\
+& (42.008) & (44.169) & & (44.167) \\
+union & 13.492 & 16.228 & & 7.327 \\
+& (38.369) & (40.374) & & (40.530) \\
+Intercept & 3673.756*** & 3601.335*** & 3608.030*** & 3242.521*** \\
+& (224.507) & (236.085) & (230.646) & (44.044) \\
+R-squared & 0.118 & 0.022 & 0.015 & 0.007 \\
+R-squared Adj. & 0.110 & 0.014 & 0.012 & 0.002 \\
+Observations & 706 & 706 & 706 & 706 \\
+Residual Std. Error & 419.371 & 441.301 & 441.775 & 444.018 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- неробастные стандартные ошибки.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста}
+\item
+  гипотеза: каждая регрессия незначима, т.е. все её коэффициенты, кроме
+  константы, равны нулю
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовые статистики неробастного и робастного F-теста и
+критические значения. Какие из регрессий значимы? \textbf{Ответ
+округлите до 2-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1029}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2206}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Регрессия
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F крит.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Вывод
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Вывод (HC3)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(1) & 13.39 & 11.16 & 2.66 & значима & значима \\
+(2) & 2.66 & 3.27 & 2.83 & незначима & значима \\
+(3) & 5.22 & 6.63 & 4.64 & значима & значима \\
+(4) & 1.31 & 1.40 & 3.35 & незначима & незначима \\
+\end{longtable}
+}
+
+\subsection{cost equation \#2}\label{cost-equation-2}
+
+Для набора данных \texttt{Electricity} рассмотрим несколько регрессий.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1538}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1538}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1538}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1538}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1538}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(1)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(2)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(4)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+(5)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & np.log(cost) & np.log(cost) & np.log(cost) &
+np.log(cost) & np.log(cost) \\
+np.log(q) & 0.403*** & 0.390*** & 0.838*** & & \\
+& (0.032) & (0.054) & (0.009) & & \\
+I(np.log(q) ** 2) & 0.030*** & 0.031*** & & & \\
+& (0.002) & (0.004) & & & \\
+np.log(pl) & 0.146** & & 0.044 & 1.748** & 1.457** \\
+& (0.070) & & (0.106) & (0.756) & (0.715) \\
+np.log(pk) & 0.157*** & & 0.188** & 1.247** & \\
+& (0.058) & & (0.087) & (0.627) & \\
+np.log(pf) & 0.685*** & & 0.713*** & 0.194 & \\
+& (0.043) & & (0.064) & (0.466) & \\
+Intercept & -6.739*** & -2.394*** & -7.472*** & -18.572** & -10.002 \\
+& (0.706) & (0.194) & (1.063) & (7.670) & (6.413) \\
+R-squared & 0.992 & 0.976 & 0.982 & 0.053 & 0.026 \\
+R-squared Adj. & 0.992 & 0.976 & 0.982 & 0.035 & 0.020 \\
+Observations & 158 & 158 & 158 & 158 & 158 \\
+Residual Std. Error & 0.138 & 0.239 & 0.209 & 1.516 & 1.527 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- неробастные стандартные ошибки.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста}
+\item
+  гипотеза: каждая регрессия незначима, т.е. все её коэффициенты, кроме
+  константы, равны нулю
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовые статистики неробастного и робастного F-теста и
+критические значения. Какие из регрессий значимы? \textbf{Ответ
+округлите до 2-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1857}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1286}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1571}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1571}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1571}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2143}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Регрессия
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+F крит.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Вывод
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Вывод (HC3)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(1) & 3880.41 & 2691.55 & 3.14 & значима & значима \\
+(2) & 3185.77 & 2815.03 & 4.74 & значима & значима \\
+(3) & 2106.93 & 552.67 & 3.44 & значима & значима \\
+(4) & 2.88 & 2.30 & 3.91 & незначима & незначима \\
+(5) & 4.16 & 3.32 & 6.80 & незначима & незначима \\
+\end{longtable}
+}
+
+\section{F-тест: совместная
+значимость}\label{f-ux442ux435ux441ux442-ux441ux43eux432ux43cux435ux441ux442ux43dux430ux44f-ux437ux43dux430ux447ux438ux43cux43eux441ux442ux44c}
+
+\subsection{sleep equation \#3}\label{sleep-equation-3}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ male\ +\ south\ +\ smsa\ +\ yngkid\ +\ marr\ +\ union}
+
+Результаты оценивания:
+
+\textbf{Результаты \(t\)-теста для коэффициентов (неробастные
+стандартные ошибки):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1515}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1818}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3446.830 & 81.840 & 42.117 & \textless0.001 & \\
+totwrk & -0.169 & 0.018 & -9.358 & \textless0.001 & *** \\
+age & 2.714 & 1.472 & 1.844 & 0.066 & * \\
+male & 87.108 & 35.173 & 2.477 & 0.014 & ** \\
+south & 102.272 & 41.925 & 2.439 & 0.015 & ** \\
+smsa & -54.188 & 33.193 & -1.632 & 0.103 & \\
+yngkid & -13.051 & 50.459 & -0.259 & 0.796 & \\
+marr & 31.360 & 42.263 & 0.742 & 0.458 & \\
+union & 11.866 & 38.186 & 0.311 & 0.756 & \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 706 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{5\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста; t-тест --- неробастные}
+\item
+  гипотеза:
+  \(H_0:\beta_{smsa}=\beta_{yngkid}=\beta_{marr}=\beta_{union}=0\)
+  (совместная значимость \texttt{smsa}, \texttt{yngkid}, \texttt{marr},
+  \texttt{union})
+\end{itemize}
+
+\end{tcolorbox}
+
+Какие коэффициенты значимы по неробастным стандартным ошибкам?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 5\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{totwrk}, \texttt{male}, \texttt{south}
+
+\end{tcolorbox}
+
+Проверим совместную значимость \texttt{smsa}, \texttt{yngkid},
+\texttt{marr}, \texttt{union}.
+
+Вычислите критическое значение. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(F_{crit} = 2.385\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный F-тест}
+
+Вычислите тестовую статистику и P-значение. \textbf{Ответ округлите до
+3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.910 & 4 & 697 & 0.458 \\
+\end{longtable}
+}
+
+\textbf{Робастный F-тест (HC3)}
+
+Вычислите тестовую статистику и P-значение. \textbf{Ответ округлите до
+3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.951 & 4 & 697 & 0.434 \\
+\end{longtable}
+}
+
+Значимо ли совместное влияние?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Неробастный F-тест: \(F = 0.910 < 2.385\), гипотеза \(H_0\) не
+  отвергается: совместное влияние незначимо.
+\item
+  Робастный F-тест (HC3): \(F = 0.951 < 2.385\), гипотеза \(H_0\) не
+  отвергается: совместное влияние незначимо.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#4}\label{sleep-equation-4}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ I(age**2)\ +\ male\ +\ south}
+
+Результаты оценивания:
+
+\textbf{Результаты \(t\)-теста для коэффициентов (неробастные
+стандартные ошибки):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1471}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1765}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3613.995 & 218.433 & 16.545 & \textless0.001 & \\
+totwrk & -0.167 & 0.018 & -9.228 & \textless0.001 & *** \\
+age & -6.255 & 11.191 & -0.559 & 0.576 & \\
+I(age ** 2) & 0.109 & 0.134 & 0.814 & 0.416 & \\
+male & 90.457 & 34.257 & 2.641 & 0.008 & *** \\
+south & 114.547 & 40.637 & 2.819 & 0.005 & *** \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 706 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста; t-тест --- неробастные}
+\item
+  гипотеза: \(H_0:\beta_{age}=\beta_{age^2}=0\) (значимость влияния
+  возраста)
+\end{itemize}
+
+\end{tcolorbox}
+
+Какие коэффициенты значимы по неробастным стандартным ошибкам?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 1\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{totwrk}, \texttt{male}, \texttt{south}
+
+\end{tcolorbox}
+
+Проверим значимость влияния возраста.
+
+Вычислите критическое значение. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(F_{crit} = 4.636\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный F-тест}
+
+Вычислите тестовую статистику и P-значение. \textbf{Ответ округлите до
+3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.347 & 2 & 700 & 0.096 \\
+\end{longtable}
+}
+
+\textbf{Робастный F-тест (HC3)}
+
+Вычислите тестовую статистику и P-значение. \textbf{Ответ округлите до
+3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.908 & 2 & 700 & 0.055 \\
+\end{longtable}
+}
+
+Значимо ли совместное влияние?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Неробастный F-тест: \(F = 2.347 < 4.636\), гипотеза \(H_0\) не
+  отвергается: совместное влияние незначимо.
+\item
+  Робастный F-тест (HC3): \(F = 2.908 < 4.636\), гипотеза \(H_0\) не
+  отвергается: совместное влияние незначимо.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#5}\label{sleep-equation-5}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ I(age**2)\ +\ male\ +\ south\ +\ totwrk:male}
+
+Результаты оценивания:
+
+\textbf{Результаты \(t\)-теста для коэффициентов (неробастные
+стандартные ошибки):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1471}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1765}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1618}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3587.178 & 220.238 & 16.288 & \textless0.001 & \\
+totwrk & -0.149 & 0.026 & -5.673 & \textless0.001 & *** \\
+age & -6.259 & 11.192 & -0.559 & 0.576 & \\
+I(age ** 2) & 0.107 & 0.134 & 0.796 & 0.426 & \\
+male & 161.890 & 82.177 & 1.970 & 0.049 & ** \\
+south & 112.144 & 40.717 & 2.754 & 0.006 & *** \\
+totwrk:male & -0.035 & 0.036 & -0.956 & 0.339 & \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 706 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста; t-тест --- неробастные}
+\item
+  гипотеза: \(H_0:\beta_{male}=\beta_{totwrk:male}=0\) (значимость
+  влияния гендерной переменной)
+\end{itemize}
+
+\end{tcolorbox}
+
+Какие коэффициенты значимы по неробастным стандартным ошибкам?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 1\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{totwrk}, \texttt{south}
+
+\end{tcolorbox}
+
+Проверим значимость влияния гендерной переменной.
+
+Вычислите критическое значение. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(F_{crit} = 4.636\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный F-тест}
+
+Вычислите тестовую статистику и P-значение. \textbf{Ответ округлите до
+3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+3.943 & 2 & 699 & 0.020 \\
+\end{longtable}
+}
+
+\textbf{Робастный F-тест (HC3)}
+
+Вычислите тестовую статистику и P-значение. \textbf{Ответ округлите до
+3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+3.690 & 2 & 699 & 0.025 \\
+\end{longtable}
+}
+
+Значимо ли совместное влияние?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Неробастный F-тест: \(F = 3.943 < 4.636\), гипотеза \(H_0\) не
+  отвергается: совместное влияние незначимо.
+\item
+  Робастный F-тест (HC3): \(F = 3.690 < 4.636\), гипотеза \(H_0\) не
+  отвергается: совместное влияние незначимо.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{wage equation \#1}\label{wage-equation-1}
+
+Для набора данных \texttt{wage2} рассмотрим регрессию
+
+\texttt{np.log(wage)\ \textasciitilde{}\ age\ +\ I(age**2)\ +\ IQ\ +\ south\ +\ urban\ +\ married}
+
+Переменные: \texttt{wage} --- месячная заработная плата; \texttt{age}
+--- возраст, лет; \texttt{IQ} --- результат теста IQ; \texttt{south},
+\texttt{urban}, \texttt{married} --- бинарные переменные.
+
+Результаты оценивания:
+
+\textbf{Результаты \(t\)-теста для коэффициентов (неробастные
+стандартные ошибки):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1940}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1343}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1791}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1642}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1642}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1642}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 2.938 & 1.656 & 1.774 & 0.076 & \\
+age & 0.145 & 0.100 & 1.447 & 0.148 & \\
+I(age ** 2) & -0.002 & 0.002 & -1.236 & 0.217 & \\
+IQ & 0.008 & 0.001 & 9.770 & \textless0.001 & *** \\
+south & -0.100 & 0.027 & -3.736 & \textless0.001 & *** \\
+urban & 0.173 & 0.028 & 6.260 & \textless0.001 & *** \\
+married & 0.202 & 0.040 & 5.008 & \textless0.001 & *** \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 935 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста; t-тест --- неробастные}
+\item
+  гипотеза: \(H_0:\beta_{age}=\beta_{age^2}=0\) (значимость влияния
+  возраста)
+\end{itemize}
+
+\end{tcolorbox}
+
+Какие коэффициенты значимы по неробастным стандартным ошибкам?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 1\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{IQ}, \texttt{south}, \texttt{urban}, \texttt{married}
+
+\end{tcolorbox}
+
+Проверим значимость влияния возраста.
+
+Вычислите критическое значение. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(F_{crit} = 4.628\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный F-тест}
+
+Вычислите тестовую статистику и P-значение. \textbf{Ответ округлите до
+3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+14.833 & 2 & 928 & \textless0.001 \\
+\end{longtable}
+}
+
+\textbf{Робастный F-тест (HC3)}
+
+Вычислите тестовую статистику и P-значение. \textbf{Ответ округлите до
+3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+14.700 & 2 & 928 & \textless0.001 \\
+\end{longtable}
+}
+
+Значимо ли совместное влияние?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Неробастный F-тест: \(F = 14.833 > 4.628\), гипотеза \(H_0\)
+  отвергается: совместное влияние значимо.
+\item
+  Робастный F-тест (HC3): \(F = 14.700 > 4.628\), гипотеза \(H_0\)
+  отвергается: совместное влияние значимо.
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{F-тест: структурные
+ограничения}\label{f-ux442ux435ux441ux442-ux441ux442ux440ux443ux43aux442ux443ux440ux43dux44bux435-ux43eux433ux440ux430ux43dux438ux447ux435ux43dux438ux44f}
+
+\subsection{cost equation \#3}\label{cost-equation-3}
+
+Для набора данных \texttt{Electricity} рассмотрим регрессию
+
+\begin{verbatim}
+np.log(cost) ~ np.log(q) + I(np.log(q)**2) +
+               np.log(pf) + np.log(pl) + np.log(pk)
+\end{verbatim}
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+& (1) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & np.log(cost) \\
+np.log(q) & 0.403*** \\
+& (0.032) \\
+I(np.log(q) ** 2) & 0.030*** \\
+& (0.002) \\
+np.log(pf) & 0.685*** \\
+& (0.043) \\
+np.log(pl) & 0.146** \\
+& (0.070) \\
+np.log(pk) & 0.157*** \\
+& (0.058) \\
+Intercept & -6.739*** \\
+& (0.706) \\
+R-squared & 0.992 \\
+R-squared Adj. & 0.992 \\
+Observations & 158 \\
+Residual Std. Error & 0.138 \\
+F Statistic & 3880.407*** \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- неробастные стандартные ошибки.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста; t-тест --- неробастные}
+\item
+  гипотеза 1: \(H_0:\beta_{pf}+\beta_{pl}+\beta_{pk}=1\)
+\item
+  гипотеза 2: \(H_0:\beta_{pl}=\beta_{pk}\)
+\item
+  гипотеза 3: \(H_0:\beta_{pf}=\beta_{pl}=\beta_{pk}\)
+\item
+  обозначения: \(\beta_{pf}\), \(\beta_{pl}\), \(\beta_{pk}\) ---
+  коэффициенты при \texttt{np.log(pf)}, \texttt{np.log(pl)},
+  \texttt{np.log(pk)}
+\end{itemize}
+
+\end{tcolorbox}
+
+Какие коэффициенты значимы по неробастным стандартным ошибкам?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 1\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{np.log(q)}, \texttt{I(np.log(q)\ **\ 2)}, \texttt{np.log(pf)},
+\texttt{np.log(pk)}
+
+\end{tcolorbox}
+
+Проверим гипотезы 1--3. Какая интерпретация у каждой гипотезы?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Ответ}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Гипотеза 1: функция издержек однородна первой степени по ценам
+  факторов --- если все цены вырастут на 1\%, издержки вырастут на 1\%.
+\item
+  Гипотеза 2: эластичности издержек по цене труда и по цене капитала
+  одинаковы.
+\item
+  Гипотеза 3: эластичности издержек по ценам всех трёх факторов
+  одинаковы.
+\end{itemize}
+
+\end{tcolorbox}
+
+Для каждой гипотезы вычислите тестовую статистику и P-значение
+неробастного и робастного F-теста. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+\textbf{Гипотеза 1. Неробастный F-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.015 & 1 & 152 & 0.904 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 1. Робастный F-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.013 & 1 & 152 & 0.909 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 2. Неробастный F-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.020 & 1 & 152 & 0.887 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 2. Робастный F-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.017 & 1 & 152 & 0.896 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 3. Неробастный F-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+26.417 & 2 & 152 & \textless0.001 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 3. Робастный F-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+15.834 & 2 & 152 & \textless0.001 \\
+\end{longtable}
+}
+
+Вычислите критические значения. Какой можно сделать вывод по каждой
+гипотезе? \textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Критические значения и выводы}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Гипотеза 1: \(F_{crit} = 6.805\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Неробастный F-тест: \(F = 0.015 < 6.805\), гипотеза \(H_0\) не
+    отвергается.
+  \item
+    Робастный F-тест (HC3): \(F = 0.013 < 6.805\), гипотеза \(H_0\) не
+    отвергается.
+  \end{itemize}
+\item
+  Гипотеза 2: \(F_{crit} = 6.805\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Неробастный F-тест: \(F = 0.020 < 6.805\), гипотеза \(H_0\) не
+    отвергается.
+  \item
+    Робастный F-тест (HC3): \(F = 0.017 < 6.805\), гипотеза \(H_0\) не
+    отвергается.
+  \end{itemize}
+\item
+  Гипотеза 3: \(F_{crit} = 4.748\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Неробастный F-тест: \(F = 26.417 > 4.748\), гипотеза \(H_0\)
+    отвергается.
+  \item
+    Робастный F-тест (HC3): \(F = 15.834 > 4.748\), гипотеза \(H_0\)
+    отвергается.
+  \end{itemize}
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{output equation}\label{output-equation}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию
+\textbf{np.log(output) на np.log(capital), np.log(labour),
+np.log(wage)}.
+
+Переменные: \texttt{output} --- добавленная стоимость, млн евро;
+\texttt{capital} --- основные средства, млн евро; \texttt{labour} ---
+число работников; \texttt{wage} --- затраты на оплату труда на одного
+работника, тыс. евро.
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+& (1) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & np.log(output) \\
+np.log(capital) & 0.149*** \\
+& (0.015) \\
+np.log(labour) & 0.720*** \\
+& (0.019) \\
+np.log(wage) & 0.921*** \\
+& (0.058) \\
+Intercept & -5.007*** \\
+& (0.221) \\
+R-squared & 0.888 \\
+R-squared Adj. & 0.888 \\
+Observations & 569 \\
+Residual Std. Error & 0.397 \\
+F Statistic & 1499.235*** \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- неробастные стандартные ошибки.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{5\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста; t-тест --- неробастные}
+\item
+  гипотеза 1: \(H_0:\beta_{capital}+\beta_{labour}+\beta_{wage}=1\)
+\item
+  гипотеза 2: \(H_0:\beta_{labour}=\beta_{wage}\)
+\item
+  гипотеза 3: \(H_0:\beta_{capital}=\beta_{labour}=\beta_{wage}\)
+\item
+  обозначения: \(\beta_{capital}\), \(\beta_{labour}\), \(\beta_{wage}\)
+  --- коэффициенты при \texttt{np.log(capital)},
+  \texttt{np.log(labour)}, \texttt{np.log(wage)}
+\end{itemize}
+
+\end{tcolorbox}
+
+Какие коэффициенты значимы по неробастным стандартным ошибкам?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 5\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{np.log(capital)}, \texttt{np.log(labour)}, \texttt{np.log(wage)}
+
+\end{tcolorbox}
+
+Проверим гипотезы 1--3. Какая интерпретация у каждой гипотезы?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Ответ}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Гипотеза 1: сумма эластичностей выпуска по капиталу, труду и зарплате
+  равна единице.
+\item
+  Гипотеза 2: эластичности выпуска по числу занятых и по зарплате
+  одинаковы.
+\item
+  Гипотеза 3: все три эластичности выпуска --- по капиталу, труду и
+  зарплате --- одинаковы.
+\end{itemize}
+
+\end{tcolorbox}
+
+Для каждой гипотезы вычислите тестовую статистику и P-значение
+неробастного и робастного F-теста. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+\textbf{Гипотеза 1. Неробастный F-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+198.587 & 1 & 565 & \textless0.001 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 1. Робастный F-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+109.340 & 1 & 565 & \textless0.001 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 2. Неробастный F-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+11.081 & 1 & 565 & \textless0.001 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 2. Робастный F-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+4.289 & 1 & 565 & 0.039 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 3. Неробастный F-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+192.367 & 2 & 565 & \textless0.001 \\
+\end{longtable}
+}
+
+\textbf{Гипотеза 3. Робастный F-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+47.863 & 2 & 565 & \textless0.001 \\
+\end{longtable}
+}
+
+Вычислите критические значения. Какой можно сделать вывод по каждой
+гипотезе? \textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Критические значения и выводы}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Гипотеза 1: \(F_{crit} = 3.858\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Неробастный F-тест: \(F = 198.587 > 3.858\), гипотеза \(H_0\)
+    отвергается.
+  \item
+    Робастный F-тест (HC3): \(F = 109.340 > 3.858\), гипотеза \(H_0\)
+    отвергается.
+  \end{itemize}
+\item
+  Гипотеза 2: \(F_{crit} = 3.858\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Неробастный F-тест: \(F = 11.081 > 3.858\), гипотеза \(H_0\)
+    отвергается.
+  \item
+    Робастный F-тест (HC3): \(F = 4.289 > 3.858\), гипотеза \(H_0\)
+    отвергается.
+  \end{itemize}
+\item
+  Гипотеза 3: \(F_{crit} = 3.012\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Неробастный F-тест: \(F = 192.367 > 3.012\), гипотеза \(H_0\)
+    отвергается.
+  \item
+    Робастный F-тест (HC3): \(F = 47.863 > 3.012\), гипотеза \(H_0\)
+    отвергается.
+  \end{itemize}
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{F-тест: структурные
+сдвиги}\label{f-ux442ux435ux441ux442-ux441ux442ux440ux443ux43aux442ux443ux440ux43dux44bux435-ux441ux434ux432ux438ux433ux438}
+
+\subsection{sleep equation \#6}\label{sleep-equation-6}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ I(age**2)\ +\ south\ +\ smsa\ +\ marr}
+со структурными сдвигами относительно гендерной бинарной переменной
+\texttt{male}.
+
+Результаты оценивания модели со структурными сдвигами:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3933.485 \\
+totwrk & -0.140 \\
+age & -26.641 \\
+I(age ** 2) & 0.345 \\
+south & 129.190 \\
+smsa & -33.660 \\
+marr & 63.314 \\
+male & -415.456 \\
+male:totwrk & -0.049 \\
+male:age & 33.969 \\
+male:I(age ** 2) & -0.393 \\
+male:south & -67.588 \\
+male:smsa & -43.849 \\
+male:marr & -55.125 \\
+\end{longtable}
+}
+
+Модель была подогнана по 706 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста}
+\item
+  гипотеза: \(H_0\): коэффициенты при \texttt{male} и всех произведениях
+  с \texttt{male} равны нулю (структурных сдвигов нет)
+\end{itemize}
+
+\end{tcolorbox}
+
+Проверьте значимость структурных сдвигов. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+Вычислите критическое значение.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(F_{crit} = 2.665\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный F-тест}
+
+Вычислите тестовую статистику и P-значение.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.551 & 7 & 692 & 0.147 \\
+\end{longtable}
+}
+
+\textbf{Робастный F-тест (HC3)}
+
+Вычислите тестовую статистику и P-значение.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.530 & 7 & 692 & 0.154 \\
+\end{longtable}
+}
+
+Значимы ли структурные сдвиги?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Неробастный F-тест: \(F = 1.551 < 2.665\), гипотеза \(H_0\) не
+  отвергается: структурные сдвиги незначимы.
+\item
+  Робастный F-тест (HC3): \(F = 1.530 < 2.665\), гипотеза \(H_0\) не
+  отвергается: структурные сдвиги незначимы.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#7}\label{sleep-equation-7}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ I(age**2)\ +\ male\ +\ smsa}
+со структурными сдвигами относительно географической бинарной переменной
+\texttt{south}.
+
+Результаты оценивания модели со структурными сдвигами:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3663.564 \\
+totwrk & -0.183 \\
+age & -4.720 \\
+I(age ** 2) & 0.071 \\
+male & 117.058 \\
+smsa & -66.366 \\
+south & -55.855 \\
+south:totwrk & 0.107 \\
+south:age & -10.403 \\
+south:I(age ** 2) & 0.229 \\
+male:south & -116.776 \\
+south:smsa & 57.077 \\
+\end{longtable}
+}
+
+Модель была подогнана по 706 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста}
+\item
+  гипотеза: \(H_0\): коэффициенты при \texttt{south} и всех
+  произведениях с \texttt{south} равны нулю (структурных сдвигов нет)
+\end{itemize}
+
+\end{tcolorbox}
+
+Проверьте значимость структурных сдвигов. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+Вычислите критическое значение.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(F_{crit} = 2.828\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный F-тест}
+
+Вычислите тестовую статистику и P-значение.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.649 & 6 & 694 & 0.015 \\
+\end{longtable}
+}
+
+\textbf{Робастный F-тест (HC3)}
+
+Вычислите тестовую статистику и P-значение.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.101 & 6 & 694 & 0.051 \\
+\end{longtable}
+}
+
+Значимы ли структурные сдвиги?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Неробастный F-тест: \(F = 2.649 < 2.828\), гипотеза \(H_0\) не
+  отвергается: структурные сдвиги незначимы.
+\item
+  Робастный F-тест (HC3): \(F = 2.101 < 2.828\), гипотеза \(H_0\) не
+  отвергается: структурные сдвиги незначимы.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{wage equation \#2}\label{wage-equation-2}
+
+Для набора данных \texttt{wage1} рассмотрим регрессию
+\texttt{np.log(wage)\ \textasciitilde{}\ exper\ +\ I(exper**2)\ +\ married\ +\ smsa}
+со структурными сдвигами относительно гендерной бинарной переменной
+\texttt{female}. Переменные: \texttt{wage} --- средняя почасовая
+заработная плата; \texttt{exper} --- потенциальный опыт работы, лет;
+\texttt{married}, \texttt{smsa}, \texttt{female} --- бинарные
+переменные.
+
+Результаты оценивания модели со структурными сдвигами:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 1.079 \\
+exper & 0.044 \\
+I(exper ** 2) & -0.001 \\
+married & 0.289 \\
+smsa & 0.292 \\
+female & -0.007 \\
+female:exper & -0.018 \\
+female:I(exper ** 2) & 0.000359 \\
+female:married & -0.280 \\
+female:smsa & -0.071 \\
+\end{longtable}
+}
+
+Модель была подогнана по 526 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста}
+\item
+  гипотеза: \(H_0\): коэффициенты при \texttt{female} и всех
+  произведениях с \texttt{female} равны нулю (структурных сдвигов нет)
+\end{itemize}
+
+\end{tcolorbox}
+
+Проверьте значимость структурных сдвигов. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+Вычислите критическое значение.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(F_{crit} = 3.053\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный F-тест}
+
+Вычислите тестовую статистику и P-значение.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+21.254 & 5 & 516 & \textless0.001 \\
+\end{longtable}
+}
+
+\textbf{Робастный F-тест (HC3)}
+
+Вычислите тестовую статистику и P-значение.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+23.266 & 5 & 516 & \textless0.001 \\
+\end{longtable}
+}
+
+Значимы ли структурные сдвиги?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Неробастный F-тест: \(F = 21.254 > 3.053\), гипотеза \(H_0\)
+  отвергается: структурные сдвиги значимы.
+\item
+  Робастный F-тест (HC3): \(F = 23.266 > 3.053\), гипотеза \(H_0\)
+  отвергается: структурные сдвиги значимы.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{wage equation \#3}\label{wage-equation-3}
+
+Для набора данных \texttt{wage1} рассмотрим регрессию
+\texttt{np.log(wage)\ \textasciitilde{}\ exper\ +\ I(exper**2)\ +\ female\ +\ smsa}.
+Она оценена по всем наблюдениям, только по состоящим в браке
+(\texttt{married\ =\ 1}) и только по не состоящим в браке
+(\texttt{married\ =\ 0}). Результаты приведены в таблице.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+& все & в браке & не в браке \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & np.log(wage) & np.log(wage) & np.log(wage) \\
+Intercept & 1.293*** & 1.588*** & 1.076*** \\
+& (0.060) & (0.088) & (0.089) \\
+exper & 0.044*** & 0.025*** & 0.045*** \\
+& (0.005) & (0.008) & (0.008) \\
+I(exper ** 2) & -0.001*** & -0.001*** & -0.001*** \\
+& (0.000116) & (0.000158) & (0.000195) \\
+female & -0.382*** & -0.496*** & -0.168** \\
+& (0.040) & (0.049) & (0.065) \\
+smsa & 0.264*** & 0.259*** & 0.276*** \\
+& (0.044) & (0.052) & (0.077) \\
+R-squared & 0.280 & 0.318 & 0.188 \\
+R-squared Adj. & 0.274 & 0.309 & 0.172 \\
+F Statistic & 50.589*** & 36.702*** & 11.637*** \\
+Observations & 526 & 320 & 206 \\
+RSS & 106.835 & 58.616 & 41.839 \\
+Residual Std. Error & 0.453 & 0.431 & 0.456 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- неробастные стандартные ошибки.
+
+По значениям RSS вычислите F-статистику теста Чоу для структурного
+сдвига по переменной \texttt{married}. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Ответ}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(F = \dfrac{(106.835 - 58.616 - 41.839)/5}{(58.616 + 41.839)/516} = 6.554\)
+
+\end{tcolorbox}
+
+Оцените модель со структурными сдвигами относительно бинарной переменной
+\texttt{married}.
+
+Результаты оценивания модели со структурными сдвигами:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 1.076 \\
+exper & 0.045 \\
+I(exper ** 2) & -0.001 \\
+female & -0.168 \\
+smsa & 0.276 \\
+married & 0.511 \\
+married:exper & -0.020 \\
+married:I(exper ** 2) & 0.000334 \\
+female:married & -0.328 \\
+married:smsa & -0.017 \\
+\end{longtable}
+}
+
+Модель была подогнана по 526 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3) --- два
+  варианта F-теста}
+\item
+  гипотеза: \(H_0\): коэффициенты при \texttt{married} и всех
+  произведениях с \texttt{married} равны нулю (структурных сдвигов нет)
+\end{itemize}
+
+\end{tcolorbox}
+
+Проверьте значимость структурных сдвигов. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+Вычислите критическое значение.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(F_{crit} = 3.053\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный F-тест}
+
+Вычислите тестовую статистику и P-значение.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+6.554 & 5 & 516 & \textless0.001 \\
+\end{longtable}
+}
+
+\textbf{Робастный F-тест (HC3)}
+
+Вычислите тестовую статистику и P-значение.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+F & df1 & df2 & p-value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+7.984 & 5 & 516 & \textless0.001 \\
+\end{longtable}
+}
+
+Значимы ли структурные сдвиги? Совпадает ли неробастная статистика со
+статистикой теста Чоу?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Неробастный F-тест: \(F = 6.554 > 3.053\), гипотеза \(H_0\)
+  отвергается: структурные сдвиги значимы.
+\item
+  Робастный F-тест (HC3): \(F = 7.984 > 3.053\), гипотеза \(H_0\)
+  отвергается: структурные сдвиги значимы.
+\item
+  Неробастная F-статистика совпадает со статистикой теста Чоу: 6.554.
+\end{itemize}
+
+\end{tcolorbox}
+
+
+
+
+\end{document}

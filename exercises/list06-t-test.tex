@@ -1,0 +1,1829 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  russian,
+]{article}
+\usepackage{xcolor}
+\usepackage[top=20mm,left=20mm,right=20mm,bottom=20mm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setmainfont[]{Times New Roman}
+  \setsansfont[]{Arial}
+  \setmonofont[]{Courier New}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off,provide=*]{babel}
+\else
+\usepackage[bidi=default,shorthands=off,provide=*]{babel}
+\fi
+\ifPDFTeX
+\else
+\babelfont{rm}[]{Times New Roman}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список Иллюстраций}
+\else
+  \newcommand\listfigurename{Список Иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список Таблиц}
+\else
+  \newcommand\listtablename{Список Таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Список Каталогов}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={Задачи по Эконометрике-1: t-тест},
+  pdfauthor={Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)},
+  pdflang={ru},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Задачи по Эконометрике-1: t-тест}
+\author{Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Важно}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Логарифм натуральный; константа включается в модель по умолчанию.
+\item
+  Данные лежат в папке \texttt{datasets}, описание переменных --- в
+  \texttt{datasets/data-description.md}.
+\item
+  Округление указано в каждой задаче: 3 знака в первом разделе, 2 знака
+  во втором. Тестовая статистика считается по неокруглённым оценкам.
+\item
+  Коэффициенты подписаны так, как их печатает statsmodels:
+  \texttt{Intercept} --- константа, \texttt{np.log(x)} --- \(\log x\),
+  \texttt{I(np.log(x)\ **\ 2)} --- \(\log^2 x\).
+\item
+  Индекс коэффициента в гипотезе --- имя переменной: \(\beta_{capital}\)
+  --- коэффициент при \texttt{np.log(capital)}. Альтернатива
+  двусторонняя.
+\item
+  Неробастные стандартные ошибки --- обычные ошибки МНК, робастные ---
+  HC3; критические значения и P-значения --- по t-распределению
+  (\texttt{fit(cov\_type=\textquotesingle{}HC3\textquotesingle{},\ use\_t=True)}).
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{t-тест: значимость
+коэффициентов}\label{t-ux442ux435ux441ux442-ux437ux43dux430ux447ux438ux43cux43eux441ux442ux44c-ux43aux43eux44dux444ux444ux438ux446ux438ux435ux43dux442ux43eux432}
+
+\subsection{sleep equation \#1}\label{sleep-equation-1}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ south\ +\ male\ +\ smsa\ +\ marr\ +\ union}
+
+Переменные \texttt{sleep} и \texttt{totwrk} измерены в минутах в неделю.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{5\%}
+\item
+  стандартные ошибки: \textbf{неробастные}
+\item
+  гипотеза: \(H_0:\beta_j=0\) для каждого коэффициента
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Оцените регрессию.
+\item
+  Выведите результаты t-теста.
+\item
+  Вычислите критическое значение.
+\item
+  Какие коэффициенты значимы?
+\end{itemize}
+
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\textbf{Результаты \(t\)-теста для коэффициентов (неробастные
+стандартные ошибки):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1515}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1818}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3441.297 & 78.942 & 43.593 & \textless0.001 & \\
+totwrk & -0.169 & 0.018 & -9.363 & \textless0.001 & *** \\
+age & 2.841 & 1.387 & 2.048 & 0.041 & ** \\
+south & 101.676 & 41.834 & 2.430 & 0.015 & ** \\
+male & 86.038 & 34.906 & 2.465 & 0.014 & ** \\
+smsa & -53.925 & 33.156 & -1.626 & 0.104 & \\
+marr & 30.006 & 41.910 & 0.716 & 0.474 & \\
+union & 12.440 & 38.096 & 0.327 & 0.744 & \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 706 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.975}(698) = 1.963\)
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 5\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{totwrk}, \texttt{age}, \texttt{south}, \texttt{male}
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#2}\label{sleep-equation-2}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ south\ +\ male\ +\ smsa\ +\ marr\ +\ union}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{5\%}
+\item
+  стандартные ошибки: \textbf{робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_j=0\) для каждого коэффициента
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Оцените регрессию.
+\item
+  Выведите результаты t-теста.
+\item
+  Вычислите критическое значение.
+\item
+  Какие коэффициенты значимы?
+\end{itemize}
+
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\textbf{Результаты \(t\)-теста для коэффициентов (робастные стандартные
+ошибки, HC3):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1515}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1818}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3441.297 & 88.891 & 38.714 & \textless0.001 & \\
+totwrk & -0.169 & 0.020 & -8.299 & \textless0.001 & *** \\
+age & 2.841 & 1.362 & 2.086 & 0.037 & ** \\
+south & 101.676 & 42.315 & 2.403 & 0.017 & ** \\
+male & 86.038 & 35.758 & 2.406 & 0.016 & ** \\
+smsa & -53.925 & 33.372 & -1.616 & 0.107 & \\
+marr & 30.006 & 46.090 & 0.651 & 0.515 & \\
+union & 12.440 & 37.277 & 0.334 & 0.739 & \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 706 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.975}(698) = 1.963\)
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 5\% (по робастным стандартным ошибкам
+HC3)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{totwrk}, \texttt{age}, \texttt{south}, \texttt{male}
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#3}\label{sleep-equation-3}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ south\ +\ male\ +\ smsa\ +\ marr\ +\ union\ +\ np.log(hrwage)}
+
+Переменная \texttt{hrwage} известна не для всех наблюдений: модель
+подгоняется по 532 наблюдениям из 706.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{10\%}
+\item
+  стандартные ошибки: \textbf{неробастные}
+\item
+  гипотеза: \(H_0:\beta_j=0\) для каждого коэффициента
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Оцените регрессию.
+\item
+  Выведите результаты t-теста.
+\item
+  Вычислите критическое значение.
+\item
+  Какие коэффициенты значимы?
+\end{itemize}
+
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\textbf{Результаты \(t\)-теста для коэффициентов (неробастные
+стандартные ошибки):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2254}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1408}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1690}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1549}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1549}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1549}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3453.355 & 93.371 & 36.985 & \textless0.001 & \\
+totwrk & -0.159 & 0.021 & -7.629 & \textless0.001 & *** \\
+age & 1.950 & 1.584 & 1.230 & 0.219 & \\
+south & 80.244 & 45.216 & 1.775 & 0.077 & * \\
+male & 41.098 & 43.049 & 0.955 & 0.340 & \\
+smsa & -36.093 & 38.206 & -0.945 & 0.345 & \\
+marr & 58.917 & 46.613 & 1.264 & 0.207 & \\
+union & 24.479 & 42.948 & 0.570 & 0.569 & \\
+np.log(hrwage) & -2.590 & 32.197 & -0.080 & 0.936 & \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 532 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.95}(523) = 1.648\)
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 10\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{totwrk}, \texttt{south}
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#4}\label{sleep-equation-4}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ south\ +\ male\ +\ smsa\ +\ marr\ +\ union\ +\ np.log(hrwage)}
+
+Переменная \texttt{hrwage} известна не для всех наблюдений: модель
+подгоняется по 532 наблюдениям из 706.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{10\%}
+\item
+  стандартные ошибки: \textbf{робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_j=0\) для каждого коэффициента
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Оцените регрессию.
+\item
+  Выведите результаты t-теста.
+\item
+  Вычислите критическое значение.
+\item
+  Какие коэффициенты значимы?
+\end{itemize}
+
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\textbf{Результаты \(t\)-теста для коэффициентов (робастные стандартные
+ошибки, HC3):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2254}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1408}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1690}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1549}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1549}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1549}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3453.355 & 98.213 & 35.162 & \textless0.001 & \\
+totwrk & -0.159 & 0.025 & -6.354 & \textless0.001 & *** \\
+age & 1.950 & 1.571 & 1.241 & 0.215 & \\
+south & 80.244 & 47.401 & 1.693 & 0.091 & * \\
+male & 41.098 & 42.778 & 0.961 & 0.337 & \\
+smsa & -36.093 & 38.580 & -0.936 & 0.350 & \\
+marr & 58.917 & 48.350 & 1.219 & 0.224 & \\
+union & 24.479 & 43.006 & 0.569 & 0.569 & \\
+np.log(hrwage) & -2.590 & 32.992 & -0.079 & 0.937 & \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 532 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.95}(523) = 1.648\)
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 10\% (по робастным стандартным ошибкам
+HC3)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{totwrk}, \texttt{south}
+
+\end{tcolorbox}
+
+\subsection{output equation \#1}\label{output-equation-1}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.log(output) }\OperatorTok{\textasciitilde{}}\NormalTok{ np.log(capital) }\OperatorTok{+}\NormalTok{ np.log(labour) }\OperatorTok{+}\NormalTok{ np.log(wage) }\OperatorTok{+}
+\NormalTok{    I(np.log(capital)}\OperatorTok{**}\DecValTok{2}\NormalTok{) }\OperatorTok{+}\NormalTok{ I(np.log(labour)}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Переменные \texttt{output} и \texttt{capital} измерены в млн евро,
+\texttt{labour} --- число работников, \texttt{wage} --- в тыс. евро на
+работника.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{10\%}
+\item
+  стандартные ошибки: \textbf{неробастные}
+\item
+  гипотеза: \(H_0:\beta_j=0\) для каждого коэффициента
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Оцените регрессию.
+\item
+  Выведите результаты t-теста.
+\item
+  Вычислите критическое значение.
+\item
+  Какие коэффициенты значимы?
+\end{itemize}
+
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\textbf{Результаты \(t\)-теста для коэффициентов (неробастные
+стандартные ошибки):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.3165}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1139}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1519}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1392}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1392}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1392}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -4.258 & 0.257 & -16.599 & \textless0.001 & \\
+np.log(capital) & 0.140 & 0.014 & 9.743 & \textless0.001 & *** \\
+np.log(labour) & 0.473 & 0.071 & 6.672 & \textless0.001 & *** \\
+np.log(wage) & 0.853 & 0.058 & 14.751 & \textless0.001 & *** \\
+I(np.log(capital) ** 2) & 0.008 & 0.004 & 1.735 & 0.083 & * \\
+I(np.log(labour) ** 2) & 0.027 & 0.008 & 3.355 & \textless0.001 & *** \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 569 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.95}(563) = 1.648\)
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 10\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{np.log(capital)}, \texttt{np.log(labour)},
+\texttt{np.log(wage)}, \texttt{I(np.log(capital)\ **\ 2)},
+\texttt{I(np.log(labour)\ **\ 2)}
+
+\end{tcolorbox}
+
+\subsection{output equation \#2}\label{output-equation-2}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.log(output) }\OperatorTok{\textasciitilde{}}\NormalTok{ np.log(capital) }\OperatorTok{+}\NormalTok{ np.log(labour) }\OperatorTok{+}\NormalTok{ np.log(wage) }\OperatorTok{+}
+\NormalTok{    I(np.log(capital)}\OperatorTok{**}\DecValTok{2}\NormalTok{) }\OperatorTok{+}\NormalTok{ I(np.log(labour)}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{10\%}
+\item
+  стандартные ошибки: \textbf{робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_j=0\) для каждого коэффициента
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Оцените регрессию.
+\item
+  Выведите результаты t-теста.
+\item
+  Вычислите критическое значение.
+\item
+  Какие коэффициенты значимы?
+\end{itemize}
+
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\textbf{Результаты \(t\)-теста для коэффициентов (робастные стандартные
+ошибки, HC3):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.3165}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1139}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1519}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1392}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1392}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1392}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -4.258 & 0.547 & -7.782 & \textless0.001 & \\
+np.log(capital) & 0.140 & 0.030 & 4.736 & \textless0.001 & *** \\
+np.log(labour) & 0.473 & 0.197 & 2.404 & 0.017 & ** \\
+np.log(wage) & 0.853 & 0.086 & 9.929 & \textless0.001 & *** \\
+I(np.log(capital) ** 2) & 0.008 & 0.008 & 0.932 & 0.352 & \\
+I(np.log(labour) ** 2) & 0.027 & 0.020 & 1.376 & 0.169 & \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 569 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.95}(563) = 1.648\)
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 10\% (по робастным стандартным ошибкам
+HC3)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{np.log(capital)}, \texttt{np.log(labour)}, \texttt{np.log(wage)}
+
+\end{tcolorbox}
+
+\subsection{cost equation \#1}\label{cost-equation-1}
+
+Для набора данных \texttt{Electricity} рассмотрим регрессию
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.log(cost) }\OperatorTok{\textasciitilde{}}\NormalTok{ np.log(q) }\OperatorTok{+}\NormalTok{ I(np.log(q)}\OperatorTok{**}\DecValTok{2}\NormalTok{) }\OperatorTok{+}
+\NormalTok{    np.log(pl) }\OperatorTok{+}\NormalTok{ np.log(pk) }\OperatorTok{+}\NormalTok{ np.log(pf)}
+\end{Highlighting}
+\end{Shaded}
+
+Переменные: \texttt{cost} --- общие издержки, \texttt{q} --- выпуск,
+\texttt{pl}, \texttt{pk}, \texttt{pf} --- цены труда, капитала и
+топлива.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные}
+\item
+  гипотеза: \(H_0:\beta_j=0\) для каждого коэффициента
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Оцените регрессию.
+\item
+  Выведите результаты t-теста.
+\item
+  Вычислите критическое значение.
+\item
+  Какие коэффициенты значимы?
+\end{itemize}
+
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\textbf{Результаты \(t\)-теста для коэффициентов (неробастные
+стандартные ошибки):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2603}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1233}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1644}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1507}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1507}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1507}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -6.739 & 0.706 & -9.541 & \textless0.001 & \\
+np.log(q) & 0.403 & 0.032 & 12.734 & \textless0.001 & *** \\
+I(np.log(q) ** 2) & 0.030 & 0.002 & 14.024 & \textless0.001 & *** \\
+np.log(pl) & 0.146 & 0.070 & 2.073 & 0.040 & ** \\
+np.log(pk) & 0.157 & 0.058 & 2.721 & 0.007 & *** \\
+np.log(pf) & 0.685 & 0.043 & 16.043 & \textless0.001 & *** \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 158 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.995}(152) = 2.609\)
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 1\% (по неробастным стандартным
+ошибкам)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{np.log(q)}, \texttt{I(np.log(q)\ **\ 2)}, \texttt{np.log(pk)},
+\texttt{np.log(pf)}
+
+\end{tcolorbox}
+
+\subsection{cost equation \#2}\label{cost-equation-2}
+
+Для набора данных \texttt{Electricity} рассмотрим регрессию
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.log(cost) }\OperatorTok{\textasciitilde{}}\NormalTok{ np.log(q) }\OperatorTok{+}\NormalTok{ I(np.log(q)}\OperatorTok{**}\DecValTok{2}\NormalTok{) }\OperatorTok{+}
+\NormalTok{    np.log(pl) }\OperatorTok{+}\NormalTok{ np.log(pk) }\OperatorTok{+}\NormalTok{ np.log(pf)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_j=0\) для каждого коэффициента
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Оцените регрессию.
+\item
+  Выведите результаты t-теста.
+\item
+  Вычислите критическое значение.
+\item
+  Какие коэффициенты значимы?
+\end{itemize}
+
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+\textbf{Результаты \(t\)-теста для коэффициентов (робастные стандартные
+ошибки, HC3):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2603}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1233}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1644}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1507}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1507}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1507}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Coef.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std.Err.
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Signif.
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -6.739 & 0.847 & -7.954 & \textless0.001 & \\
+np.log(q) & 0.403 & 0.066 & 6.086 & \textless0.001 & *** \\
+I(np.log(q) ** 2) & 0.030 & 0.004 & 7.419 & \textless0.001 & *** \\
+np.log(pl) & 0.146 & 0.085 & 1.711 & 0.089 & * \\
+np.log(pk) & 0.157 & 0.062 & 2.522 & 0.013 & ** \\
+np.log(pf) & 0.685 & 0.052 & 13.188 & \textless0.001 & *** \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\)
+
+Модель была подогнана по 158 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.995}(152) = 2.609\)
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициенты, значимые на уровне 1\% (по робастным стандартным ошибкам
+HC3)}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\texttt{np.log(q)}, \texttt{I(np.log(q)\ **\ 2)}, \texttt{np.log(pf)}
+
+\end{tcolorbox}
+
+\section{t-тест: равенство коэффициента заданному
+числу}\label{t-ux442ux435ux441ux442-ux440ux430ux432ux435ux43dux441ux442ux432ux43e-ux43aux43eux44dux444ux444ux438ux446ux438ux435ux43dux442ux430-ux437ux430ux434ux430ux43dux43dux43eux43cux443-ux447ux438ux441ux43bux443}
+
+\subsection{output equation \#3}\label{output-equation-3}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию
+\textbf{np.log(output) на np.log(capital), np.log(labour)}.
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+& (1) & (2) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & np.log(output) & np.log(output) \\
+np.log(capital) & 0.2076*** & 0.2076*** \\
+& (0.01719) & (0.03159) \\
+np.log(labour) & 0.7148*** & 0.7148*** \\
+& (0.02314) & (0.04362) \\
+Intercept & -1.711*** & -1.711*** \\
+& (0.09671) & (0.1841) \\
+R-squared & 0.8378 & 0.8378 \\
+R-squared Adj. & 0.8373 & 0.8373 \\
+F Statistic & 1462 & 486.1 \\
+Residual Std. Error & 0.4781 & 0.4781 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- стандартные ошибки: (1) неробастные,
+(2) HC3.
+
+Модель была подогнана по 569 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_{capital}=0.5\)
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовую статистику. Вычислите критическое значение. Какой
+можно сделать вывод?
+
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.995}(566) = 2.58\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный t-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2361}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1389}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3056}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3194}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+np.log(capital) & 0.2076 & 0.01719 & -17.01 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 17.01 > 2.58\), гипотеза \(H_0\) отвергается.
+
+\end{tcolorbox}
+
+\textbf{Робастный t-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2179}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1282}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3590}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2949}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+np.log(capital) & 0.2076 & 0.03159 & -9.26 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 9.26 > 2.58\), гипотеза \(H_0\) отвергается.
+
+\end{tcolorbox}
+
+\subsection{output equation \#4}\label{output-equation-4}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию
+\textbf{np.log(output) на np.log(capital), np.log(labour)}.
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+& (1) & (2) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & np.log(output) & np.log(output) \\
+np.log(capital) & 0.2076*** & 0.2076*** \\
+& (0.01719) & (0.03159) \\
+np.log(labour) & 0.7148*** & 0.7148*** \\
+& (0.02314) & (0.04362) \\
+Intercept & -1.711*** & -1.711*** \\
+& (0.09671) & (0.1841) \\
+R-squared & 0.8378 & 0.8378 \\
+R-squared Adj. & 0.8373 & 0.8373 \\
+F Statistic & 1462 & 486.1 \\
+Residual Std. Error & 0.4781 & 0.4781 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- стандартные ошибки: (1) неробастные,
+(2) HC3.
+
+Модель была подогнана по 569 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{10\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_{labour}=0.7\)
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовую статистику. Вычислите критическое значение. Какой
+можно сделать вывод?
+
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.95}(566) = 1.65\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный t-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2254}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1408}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3099}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3239}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+np.log(labour) & 0.7148 & 0.02314 & 0.64 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 0.64 < 1.65\), гипотеза \(H_0\) не отвергается.
+
+\end{tcolorbox}
+
+\textbf{Робастный t-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2078}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1299}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3636}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2987}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+np.log(labour) & 0.7148 & 0.04362 & 0.34 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 0.34 < 1.65\), гипотеза \(H_0\) не отвергается.
+
+\end{tcolorbox}
+
+\subsection{cost equation \#3}\label{cost-equation-3}
+
+Для набора данных \texttt{Electricity} рассмотрим регрессию
+\textbf{np.log(cost) на np.log(q), np.log(pl), np.log(pk), np.log(pf)}.
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+& (1) & (2) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & np.log(cost) & np.log(cost) \\
+np.log(q) & 0.8381*** & 0.8381*** \\
+& (0.009387) & (0.0205) \\
+np.log(pl) & 0.04426 & 0.04426 \\
+& (0.1058) & (0.119) \\
+np.log(pk) & 0.1884** & 0.1884** \\
+& (0.08707) & (0.089) \\
+np.log(pf) & 0.7131*** & 0.7131*** \\
+& (0.06436) & (0.0814) \\
+Intercept & -7.472*** & -7.472*** \\
+& (1.063) & (1.156) \\
+R-squared & 0.9822 & 0.9822 \\
+R-squared Adj. & 0.9817 & 0.9817 \\
+F Statistic & 2107 & 552.7 \\
+Residual Std. Error & 0.2087 & 0.2087 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- стандартные ошибки: (1) неробастные,
+(2) HC3.
+
+Модель была подогнана по 158 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{5\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_{q}=1\)
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовую статистику. Вычислите критическое значение. Какой
+можно сделать вывод?
+
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.975}(153) = 1.98\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный t-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2029}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1449}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3188}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+np.log(q) & 0.8381 & 0.009387 & -17.25 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 17.25 > 1.98\), гипотеза \(H_0\) отвергается.
+
+\end{tcolorbox}
+
+\textbf{Робастный t-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1867}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1333}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3733}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3067}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+np.log(q) & 0.8381 & 0.0205 & -7.90 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 7.90 > 1.98\), гипотеза \(H_0\) отвергается.
+
+\end{tcolorbox}
+
+\subsection{cost equation \#4}\label{cost-equation-4}
+
+Для набора данных \texttt{Electricity} рассмотрим регрессию
+\textbf{np.log(cost) на np.log(q), np.log(pl), np.log(pk), np.log(pf)}.
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+& (1) & (2) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & np.log(cost) & np.log(cost) \\
+np.log(q) & 0.8381*** & 0.8381*** \\
+& (0.009387) & (0.0205) \\
+np.log(pl) & 0.04426 & 0.04426 \\
+& (0.1058) & (0.119) \\
+np.log(pk) & 0.1884** & 0.1884** \\
+& (0.08707) & (0.089) \\
+np.log(pf) & 0.7131*** & 0.7131*** \\
+& (0.06436) & (0.0814) \\
+Intercept & -7.472*** & -7.472*** \\
+& (1.063) & (1.156) \\
+R-squared & 0.9822 & 0.9822 \\
+R-squared Adj. & 0.9817 & 0.9817 \\
+F Statistic & 2107 & 552.7 \\
+Residual Std. Error & 0.2087 & 0.2087 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- стандартные ошибки: (1) неробастные,
+(2) HC3.
+
+Модель была подогнана по 158 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{10\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_{pf}=1\)
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовую статистику. Вычислите критическое значение. Какой
+можно сделать вывод?
+
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.95}(153) = 1.65\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный t-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2029}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1449}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3188}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+np.log(pf) & 0.7131 & 0.06436 & -4.46 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 4.46 > 1.65\), гипотеза \(H_0\) отвергается.
+
+\end{tcolorbox}
+
+\textbf{Робастный t-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1867}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1333}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3733}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3067}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+np.log(pf) & 0.7131 & 0.0814 & -3.52 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 3.52 > 1.65\), гипотеза \(H_0\) отвергается.
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#5}\label{sleep-equation-5}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ south\ +\ male\ +\ smsa\ +\ yngkid\ +\ marr\ +\ union}
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+& (1) & (2) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & sleep & sleep \\
+totwrk & -0.1691*** & -0.1691*** \\
+& (0.01807) & (0.02035) \\
+age & 2.714* & 2.714* \\
+& (1.472) & (1.451) \\
+south & 102.3** & 102.3** \\
+& (41.93) & (42.59) \\
+male & 87.11** & 87.11** \\
+& (35.17) & (35.96) \\
+smsa & -54.19 & -54.19 \\
+& (33.19) & (33.45) \\
+yngkid & -13.05 & -13.05 \\
+& (50.46) & (54.58) \\
+marr & 31.36 & 31.36 \\
+& (42.26) & (46.27) \\
+union & 11.87 & 11.87 \\
+& (38.19) & (37.53) \\
+Intercept & 3447*** & 3447*** \\
+& (81.84) & (91.67) \\
+R-squared & 0.1314 & 0.1314 \\
+R-squared Adj. & 0.1214 & 0.1214 \\
+F Statistic & 13.18 & 10.44 \\
+Residual Std. Error & 416.6 & 416.6 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- стандартные ошибки: (1) неробастные,
+(2) HC3.
+
+Модель была подогнана по 706 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_{male}=90\)
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовую статистику. Вычислите критическое значение. Какой
+можно сделать вывод?
+
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.995}(697) = 2.58\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный t-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2029}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1449}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3188}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+male & 87.11 & 35.17 & -0.08 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 0.08 < 2.58\), гипотеза \(H_0\) не отвергается.
+
+\end{tcolorbox}
+
+\textbf{Робастный t-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1867}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1333}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3733}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3067}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+male & 87.11 & 35.96 & -0.08 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 0.08 < 2.58\), гипотеза \(H_0\) не отвергается.
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#6}\label{sleep-equation-6}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ south\ +\ male\ +\ smsa\ +\ yngkid\ +\ marr\ +\ union}
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+& (1) & (2) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dep. Variable & sleep & sleep \\
+totwrk & -0.1691*** & -0.1691*** \\
+& (0.01807) & (0.02035) \\
+age & 2.714* & 2.714* \\
+& (1.472) & (1.451) \\
+south & 102.3** & 102.3** \\
+& (41.93) & (42.59) \\
+male & 87.11** & 87.11** \\
+& (35.17) & (35.96) \\
+smsa & -54.19 & -54.19 \\
+& (33.19) & (33.45) \\
+yngkid & -13.05 & -13.05 \\
+& (50.46) & (54.58) \\
+marr & 31.36 & 31.36 \\
+& (42.26) & (46.27) \\
+union & 11.87 & 11.87 \\
+& (38.19) & (37.53) \\
+Intercept & 3447*** & 3447*** \\
+& (81.84) & (91.67) \\
+R-squared & 0.1314 & 0.1314 \\
+R-squared Adj. & 0.1214 & 0.1214 \\
+F Statistic & 13.18 & 10.44 \\
+Residual Std. Error & 416.6 & 416.6 \\
+\end{longtable}
+}
+
+\emph{Signif. codes:} \texttt{***} \(p<0.01\), \texttt{**} \(p<0.05\),
+\texttt{*} \(p<0.1\). В скобках --- стандартные ошибки: (1) неробастные,
+(2) HC3.
+
+Модель была подогнана по 706 наблюдениям.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Условия теста}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  уровень значимости: \textbf{1\%}
+\item
+  стандартные ошибки: \textbf{неробастные и робастные (HC3)}
+\item
+  гипотеза: \(H_0:\beta_{south}=100\)
+\end{itemize}
+
+\end{tcolorbox}
+
+Вычислите тестовую статистику. Вычислите критическое значение. Какой
+можно сделать вывод?
+
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Критическое значение}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(t_{crit} = t_{0.995}(697) = 2.58\)
+
+\end{tcolorbox}
+
+\textbf{Неробастный t-тест}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2029}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1449}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3188}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+south & 102.3 & 41.93 & 0.05 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 0.05 < 2.58\), гипотеза \(H_0\) не отвергается.
+
+\end{tcolorbox}
+
+\textbf{Робастный t-тест (HC3)}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1867}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1333}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3733}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3067}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Переменная
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Оценка
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Стандартная ошибка (HC3)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Тестовая статистика
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+south & 102.3 & 42.59 & 0.05 \\
+\end{longtable}
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Вывод}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(\lvert t\rvert = 0.05 < 2.58\), гипотеза \(H_0\) не отвергается.
+
+\end{tcolorbox}
+
+
+
+
+\end{document}

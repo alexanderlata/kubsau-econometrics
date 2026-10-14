@@ -1,0 +1,884 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  russian,
+]{article}
+\usepackage{xcolor}
+\usepackage[top=20mm,left=20mm,right=20mm,bottom=20mm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setmainfont[]{Times New Roman}
+  \setsansfont[]{Arial}
+  \setmonofont[]{Courier New}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off,provide=*]{babel}
+\else
+\usepackage[bidi=default,shorthands=off,provide=*]{babel}
+\fi
+\ifPDFTeX
+\else
+\babelfont{rm}[]{Times New Roman}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список Иллюстраций}
+\else
+  \newcommand\listfigurename{Список Иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список Таблиц}
+\else
+  \newcommand\listtablename{Список Таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Список Каталогов}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={Задачи по Эконометрике-1: Степень подгонки линейной регрессии},
+  pdfauthor={Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)},
+  pdflang={ru},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Задачи по Эконометрике-1: Степень подгонки линейной регрессии}
+\author{Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Важно}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Везде log --- натуральный логарифм; константа включается в модель по
+  умолчанию.
+\item
+  Наборы данных \texttt{sleep75}, \texttt{Labour}, \texttt{Electricity}
+  лежат в папке \texttt{datasets/}, их описание --- в
+  \texttt{datasets/data-description.md}.
+\item
+  Наблюдения нумеруются с нуля (\texttt{iloc}); в задачах на подвыборках
+  --- порядковые номера внутри подвыборки.
+\item
+  Имена коэффициентов --- как в statsmodels: \texttt{Intercept} ---
+  константа, \texttt{np.log(x)} --- \(\log x\), \texttt{I(x\ **\ 2)} ---
+  \(x^2\).
+\item
+  Округление указано в каждом вопросе; ответы считаются по неокруглённым
+  оценкам. Оценки, которые при округлении обращаются в ноль, приведены с
+  тремя значащими цифрами. Расхождение с ответом на единицу последнего
+  знака --- результат округления.
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{Суммы квадратов, остатки, предсказанные значения, коэффициент
+детерминации}\label{ux441ux443ux43cux43cux44b-ux43aux432ux430ux434ux440ux430ux442ux43eux432-ux43eux441ux442ux430ux442ux43aux438-ux43fux440ux435ux434ux441ux43aux430ux437ux430ux43dux43dux44bux435-ux437ux43dux430ux447ux435ux43dux438ux44f-ux43aux43eux44dux444ux444ux438ux446ux438ux435ux43dux442-ux434ux435ux442ux435ux440ux43cux438ux43dux430ux446ux438ux438}
+
+\subsection{sleep equation \#1}\label{sleep-equation-1}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию \textbf{sleep на
+totwrk, age, male, smsa}. Переменные \texttt{sleep} и \texttt{totwrk}
+измерены в минутах в неделю.
+
+Найдите коэффициенты подогнанной модели. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3494.22 \\
+totwrk & -0.17 \\
+age & 2.81 \\
+male & 86.91 \\
+smsa & -75.29 \\
+\end{longtable}
+}
+
+Модель была подогнана по 706 наблюдениям.
+
+Для наблюдений с номерами 0, 3, 5, 9, 507, 699 (счёт с нуля,
+\texttt{iloc}) найдите фактическое значение зависимой переменной,
+предсказанное значение и остаток. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+№ & Факт & Предсказание & Остаток \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0 & 3113 & 3094.454 & 18.546 \\
+3 & 3083 & 2943.580 & 139.420 \\
+5 & 4063 & 3494.143 & 568.857 \\
+9 & 3018 & 3111.983 & -93.983 \\
+507 & 3630 & 3476.914 & 153.086 \\
+699 & 2993 & 3295.398 & -302.398 \\
+\end{longtable}
+}
+
+Вычислите TSS, ESS, RSS. \textbf{Ответ округлите до 2-х десятичных
+знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Суммы квадратов}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(TSS = 139239835.76\)
+
+\(ESS = 17188382.23\)
+
+\(RSS = 122051453.53\)
+
+\end{tcolorbox}
+
+Вычислите \(R^2\) и \(R^2_{adj}\). \textbf{Ответ округлите до 4-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициент детерминации}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(R^2 = 0.1234\), \(R^2_{adj} = 0.1184\)
+
+\end{tcolorbox}
+
+Вычислите стандартную ошибку регрессии. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Стандартная ошибка регрессии}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+417.27
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#2}\label{sleep-equation-2}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию \textbf{sleep на
+totwrk, age, male, south} \emph{только для жителей мегаполиса (smsa =
+1)}.
+
+Найдите коэффициенты подогнанной модели. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3460.43 \\
+totwrk & -0.18 \\
+age & 2.28 \\
+male & 92.65 \\
+south & 168.85 \\
+\end{longtable}
+}
+
+Модель была подогнана по 282 наблюдениям.
+
+Для наблюдений с порядковыми номерами внутри подвыборки 0, 8, 55, 75, 99
+(счёт с нуля, \texttt{iloc}, после отбора строк с smsa = 1) найдите
+фактическое значение зависимой переменной, предсказанное значение и
+остаток. \textbf{Ответ округлите до 3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrrr@{}}
+\toprule\noalign{}
+№ & Индекс в sleep75 & Факт & Предсказание & Остаток \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0 & 2 & 2670 & 3132.491 & -462.491 \\
+8 & 19 & 3090 & 3370.083 & -280.083 \\
+55 & 149 & 2985 & 2835.360 & 149.640 \\
+75 & 194 & 3660 & 3248.540 & 411.460 \\
+99 & 259 & 2618 & 2863.070 & -245.070 \\
+\end{longtable}
+}
+
+Вычислите TSS, ESS, RSS. \textbf{Ответ округлите до 2-х десятичных
+знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Суммы квадратов}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(TSS = 50055043.40\)
+
+\(ESS = 7396259.39\)
+
+\(RSS = 42658784.01\)
+
+\end{tcolorbox}
+
+Вычислите \(R^2\) и \(R^2_{adj}\). \textbf{Ответ округлите до 4-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициент детерминации}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(R^2 = 0.1478\), \(R^2_{adj} = 0.1355\)
+
+\end{tcolorbox}
+
+Вычислите стандартную ошибку регрессии. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Стандартная ошибка регрессии}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+392.43
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#3}\label{sleep-equation-3}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию \textbf{sleep на
+totwrk, age, smsa, south} \emph{только для мужчин (male = 1)}.
+
+Найдите коэффициенты подогнанной модели. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3600.96 \\
+totwrk & -0.19 \\
+age & 3.30 \\
+smsa & -77.69 \\
+south & 60.11 \\
+\end{longtable}
+}
+
+Модель была подогнана по 400 наблюдениям.
+
+Для наблюдений с порядковыми номерами внутри подвыборки 0, 8, 44, 186,
+279 (счёт с нуля, \texttt{iloc}, после отбора строк с male = 1) найдите
+фактическое значение зависимой переменной, предсказанное значение и
+остаток. \textbf{Ответ округлите до 3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrrr@{}}
+\toprule\noalign{}
+№ & Индекс в sleep75 & Факт & Предсказание & Остаток \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0 & 0 & 3113 & 3061.481 & 51.519 \\
+8 & 9 & 3018 & 3087.341 & -69.341 \\
+44 & 48 & 3363 & 3268.521 & 94.479 \\
+186 & 262 & 3390 & 3228.976 & 161.024 \\
+279 & 440 & 2955 & 3399.060 & -444.060 \\
+\end{longtable}
+}
+
+Вычислите TSS, ESS, RSS. \textbf{Ответ округлите до 2-х десятичных
+знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Суммы квадратов}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(TSS = 75570140.58\)
+
+\(ESS = 12125135.60\)
+
+\(RSS = 63445004.98\)
+
+\end{tcolorbox}
+
+Вычислите \(R^2\) и \(R^2_{adj}\). \textbf{Ответ округлите до 4-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициент детерминации}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(R^2 = 0.1604\), \(R^2_{adj} = 0.1519\)
+
+\end{tcolorbox}
+
+Вычислите стандартную ошибку регрессии. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Стандартная ошибка регрессии}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+400.77
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#4}\label{sleep-equation-4}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию \textbf{sleep на
+totwrk, age, smsa, south} \emph{только для женщин (male = 0)}.
+
+Найдите коэффициенты подогнанной модели. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3468.20 \\
+totwrk & -0.15 \\
+age & 1.65 \\
+smsa & -37.69 \\
+south & 136.03 \\
+\end{longtable}
+}
+
+Модель была подогнана по 306 наблюдениям.
+
+Для наблюдений с порядковыми номерами внутри подвыборки 0, 8, 44, 186,
+279 (счёт с нуля, \texttt{iloc}, после отбора строк с male = 0) найдите
+фактическое значение зависимой переменной, предсказанное значение и
+остаток. \textbf{Ответ округлите до 3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrrr@{}}
+\toprule\noalign{}
+№ & Индекс в sleep75 & Факт & Предсказание & Остаток \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0 & 3 & 3083 & 2945.903 & 137.097 \\
+8 & 67 & 2858 & 2920.662 & -62.662 \\
+44 & 198 & 3730 & 3328.629 & 401.371 \\
+186 & 472 & 3376 & 3503.722 & -127.722 \\
+279 & 628 & 3405 & 3215.073 & 189.927 \\
+\end{longtable}
+}
+
+Вычислите TSS, ESS, RSS. \textbf{Ответ округлите до 2-х десятичных
+знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Суммы квадратов}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(TSS = 63490152.12\)
+
+\(ESS = 6300990.57\)
+
+\(RSS = 57189161.55\)
+
+\end{tcolorbox}
+
+Вычислите \(R^2\) и \(R^2_{adj}\). \textbf{Ответ округлите до 4-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициент детерминации}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(R^2 = 0.0992\), \(R^2_{adj} = 0.0873\)
+
+\end{tcolorbox}
+
+Вычислите стандартную ошибку регрессии. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Стандартная ошибка регрессии}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+435.89
+
+\end{tcolorbox}
+
+\subsection{output equation \#1}\label{output-equation-1}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию \textbf{output на
+capital, labour, wage}. Переменные \texttt{output} и \texttt{capital}
+измерены в млн евро, \texttt{wage} --- в тыс. евро на работника.
+
+Найдите коэффициенты подогнанной модели. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -16.75 \\
+capital & 0.40 \\
+labour & 0.05 \\
+wage & 0.44 \\
+\end{longtable}
+}
+
+Модель была подогнана по 569 наблюдениям.
+
+Для наблюдений с номерами 1, 10, 23, 100, 348, 500 (счёт с нуля,
+\texttt{iloc}) найдите фактическое значение зависимой переменной,
+предсказанное значение и остаток. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+№ & Факт & Предсказание & Остаток \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 3.664 & 0.457 & 3.207 \\
+10 & 3.246 & 5.666 & -2.420 \\
+23 & 2.666 & -0.625 & 3.292 \\
+100 & 2.181 & 6.952 & -4.771 \\
+348 & 4.307 & 2.278 & 2.029 \\
+500 & 3.660 & 11.353 & -7.694 \\
+\end{longtable}
+}
+
+Вычислите TSS, ESS, RSS. \textbf{Ответ округлите до 2-х десятичных
+знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Суммы квадратов}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(TSS = 2235073.29\)
+
+\(ESS = 2190376.08\)
+
+\(RSS = 44697.22\)
+
+\end{tcolorbox}
+
+Вычислите \(R^2\) и \(R^2_{adj}\). \textbf{Ответ округлите до 4-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициент детерминации}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(R^2 = 0.9800\), \(R^2_{adj} = 0.9799\)
+
+\end{tcolorbox}
+
+Вычислите стандартную ошибку регрессии. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Стандартная ошибка регрессии}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+8.89
+
+\end{tcolorbox}
+
+\subsection{output equation \#2}\label{output-equation-2}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию
+\textbf{np.log(output) на np.log(capital), np.log(labour),
+np.log(wage)}.
+
+Найдите коэффициенты подогнанной модели. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -5.01 \\
+np.log(capital) & 0.15 \\
+np.log(labour) & 0.72 \\
+np.log(wage) & 0.92 \\
+\end{longtable}
+}
+
+Модель была подогнана по 569 наблюдениям.
+
+Для наблюдений с номерами 1, 10, 23, 100, 348, 500 (счёт с нуля,
+\texttt{iloc}) найдите фактическое значение зависимой переменной (здесь
+это \texttt{np.log(output)}), предсказанное значение и остаток.
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+№ & Факт & Предсказание & Остаток \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 1.299 & 1.347 & -0.049 \\
+10 & 1.177 & 1.427 & -0.250 \\
+23 & 0.981 & 0.344 & 0.637 \\
+100 & 0.780 & 1.006 & -0.226 \\
+348 & 1.460 & 1.177 & 0.283 \\
+500 & 1.297 & 1.730 & -0.433 \\
+\end{longtable}
+}
+
+Вычислите TSS, ESS, RSS. \textbf{Ответ округлите до 2-х десятичных
+знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Суммы квадратов}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(TSS = 797.67\)
+
+\(ESS = 708.65\)
+
+\(RSS = 89.02\)
+
+\end{tcolorbox}
+
+Вычислите \(R^2\) и \(R^2_{adj}\). \textbf{Ответ округлите до 4-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициент детерминации}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(R^2 = 0.8884\), \(R^2_{adj} = 0.8878\)
+
+\end{tcolorbox}
+
+Вычислите стандартную ошибку регрессии. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Стандартная ошибка регрессии}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+0.40
+
+\end{tcolorbox}
+
+\subsection{cost equation \#1}\label{cost-equation-1}
+
+Для набора данных \texttt{Electricity} рассмотрим регрессию
+
+\texttt{cost\ \textasciitilde{}\ q\ +\ I(q**2)\ +\ pk\ +\ pf\ +\ pl}
+
+Найдите коэффициенты подогнанной модели. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -81.36 \\
+q & 0.00432 \\
+I(q ** 2) & 1.57e-08 \\
+pk & 0.37 \\
+pf & 0.95 \\
+pl & 0.00361 \\
+\end{longtable}
+}
+
+Модель была подогнана по 158 наблюдениям.
+
+Для наблюдений с номерами 1, 16, 28, 47, 57, 93 (счёт с нуля,
+\texttt{iloc}) найдите фактическое значение зависимой переменной,
+предсказанное значение и остаток. \textbf{Ответ округлите до 3-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+№ & Факт & Предсказание & Остаток \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 3.043 & -2.512 & 5.555 \\
+16 & 5.597 & 2.747 & 2.850 \\
+28 & 7.439 & -2.269 & 9.709 \\
+47 & 28.786 & 34.228 & -5.442 \\
+57 & 41.902 & 43.941 & -2.040 \\
+93 & 9.467 & -4.009 & 13.477 \\
+\end{longtable}
+}
+
+Вычислите TSS, ESS, RSS. \textbf{Ответ округлите до 2-х десятичных
+знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Суммы квадратов}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(TSS = 1189954.21\)
+
+\(ESS = 1143993.96\)
+
+\(RSS = 45960.25\)
+
+\end{tcolorbox}
+
+Вычислите \(R^2\) и \(R^2_{adj}\). \textbf{Ответ округлите до 4-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициент детерминации}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(R^2 = 0.9614\), \(R^2_{adj} = 0.9601\)
+
+\end{tcolorbox}
+
+Вычислите стандартную ошибку регрессии. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Стандартная ошибка регрессии}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+17.39
+
+\end{tcolorbox}
+
+\subsection{cost equation \#2}\label{cost-equation-2}
+
+Для набора данных \texttt{Electricity} рассмотрим регрессию
+
+\begin{verbatim}
+np.log(cost) ~ np.log(q) + I(np.log(q)**2) +
+    np.log(pk) + np.log(pf) + np.log(pl)
+\end{verbatim}
+
+Найдите коэффициенты подогнанной модели. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -6.74 \\
+np.log(q) & 0.40 \\
+I(np.log(q) ** 2) & 0.03 \\
+np.log(pk) & 0.16 \\
+np.log(pf) & 0.68 \\
+np.log(pl) & 0.15 \\
+\end{longtable}
+}
+
+Модель была подогнана по 158 наблюдениям.
+
+Для наблюдений с номерами 1, 16, 28, 47, 57, 93 (счёт с нуля,
+\texttt{iloc}) найдите фактическое значение зависимой переменной (здесь
+это \texttt{np.log(cost)}), предсказанное значение и остаток.
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule\noalign{}
+№ & Факт & Предсказание & Остаток \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 1.113 & 1.452 & -0.339 \\
+16 & 1.722 & 1.650 & 0.072 \\
+28 & 2.007 & 1.784 & 0.223 \\
+47 & 3.360 & 3.556 & -0.196 \\
+57 & 3.735 & 3.846 & -0.111 \\
+93 & 2.248 & 2.247 & 0.001 \\
+\end{longtable}
+}
+
+Вычислите TSS, ESS, RSS. \textbf{Ответ округлите до 2-х десятичных
+знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Суммы квадратов}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(TSS = 373.66\)
+
+\(ESS = 370.76\)
+
+\(RSS = 2.90\)
+
+\end{tcolorbox}
+
+Вычислите \(R^2\) и \(R^2_{adj}\). \textbf{Ответ округлите до 4-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Коэффициент детерминации}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\(R^2 = 0.9922\), \(R^2_{adj} = 0.9920\)
+
+\end{tcolorbox}
+
+Вычислите стандартную ошибку регрессии. \textbf{Ответ округлите до 2-х
+десятичных знаков.}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Стандартная ошибка регрессии}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+0.14
+
+\end{tcolorbox}
+
+
+
+
+\end{document}

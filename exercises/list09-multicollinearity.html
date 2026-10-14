@@ -1,0 +1,2160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)">
+
+<title>Задачи по Эконометрике-1: Мультиколлинеарность</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="list09-multicollinearity_files/libs/clipboard/clipboard.min.js"></script>
+<script src="list09-multicollinearity_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="list09-multicollinearity_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="list09-multicollinearity_files/libs/quarto-html/popper.min.js"></script>
+<script src="list09-multicollinearity_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="list09-multicollinearity_files/libs/quarto-html/anchor.min.js"></script>
+<link href="list09-multicollinearity_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="list09-multicollinearity_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="list09-multicollinearity_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="list09-multicollinearity_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="list09-multicollinearity_files/libs/bootstrap/bootstrap-07adbd1a4704a02577050796401b62cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<style>
+table { width: auto !important; margin-left: auto; margin-right: auto; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Содержание</h2>
+   
+  <ul>
+  <li><a href="#мультиколлинеарность-vif-t-тест-и-f-тест" id="toc-мультиколлинеарность-vif-t-тест-и-f-тест" class="nav-link active" data-scroll-target="#мультиколлинеарность-vif-t-тест-и-f-тест"><span class="header-section-number">1</span> Мультиколлинеарность: VIF, t-тест и F-тест</a>
+  <ul class="collapse">
+  <li><a href="#sleep-equation-1" id="toc-sleep-equation-1" class="nav-link" data-scroll-target="#sleep-equation-1"><span class="header-section-number">1.1</span> sleep equation #1</a></li>
+  <li><a href="#sleep-equation-2" id="toc-sleep-equation-2" class="nav-link" data-scroll-target="#sleep-equation-2"><span class="header-section-number">1.2</span> sleep equation #2</a></li>
+  <li><a href="#sleep-equation-3" id="toc-sleep-equation-3" class="nav-link" data-scroll-target="#sleep-equation-3"><span class="header-section-number">1.3</span> sleep equation #3</a></li>
+  <li><a href="#wage-equation-1" id="toc-wage-equation-1" class="nav-link" data-scroll-target="#wage-equation-1"><span class="header-section-number">1.4</span> wage equation #1</a></li>
+  <li><a href="#wage-equation-2" id="toc-wage-equation-2" class="nav-link" data-scroll-target="#wage-equation-2"><span class="header-section-number">1.5</span> wage equation #2</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Другие форматы</h2><ul><li><a href="list09-multicollinearity.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li><li><a href="list09-multicollinearity.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Задачи по Эконометрике-1: Мультиколлинеарность</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Автор</div>
+    <div class="quarto-title-meta-contents">
+             <p>Н. В. Артамонов, А. Н. Лата (МГИМО МИД России) </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-important callout-titled" title="Важно">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Важно
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Логарифм натуральный; константа включается в модель по умолчанию.</li>
+<li>Данные — в папке <code>datasets/</code>, описание переменных — в <code>datasets/data-description.md</code>.</li>
+<li>VIF и критические значения округляются до 2-х десятичных знаков, остальные ответы — до 3-х. Ответы считаются по неокруглённым оценкам.</li>
+<li>Коэффициенты подписаны как в statsmodels: <code>Intercept</code> — константа, <code>np.log(x)</code> — <span class="math inline">\(\log x\)</span>, <code>I(x ** 2)</code> — <span class="math inline">\(x^2\)</span>, <code>I(x * d)</code> — произведение <span class="math inline">\(x\cdot d\)</span>.</li>
+<li>Все тесты в этом листке — с <strong>неробастными</strong> стандартными ошибками; критические значения и P-значения — по t- и F-распределениям.</li>
+</ul>
+</div>
+</div>
+<section id="мультиколлинеарность-vif-t-тест-и-f-тест" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Мультиколлинеарность: VIF, t-тест и F-тест</h1>
+<section id="sleep-equation-1" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sleep-equation-1"><span class="header-section-number">1.1</span> sleep equation #1</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<p><code>sleep ~ I(totwrk/100) + I(totwrk**2/10000) + age + smsa + male</code></p>
+<p>Переменные <code>sleep</code> (сон) и <code>totwrk</code> (занятость) измерены в минутах в неделю, <code>age</code> — в годах; <code>smsa</code>, <code>male</code>, <code>union</code>, <code>south</code> — бинарные переменные.</p>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.169534Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.169456Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.177209Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.176779Z&quot;}}" data-execution_count="2">
+<p>Модель была подогнана по 706 наблюдениям.</p>
+</div>
+<p>Вычислите показатели VIF для регрессоров. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.191948Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.191838Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.197542Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.197225Z&quot;}}" data-execution_count="3">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">VIF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">I(totwrk / 100)</td>
+<td style="text-align: right;">8.37</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(totwrk ** 2 / 10000)</td>
+<td style="text-align: right;">8.20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">1.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">1.17</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите корреляционную матрицу регрессоров. <strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.198631Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.198567Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.201212Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.200910Z&quot;}}" data-execution_count="4">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 20%">
+<col style="width: 27%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">I(totwrk / 100)</th>
+<th style="text-align: right;">I(totwrk ** 2 / 10000)</th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">smsa</th>
+<th style="text-align: right;">male</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">I(totwrk / 100)</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.937</td>
+<td style="text-align: right;">-0.050</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.376</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(totwrk ** 2 / 10000)</td>
+<td style="text-align: right;">0.937</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.046</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">0.351</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">-0.050</td>
+<td style="text-align: right;">-0.046</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">0.032</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.007</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">0.376</td>
+<td style="text-align: right;">0.351</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Постройте тепловую карту корреляционной матрицы (<a href="#fig-corr-sleep1" class="quarto-xref">Рисунок&nbsp;1</a>).</p>
+<div id="cell-fig-corr-sleep1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.202188Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.202122Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.327450Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.326959Z&quot;}}" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div id="fig-corr-sleep1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-corr-sleep1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list09-multicollinearity_files/figure-html/fig-corr-sleep1-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corr-sleep1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;1: Корреляционная матрица регрессоров (sleep equation #1)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.328590Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.328516Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.330647Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.330200Z&quot;}}" data-execution_count="6">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>5%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза 1: t-тест, значимость каждого коэффициента: <span class="math inline">\(H_0:\beta_j=0\)</span></li>
+<li>гипотеза 2: F-тест, значимость влияния занятости: <span class="math inline">\(H_0:\beta_{totwrk/100}=\beta_{totwrk^2/10000}=0\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Какие коэффициенты значимы?</p>
+<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.331830Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.331754Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.335584Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.335228Z&quot;}}" data-execution_count="7">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 12%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3428.805</td>
+<td style="text-align: right;">76.655</td>
+<td style="text-align: right;">44.730</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(totwrk / 100)</td>
+<td style="text-align: right;">-8.195</td>
+<td style="text-align: right;">4.789</td>
+<td style="text-align: right;">-1.711</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(totwrk ** 2 / 10000)</td>
+<td style="text-align: right;">-0.214</td>
+<td style="text-align: right;">0.111</td>
+<td style="text-align: right;">-1.930</td>
+<td style="text-align: right;">0.054</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">2.817</td>
+<td style="text-align: right;">1.387</td>
+<td style="text-align: right;">2.031</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-78.049</td>
+<td style="text-align: right;">32.072</td>
+<td style="text-align: right;">-2.434</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">86.639</td>
+<td style="text-align: right;">34.200</td>
+<td style="text-align: right;">2.533</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: left;">**</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 5% (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 5% (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>age</code>, <code>smsa</code>, <code>male</code></p>
+</div>
+</div>
+</div>
+<p>Проверим гипотезу о значимости влияния занятости.</p>
+<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.336764Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.336686Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.340093Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.339674Z&quot;}}" data-execution_count="8">
+<p><strong>Результаты <span class="math inline">\(F\)</span>-теста (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">F</th>
+<th style="text-align: right;">df1</th>
+<th style="text-align: right;">df2</th>
+<th style="text-align: right;">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">45.619</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">700</td>
+<td style="text-align: right;">&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите критическое значение. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.341038Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.340971Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.343394Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.342984Z&quot;}}" data-execution_count="9">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(F_{crit} = 3.01\)</span></p>
+</div>
+</div>
+</div>
+<p>Какой можно сделать вывод?</p>
+<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.344547Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.344479Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.349198Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.348873Z&quot;}}" data-execution_count="10">
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(F = 45.619 &gt; 3.01\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+<p><strong>На первый взгляд противоречие:</strong> коэффициенты при <code>I(totwrk / 100)</code> и <code>I(totwrk ** 2 / 10000)</code> по отдельности незначимы (P-значения 0.088 и 0.054), а гипотеза об их совместной незначимости отвергается. Оно объясняется мультиколлинеарностью: корреляция двух регрессоров равна 0.937, VIF — 8.37 и 8.20.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="sleep-equation-2" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sleep-equation-2"><span class="header-section-number">1.2</span> sleep equation #2</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<p><code>sleep ~ totwrk + age + I(age**2) + smsa + male + union</code></p>
+<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.350259Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.350183Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.356895Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.356477Z&quot;}}" data-execution_count="11">
+<p>Модель была подогнана по 706 наблюдениям.</p>
+</div>
+<p>Вычислите показатели VIF для регрессоров. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.357982Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.357916Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.361435Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.361072Z&quot;}}" data-execution_count="12">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">VIF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">1.20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">65.40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(age ** 2)</td>
+<td style="text-align: right;">65.56</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">1.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">union</td>
+<td style="text-align: right;">1.01</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите корреляционную матрицу регрессоров. <strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.362448Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.362377Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.364922Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.364644Z&quot;}}" data-execution_count="13">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 21%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">totwrk</th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">I(age ** 2)</th>
+<th style="text-align: right;">smsa</th>
+<th style="text-align: right;">male</th>
+<th style="text-align: right;">union</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.050</td>
+<td style="text-align: right;">-0.067</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.376</td>
+<td style="text-align: right;">0.002</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">-0.050</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.992</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">-0.037</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(age ** 2)</td>
+<td style="text-align: right;">-0.067</td>
+<td style="text-align: right;">0.992</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">0.026</td>
+<td style="text-align: right;">-0.042</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">-0.039</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">0.376</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">0.026</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.040</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">union</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">-0.037</td>
+<td style="text-align: right;">-0.042</td>
+<td style="text-align: right;">-0.039</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Постройте тепловую карту корреляционной матрицы (<a href="#fig-corr-sleep2" class="quarto-xref">Рисунок&nbsp;2</a>).</p>
+<div id="cell-fig-corr-sleep2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.366185Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.366117Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.471782Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.471349Z&quot;}}" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div id="fig-corr-sleep2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-corr-sleep2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list09-multicollinearity_files/figure-html/fig-corr-sleep2-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corr-sleep2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;2: Корреляционная матрица регрессоров (sleep equation #2)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.473348Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.473246Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.475719Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.475283Z&quot;}}" data-execution_count="15">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>5% и 10%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза 1: t-тест, значимость каждого коэффициента: <span class="math inline">\(H_0:\beta_j=0\)</span></li>
+<li>гипотеза 2: F-тест, значимость влияния возраста: <span class="math inline">\(H_0:\beta_{age}=\beta_{age^2}=0\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Какие коэффициенты значимы на каждом из двух уровней?</p>
+<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.476920Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.476829Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.481091Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.480548Z&quot;}}" data-execution_count="16">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3688.551</td>
+<td style="text-align: right;">218.389</td>
+<td style="text-align: right;">16.890</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">-0.165</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-9.105</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">-7.734</td>
+<td style="text-align: right;">11.213</td>
+<td style="text-align: right;">-0.690</td>
+<td style="text-align: right;">0.491</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(age ** 2)</td>
+<td style="text-align: right;">0.127</td>
+<td style="text-align: right;">0.134</td>
+<td style="text-align: right;">0.948</td>
+<td style="text-align: right;">0.343</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-74.527</td>
+<td style="text-align: right;">32.156</td>
+<td style="text-align: right;">-2.318</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">86.321</td>
+<td style="text-align: right;">34.329</td>
+<td style="text-align: right;">2.515</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">union</td>
+<td style="text-align: right;">8.574</td>
+<td style="text-align: right;">38.195</td>
+<td style="text-align: right;">0.224</td>
+<td style="text-align: right;">0.822</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Значимые коэффициенты (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Значимые коэффициенты (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>на уровне 5%: <code>totwrk</code>, <code>smsa</code>, <code>male</code></li>
+<li>на уровне 10%: <code>totwrk</code>, <code>smsa</code>, <code>male</code></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Проверим гипотезу о значимости влияния возраста.</p>
+<div id="cell-31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.482249Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.482174Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.485543Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.485127Z&quot;}}" data-execution_count="17">
+<p><strong>Результаты <span class="math inline">\(F\)</span>-теста (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">F</th>
+<th style="text-align: right;">df1</th>
+<th style="text-align: right;">df2</th>
+<th style="text-align: right;">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2.497</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">699</td>
+<td style="text-align: right;">0.083</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите критические значения для двух уровней значимости. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.486670Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.486606Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.489006Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.488639Z&quot;}}" data-execution_count="18">
+<div class="callout callout-style-default callout-note callout-titled" title="Критические значения">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критические значения
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости 5%: <span class="math inline">\(F_{crit} = 3.01\)</span></li>
+<li>уровень значимости 10%: <span class="math inline">\(F_{crit} = 2.31\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Какой можно сделать вывод на каждом из двух уровней?</p>
+<div id="cell-35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.490229Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.490159Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.495335Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.494953Z&quot;}}" data-execution_count="19">
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>На уровне 5%: <span class="math inline">\(F = 2.497 &lt; 3.01\)</span>, гипотеза <span class="math inline">\(H_0\)</span> не отвергается. Противоречия нет: коэффициенты при <code>age</code> и <code>I(age ** 2)</code> незначимы по отдельности (P-значения 0.491 и 0.343), и гипотеза об их совместной незначимости тоже не отвергается.</li>
+<li>На уровне 10%: <span class="math inline">\(F = 2.497 &gt; 2.31\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается, хотя коэффициенты при <code>age</code> и <code>I(age ** 2)</code> по отдельности незначимы. <strong>На первый взгляд противоречие.</strong> Оно объясняется мультиколлинеарностью: корреляция <code>age</code> и <code>I(age ** 2)</code> равна 0.992, VIF — 65.40 и 65.56.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="sleep-equation-3" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sleep-equation-3"><span class="header-section-number">1.3</span> sleep equation #3</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<pre><code>sleep ~ totwrk + age + smsa + south +
+        I(totwrk*south) + I(age*south) + I(smsa*south)</code></pre>
+<div id="cell-37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.496469Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.496395Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.503319Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.503060Z&quot;}}" data-execution_count="20">
+<p>Модель была подогнана по 706 наблюдениям.</p>
+</div>
+<p>Вычислите показатели VIF для регрессоров. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-39" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.504521Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.504461Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.508500Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.508193Z&quot;}}" data-execution_count="21">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">VIF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">1.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">1.25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">1.19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">22.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(totwrk * south)</td>
+<td style="text-align: right;">8.85</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(age * south)</td>
+<td style="text-align: right;">12.28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(smsa * south)</td>
+<td style="text-align: right;">1.29</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите корреляционную матрицу регрессоров. <strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-41" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.509452Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.509390Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.512028Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.511665Z&quot;}}" data-execution_count="22">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">totwrk</th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">smsa</th>
+<th style="text-align: right;">south</th>
+<th style="text-align: right;">I(totwrk * south)</th>
+<th style="text-align: right;">I(age * south)</th>
+<th style="text-align: right;">I(smsa * south)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.050</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">0.175</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">0.012</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">-0.050</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">-0.018</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.126</td>
+<td style="text-align: right;">0.008</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.238</td>
+<td style="text-align: right;">-0.224</td>
+<td style="text-align: right;">-0.222</td>
+<td style="text-align: right;">0.209</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">-0.018</td>
+<td style="text-align: right;">-0.238</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.932</td>
+<td style="text-align: right;">0.947</td>
+<td style="text-align: right;">0.359</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(totwrk * south)</td>
+<td style="text-align: right;">0.175</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">-0.224</td>
+<td style="text-align: right;">0.932</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.868</td>
+<td style="text-align: right;">0.328</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(age * south)</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">0.126</td>
+<td style="text-align: right;">-0.222</td>
+<td style="text-align: right;">0.947</td>
+<td style="text-align: right;">0.868</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.351</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(smsa * south)</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.209</td>
+<td style="text-align: right;">0.359</td>
+<td style="text-align: right;">0.328</td>
+<td style="text-align: right;">0.351</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Постройте тепловую карту корреляционной матрицы (<a href="#fig-corr-sleep3" class="quarto-xref">Рисунок&nbsp;3</a>).</p>
+<div id="cell-fig-corr-sleep3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.513058Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.512997Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.642048Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.641619Z&quot;}}" data-execution_count="23">
+<div class="cell-output cell-output-display">
+<div id="fig-corr-sleep3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-corr-sleep3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list09-multicollinearity_files/figure-html/fig-corr-sleep3-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corr-sleep3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;3: Корреляционная матрица регрессоров (sleep equation #3)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-44" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.643387Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.643283Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.645763Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.645319Z&quot;}}" data-execution_count="24">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>5%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза 1: t-тест, значимость каждого коэффициента: <span class="math inline">\(H_0:\beta_j=0\)</span></li>
+<li>гипотеза 2: F-тест, значимость региона (переменная <code>south</code>): <span class="math inline">\(H_0:\beta_{south}=\beta_{totwrk\cdot south}=\beta_{age\cdot south}=\beta_{smsa\cdot south}=0\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Какие коэффициенты значимы?</p>
+<div id="cell-46" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.646912Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.646809Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.650810Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.650401Z&quot;}}" data-execution_count="25">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 13%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3557.513</td>
+<td style="text-align: right;">75.504</td>
+<td style="text-align: right;">47.117</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">-0.161</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-9.062</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">1.485</td>
+<td style="text-align: right;">1.545</td>
+<td style="text-align: right;">0.961</td>
+<td style="text-align: right;">0.337</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-61.554</td>
+<td style="text-align: right;">34.856</td>
+<td style="text-align: right;">-1.766</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">-407.206</td>
+<td style="text-align: right;">189.627</td>
+<td style="text-align: right;">-2.147</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(totwrk * south)</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">1.556</td>
+<td style="text-align: right;">0.120</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(age * south)</td>
+<td style="text-align: right;">8.267</td>
+<td style="text-align: right;">3.495</td>
+<td style="text-align: right;">2.365</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(smsa * south)</td>
+<td style="text-align: right;">49.429</td>
+<td style="text-align: right;">107.111</td>
+<td style="text-align: right;">0.461</td>
+<td style="text-align: right;">0.645</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 5% (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 5% (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>totwrk</code>, <code>south</code>, <code>I(age * south)</code></p>
+</div>
+</div>
+</div>
+<p>Проверим гипотезу о значимости региона.</p>
+<div id="cell-48" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.651844Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.651782Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.654858Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.654586Z&quot;}}" data-execution_count="26">
+<p><strong>Результаты <span class="math inline">\(F\)</span>-теста (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">F</th>
+<th style="text-align: right;">df1</th>
+<th style="text-align: right;">df2</th>
+<th style="text-align: right;">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3.144</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">698</td>
+<td style="text-align: right;">0.014</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите критическое значение. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-50" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.655996Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.655937Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.658196Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.657928Z&quot;}}" data-execution_count="27">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(F_{crit} = 2.38\)</span></p>
+</div>
+</div>
+</div>
+<p>Какой можно сделать вывод?</p>
+<div id="cell-52" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.659379Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.659316Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.664190Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.663734Z&quot;}}" data-execution_count="28">
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(F = 3.144 &gt; 2.38\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+<p>Здесь противоречия нет: коэффициенты при <code>south</code> и <code>I(age * south)</code> значимы и по отдельности (P-значения 0.032 и 0.018), а F-тест отвергает совместную незначимость всех четырёх. При этом VIF у <code>south</code> равен 22.00, у <code>I(age * south)</code> — 12.28: высокий VIF увеличивает стандартные ошибки, но сам по себе не делает коэффициент незначимым.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="wage-equation-1" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="wage-equation-1"><span class="header-section-number">1.4</span> wage equation #1</h2>
+<p>Для набора данных <code>wage2</code> рассмотрим регрессию</p>
+<p><code>np.log(wage) ~ age + I(age**2) + IQ + married + south + urban</code></p>
+<p>Переменная <code>wage</code> — месячный заработок, <code>age</code> — возраст в годах, <code>IQ</code> — результат теста IQ; <code>married</code>, <code>south</code>, <code>urban</code> — бинарные переменные.</p>
+<div id="cell-54" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.665441Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.665364Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.672179Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.671863Z&quot;}}" data-execution_count="29">
+<p>Модель была подогнана по 935 наблюдениям.</p>
+</div>
+<p>Вычислите показатели VIF для регрессоров. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-56" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.673411Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.673325Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.677272Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.676945Z&quot;}}" data-execution_count="30">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">VIF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">632.87</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(age ** 2)</td>
+<td style="text-align: right;">632.96</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">IQ</td>
+<td style="text-align: right;">1.05</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">married</td>
+<td style="text-align: right;">1.01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">1.06</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">urban</td>
+<td style="text-align: right;">1.02</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите корреляционную матрицу регрессоров. <strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-58" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.678776Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.678680Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.682000Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.681552Z&quot;}}" data-execution_count="31">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">I(age ** 2)</th>
+<th style="text-align: right;">IQ</th>
+<th style="text-align: right;">married</th>
+<th style="text-align: right;">south</th>
+<th style="text-align: right;">urban</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.999</td>
+<td style="text-align: right;">-0.044</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">-0.007</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(age ** 2)</td>
+<td style="text-align: right;">0.999</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.043</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: right;">-0.031</td>
+<td style="text-align: right;">-0.009</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">IQ</td>
+<td style="text-align: right;">-0.044</td>
+<td style="text-align: right;">-0.043</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.015</td>
+<td style="text-align: right;">-0.210</td>
+<td style="text-align: right;">0.039</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">married</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: right;">-0.015</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">-0.040</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">-0.031</td>
+<td style="text-align: right;">-0.210</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.110</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">urban</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">-0.009</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">-0.040</td>
+<td style="text-align: right;">-0.110</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Постройте тепловую карту корреляционной матрицы (<a href="#fig-corr-wage1" class="quarto-xref">Рисунок&nbsp;4</a>).</p>
+<div id="cell-fig-corr-wage1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.683110Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.683033Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.792181Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.791680Z&quot;}}" data-execution_count="32">
+<div class="cell-output cell-output-display">
+<div id="fig-corr-wage1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-corr-wage1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list09-multicollinearity_files/figure-html/fig-corr-wage1-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corr-wage1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;4: Корреляционная матрица регрессоров (wage equation #1)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-61" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.793571Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.793469Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.795877Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.795512Z&quot;}}" data-execution_count="33">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>5%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза 1: t-тест, значимость каждого коэффициента: <span class="math inline">\(H_0:\beta_j=0\)</span></li>
+<li>гипотеза 2: F-тест, значимость влияния возраста: <span class="math inline">\(H_0:\beta_{age}=\beta_{age^2}=0\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Какие коэффициенты значимы?</p>
+<div id="cell-63" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.797361Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.797265Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.801075Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.800736Z&quot;}}" data-execution_count="34">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">2.938</td>
+<td style="text-align: right;">1.656</td>
+<td style="text-align: right;">1.774</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">0.145</td>
+<td style="text-align: right;">0.100</td>
+<td style="text-align: right;">1.447</td>
+<td style="text-align: right;">0.148</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(age ** 2)</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">-1.236</td>
+<td style="text-align: right;">0.217</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IQ</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">9.770</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">married</td>
+<td style="text-align: right;">0.202</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">5.008</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">-0.100</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">-3.736</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">urban</td>
+<td style="text-align: right;">0.173</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">6.260</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 5% (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 5% (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>IQ</code>, <code>married</code>, <code>south</code>, <code>urban</code></p>
+</div>
+</div>
+</div>
+<p>Проверим гипотезу о значимости влияния возраста.</p>
+<div id="cell-65" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.802187Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.802105Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.805369Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.804926Z&quot;}}" data-execution_count="35">
+<p><strong>Результаты <span class="math inline">\(F\)</span>-теста (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">F</th>
+<th style="text-align: right;">df1</th>
+<th style="text-align: right;">df2</th>
+<th style="text-align: right;">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">14.833</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">928</td>
+<td style="text-align: right;">&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите критическое значение. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-67" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.806448Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.806371Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.808544Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.808148Z&quot;}}" data-execution_count="36">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(F_{crit} = 3.01\)</span></p>
+</div>
+</div>
+</div>
+<p>Какой можно сделать вывод?</p>
+<div id="cell-69" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.809515Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.809449Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.814590Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.814207Z&quot;}}" data-execution_count="37">
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(F = 14.833 &gt; 3.01\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+<p><strong>На первый взгляд противоречие:</strong> коэффициенты при <code>age</code> и <code>I(age ** 2)</code> по отдельности незначимы (P-значения 0.148 и 0.217), а гипотеза об их совместной незначимости отвергается. Оно объясняется мультиколлинеарностью: корреляция <code>age</code> и <code>I(age ** 2)</code> равна 0.999, VIF — 632.87 и 632.96.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="wage-equation-2" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="wage-equation-2"><span class="header-section-number">1.5</span> wage equation #2</h2>
+<p>Для набора данных <code>wage2</code> рассмотрим регрессию</p>
+<pre><code>np.log(wage) ~ age + IQ + south + urban +
+               I(age*urban) + I(IQ*urban) + I(south*urban)</code></pre>
+<div id="cell-71" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.815764Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.815689Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.823294Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.822931Z&quot;}}" data-execution_count="38">
+<p>Модель была подогнана по 935 наблюдениям.</p>
+</div>
+<p>Вычислите показатели VIF для регрессоров. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-73" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.824306Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.824242Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.829000Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.828722Z&quot;}}" data-execution_count="39">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">VIF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">3.39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IQ</td>
+<td style="text-align: right;">3.88</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">3.83</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">urban</td>
+<td style="text-align: right;">175.88</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(age * urban)</td>
+<td style="text-align: right;">114.32</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(IQ * urban)</td>
+<td style="text-align: right;">53.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(south * urban)</td>
+<td style="text-align: right;">4.09</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите корреляционную матрицу регрессоров. <strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-75" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.829971Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.829910Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.832685Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.832292Z&quot;}}" data-execution_count="40">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">IQ</th>
+<th style="text-align: right;">south</th>
+<th style="text-align: right;">urban</th>
+<th style="text-align: right;">I(age * urban)</th>
+<th style="text-align: right;">I(IQ * urban)</th>
+<th style="text-align: right;">I(south * urban)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.044</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">0.137</td>
+<td style="text-align: right;">-0.020</td>
+<td style="text-align: right;">0.010</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IQ</td>
+<td style="text-align: right;">-0.044</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.210</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.260</td>
+<td style="text-align: right;">-0.097</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">-0.029</td>
+<td style="text-align: right;">-0.210</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.110</td>
+<td style="text-align: right;">-0.106</td>
+<td style="text-align: right;">-0.136</td>
+<td style="text-align: right;">0.741</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">urban</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">-0.110</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.985</td>
+<td style="text-align: right;">0.964</td>
+<td style="text-align: right;">0.334</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(age * urban)</td>
+<td style="text-align: right;">0.137</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">-0.106</td>
+<td style="text-align: right;">0.985</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.947</td>
+<td style="text-align: right;">0.332</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(IQ * urban)</td>
+<td style="text-align: right;">-0.020</td>
+<td style="text-align: right;">0.260</td>
+<td style="text-align: right;">-0.136</td>
+<td style="text-align: right;">0.964</td>
+<td style="text-align: right;">0.947</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.288</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(south * urban)</td>
+<td style="text-align: right;">0.010</td>
+<td style="text-align: right;">-0.097</td>
+<td style="text-align: right;">0.741</td>
+<td style="text-align: right;">0.334</td>
+<td style="text-align: right;">0.332</td>
+<td style="text-align: right;">0.288</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Постройте тепловую карту корреляционной матрицы (<a href="#fig-corr-wage2" class="quarto-xref">Рисунок&nbsp;5</a>).</p>
+<div id="cell-fig-corr-wage2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.833672Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.833614Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.963997Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.963628Z&quot;}}" data-execution_count="41">
+<div class="cell-output cell-output-display">
+<div id="fig-corr-wage2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-corr-wage2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list09-multicollinearity_files/figure-html/fig-corr-wage2-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corr-wage2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;5: Корреляционная матрица регрессоров (wage equation #2)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-78" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.965286Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.965196Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.967414Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.967097Z&quot;}}" data-execution_count="42">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>1%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза 1: t-тест, значимость каждого коэффициента: <span class="math inline">\(H_0:\beta_j=0\)</span></li>
+<li>гипотеза 2: F-тест, значимость влияния места жительства (переменная <code>urban</code>): <span class="math inline">\(H_0:\beta_{urban}=\beta_{age\cdot urban}=\beta_{IQ\cdot urban}=\beta_{south\cdot urban}=0\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Какие коэффициенты значимы?</p>
+<div id="cell-80" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.968423Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.968344Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.971858Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.971479Z&quot;}}" data-execution_count="43">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 14%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">4.999</td>
+<td style="text-align: right;">0.312</td>
+<td style="text-align: right;">16.016</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">3.294</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">IQ</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">5.116</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">-0.271</td>
+<td style="text-align: right;">0.787</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">urban</td>
+<td style="text-align: right;">0.237</td>
+<td style="text-align: right;">0.368</td>
+<td style="text-align: right;">0.643</td>
+<td style="text-align: right;">0.520</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(age * urban)</td>
+<td style="text-align: right;">-0.001</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">-0.069</td>
+<td style="text-align: right;">0.945</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(IQ * urban)</td>
+<td style="text-align: right;">-1.41e-05</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">0.994</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(south * urban)</td>
+<td style="text-align: right;">-0.117</td>
+<td style="text-align: right;">0.061</td>
+<td style="text-align: right;">-1.924</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: left;">*</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 1% (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 1% (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>age</code>, <code>IQ</code></p>
+</div>
+</div>
+</div>
+<p>Проверим гипотезу о значимости влияния места жительства.</p>
+<div id="cell-82" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.972819Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.972752Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.975794Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.975495Z&quot;}}" data-execution_count="44">
+<p><strong>Результаты <span class="math inline">\(F\)</span>-теста (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">F</th>
+<th style="text-align: right;">df1</th>
+<th style="text-align: right;">df2</th>
+<th style="text-align: right;">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">10.250</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">927</td>
+<td style="text-align: right;">&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Вычислите критическое значение. <strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-84" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.976943Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.976869Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.979015Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.978724Z&quot;}}" data-execution_count="45">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(F_{crit} = 3.34\)</span></p>
+</div>
+</div>
+</div>
+<p>Какой можно сделать вывод?</p>
+<div id="cell-86" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:05.980049Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:05.979992Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:05.986048Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:05.985644Z&quot;}}" data-execution_count="46">
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(F = 10.250 &gt; 3.34\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+<p><strong>На первый взгляд противоречие:</strong> коэффициент при <code>urban</code> и все три коэффициента при взаимодействиях с <code>urban</code> по отдельности незначимы на уровне 1% (P-значения от 0.055 до 0.994), а гипотеза об их совместной незначимости отвергается. Оно объясняется мультиколлинеарностью: корреляции <code>urban</code> с <code>I(age * urban)</code> и <code>I(IQ * urban)</code> равны 0.985 и 0.964, VIF этих трёх регрессоров — 175.88, 114.32 и 53.14.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Скопировано");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Скопировано");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

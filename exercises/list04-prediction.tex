@@ -1,0 +1,629 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  russian,
+]{article}
+\usepackage{xcolor}
+\usepackage[top=20mm,left=20mm,right=20mm,bottom=20mm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setmainfont[]{Times New Roman}
+  \setsansfont[]{Arial}
+  \setmonofont[]{Courier New}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off,provide=*]{babel}
+\else
+\usepackage[bidi=default,shorthands=off,provide=*]{babel}
+\fi
+\ifPDFTeX
+\else
+\babelfont{rm}[]{Times New Roman}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список Иллюстраций}
+\else
+  \newcommand\listfigurename{Список Иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список Таблиц}
+\else
+  \newcommand\listtablename{Список Таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Список Каталогов}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={Задачи по Эконометрике-1: Прогнозирование},
+  pdfauthor={Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)},
+  pdflang={ru},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Задачи по Эконометрике-1: Прогнозирование}
+\author{Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Важно}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Логарифм натуральный; константа включается в модель по умолчанию.
+\item
+  Данные лежат в папке \texttt{datasets}, описание переменных --- в
+  \texttt{datasets/data-description.md}.
+\item
+  Ответы округляются до 2-х десятичных знаков.
+\item
+  Коэффициенты подписаны так, как их печатает statsmodels:
+  \texttt{Intercept} --- константа, \texttt{np.log(x)} --- \(\log x\),
+  \texttt{I(x\ **\ 2)} --- \(x^2\).
+\item
+  Прогноз считается по неокруглённым оценкам (метод \texttt{predict});
+  расчёт по округлённым числам из таблицы может дать другой ответ.
+\item
+  В логарифмических моделях прогноз в уровнях --- экспонента от прогноза
+  логарифма (без поправки).
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{Прогноз в модели в
+уровнях}\label{ux43fux440ux43eux433ux43dux43eux437-ux432-ux43cux43eux434ux435ux43bux438-ux432-ux443ux440ux43eux432ux43dux44fux445}
+
+\subsection{sleep equation \#1}\label{sleep-equation-1}
+
+Для набора данных \texttt{sleep75} (\texttt{sleep} --- время ночного
+сна, \texttt{totwrk} --- время работы, обе в минутах в неделю)
+рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ south\ +\ male\ +\ smsa\ +\ yngkid\ +\ marr}
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3451 \\
+totwrk & -0.1692 \\
+age & 2.689 \\
+south & 101.6 \\
+male & 87.67 \\
+smsa & -54.75 \\
+yngkid & -13.96 \\
+marr & 31.21 \\
+\end{longtable}
+}
+
+Модель была подогнана по 706 наблюдениям.
+
+Рассмотрим трёх людей с характеристиками
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrrrrrr@{}}
+\toprule\noalign{}
+Человек & totwrk & age & south & male & smsa & yngkid & marr \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 2150 & 37 & 0 & 1 & 1 & 0 & 1 \\
+2 & 1950 & 28 & 1 & 1 & 0 & 1 & 0 \\
+3 & 2240 & 26 & 0 & 0 & 1 & 0 & 0 \\
+\end{longtable}
+}
+
+Вычислите прогноз для каждого человека по подогнанной модели.
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\textbf{Прогнозы sleep (минут в неделю):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rr@{}}
+\toprule\noalign{}
+Человек & Прогноз \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 3250.68 \\
+2 & 3371.46 \\
+3 & 3086.98 \\
+\end{longtable}
+}
+
+\subsection{sleep equation \#2}\label{sleep-equation-2}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ age\ +\ I(age**2)\ +\ south\ +\ male}
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3614 \\
+totwrk & -0.1673 \\
+age & -6.255 \\
+I(age ** 2) & 0.1089 \\
+south & 114.5 \\
+male & 90.46 \\
+\end{longtable}
+}
+
+Модель была подогнана по 706 наблюдениям.
+
+Рассмотрим трёх людей с характеристиками
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrrr@{}}
+\toprule\noalign{}
+Человек & totwrk & age & south & male \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 2160 & 32 & 1 & 0 \\
+2 & 1720 & 24 & 0 & 1 \\
+3 & 2390 & 44 & 0 & 1 \\
+\end{longtable}
+}
+
+Вычислите прогноз для каждого человека по подогнанной модели.
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\textbf{Прогнозы sleep (минут в неделю):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rr@{}}
+\toprule\noalign{}
+Человек & Прогноз \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 3278.46 \\
+2 & 3329.25 \\
+3 & 3240.11 \\
+\end{longtable}
+}
+
+\section{Прогноз в логарифмической
+модели}\label{ux43fux440ux43eux433ux43dux43eux437-ux432-ux43bux43eux433ux430ux440ux438ux444ux43cux438ux447ux435ux441ux43aux43eux439-ux43cux43eux434ux435ux43bux438}
+
+\subsection{wage equation \#1}\label{wage-equation-1}
+
+Для набора данных \texttt{wage2} (\texttt{wage} --- месячный заработок)
+рассмотрим регрессию
+
+\texttt{np.log(wage)\ \textasciitilde{}\ age\ +\ IQ\ +\ south\ +\ married\ +\ urban}
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 4.974 \\
+age & 0.02125 \\
+IQ & 0.008201 \\
+south & -0.09898 \\
+married & 0.201 \\
+urban & 0.175 \\
+\end{longtable}
+}
+
+Модель была подогнана по 935 наблюдениям.
+
+Рассмотрим трёх людей с характеристиками
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrrrr@{}}
+\toprule\noalign{}
+Человек & age & IQ & south & married & urban \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 36 & 105 & 1 & 1 & 1 \\
+2 & 29 & 123 & 0 & 1 & 0 \\
+3 & 25 & 112 & 1 & 0 & 1 \\
+\end{longtable}
+}
+
+Вычислите прогноз \textbf{зарплаты} для каждого человека по подогнанной
+модели. Прогноз в уровнях получите как экспоненту от прогноза логарифма
+(без поправки). \textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\textbf{Прогнозы wage (месячный заработок):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrr@{}}
+\toprule\noalign{}
+Человек & Прогноз np.log(wage) & Прогноз wage \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 6.877 & 969.95 \\
+2 & 6.800 & 897.93 \\
+3 & 6.500 & 665.07 \\
+\end{longtable}
+}
+
+\subsection{wage equation \#2}\label{wage-equation-2}
+
+Для набора данных \texttt{wage1} (\texttt{wage} --- средний почасовой
+заработок) рассмотрим регрессию
+
+\texttt{np.log(wage)\ \textasciitilde{}\ exper\ +\ I(exper**2)\ +\ female\ +\ married\ +\ smsa}
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 1.25 \\
+exper & 0.03688 \\
+I(exper ** 2) & -0.0007717 \\
+female & -0.3627 \\
+married & 0.1438 \\
+smsa & 0.2726 \\
+\end{longtable}
+}
+
+Модель была подогнана по 526 наблюдениям.
+
+Рассмотрим трёх людей с характеристиками
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrrrr@{}}
+\toprule\noalign{}
+Человек & exper & female & married & smsa \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 5 & 1 & 1 & 1 \\
+2 & 26 & 0 & 0 & 1 \\
+3 & 38 & 1 & 1 & 0 \\
+\end{longtable}
+}
+
+Вычислите прогноз \textbf{зарплаты} для каждого человека по подогнанной
+модели. Прогноз в уровнях получите как экспоненту от прогноза логарифма
+(без поправки). \textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\textbf{Прогнозы wage (средний почасовой заработок):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrr@{}}
+\toprule\noalign{}
+Человек & Прогноз np.log(wage) & Прогноз wage \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 1.469 & 4.35 \\
+2 & 1.960 & 7.10 \\
+3 & 1.319 & 3.74 \\
+\end{longtable}
+}
+
+\subsection{output equation \#1}\label{output-equation-1}
+
+Для набора данных \texttt{Labour} (\texttt{output} --- добавленная
+стоимость, \texttt{capital} --- основной капитал, обе в млн евро;
+\texttt{labour} --- число работников) рассмотрим регрессию
+\textbf{np.log(output) на np.log(capital), np.log(labour)}.
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -1.711 \\
+np.log(capital) & 0.2076 \\
+np.log(labour) & 0.7148 \\
+\end{longtable}
+}
+
+Модель была подогнана по 569 наблюдениям.
+
+Рассмотрим три фирмы с характеристиками
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrr@{}}
+\toprule\noalign{}
+Фирма & capital & labour \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 2.97 & 85 \\
+2 & 10.45 & 60 \\
+3 & 3.85 & 105 \\
+\end{longtable}
+}
+
+Вычислите прогноз \textbf{выпуска} для каждой фирмы по подогнанной
+модели. Прогноз в уровнях получите как экспоненту от прогноза логарифма
+(без поправки). \textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\textbf{Прогнозы output (млн евро):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrr@{}}
+\toprule\noalign{}
+Фирма & Прогноз np.log(output) & Прогноз output \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 1.690 & 5.42 \\
+2 & 1.702 & 5.49 \\
+3 & 1.895 & 6.65 \\
+\end{longtable}
+}
+
+\subsection{output equation \#2}\label{output-equation-2}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию
+
+\begin{verbatim}
+np.log(output) ~ np.log(capital) + np.log(labour) +
+    I(np.log(capital)**2) + I(np.log(labour)**2)
+\end{verbatim}
+
+Результаты оценивания:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -1.304 \\
+np.log(capital) & 0.1831 \\
+np.log(labour) & 0.5153 \\
+I(np.log(capital) ** 2) & 0.02275 \\
+I(np.log(labour) ** 2) & 0.02026 \\
+\end{longtable}
+}
+
+Модель была подогнана по 569 наблюдениям.
+
+Рассмотрим три фирмы с характеристиками
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrr@{}}
+\toprule\noalign{}
+Фирма & capital & labour \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 22.14 & 407 \\
+2 & 7.32 & 197 \\
+3 & 0.67 & 31 \\
+\end{longtable}
+}
+
+Вычислите прогноз \textbf{выпуска} для каждой фирмы по подогнанной
+модели. Прогноз в уровнях получите как экспоненту от прогноза логарифма
+(без поправки). \textbf{Ответ округлите до 2-х десятичных знаков.}
+
+\textbf{Прогнозы output (млн евро):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rrr@{}}
+\toprule\noalign{}
+Фирма & Прогноз np.log(output) & Прогноз output \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 3.309 & 27.37 \\
+2 & 2.439 & 11.46 \\
+3 & 0.635 & 1.89 \\
+\end{longtable}
+}
+
+
+
+
+\end{document}

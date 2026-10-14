@@ -1,0 +1,3060 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)">
+
+<title>Задачи по Эконометрике-1: t-тест</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="list06-t-test_files/libs/clipboard/clipboard.min.js"></script>
+<script src="list06-t-test_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="list06-t-test_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="list06-t-test_files/libs/quarto-html/popper.min.js"></script>
+<script src="list06-t-test_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="list06-t-test_files/libs/quarto-html/anchor.min.js"></script>
+<link href="list06-t-test_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="list06-t-test_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="list06-t-test_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="list06-t-test_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="list06-t-test_files/libs/bootstrap/bootstrap-07adbd1a4704a02577050796401b62cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<style>
+table { width: auto !important; margin-left: auto; margin-right: auto; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Содержание</h2>
+   
+  <ul>
+  <li><a href="#t-тест-значимость-коэффициентов" id="toc-t-тест-значимость-коэффициентов" class="nav-link active" data-scroll-target="#t-тест-значимость-коэффициентов"><span class="header-section-number">1</span> t-тест: значимость коэффициентов</a>
+  <ul class="collapse">
+  <li><a href="#sleep-equation-1" id="toc-sleep-equation-1" class="nav-link" data-scroll-target="#sleep-equation-1"><span class="header-section-number">1.1</span> sleep equation #1</a></li>
+  <li><a href="#sleep-equation-2" id="toc-sleep-equation-2" class="nav-link" data-scroll-target="#sleep-equation-2"><span class="header-section-number">1.2</span> sleep equation #2</a></li>
+  <li><a href="#sleep-equation-3" id="toc-sleep-equation-3" class="nav-link" data-scroll-target="#sleep-equation-3"><span class="header-section-number">1.3</span> sleep equation #3</a></li>
+  <li><a href="#sleep-equation-4" id="toc-sleep-equation-4" class="nav-link" data-scroll-target="#sleep-equation-4"><span class="header-section-number">1.4</span> sleep equation #4</a></li>
+  <li><a href="#output-equation-1" id="toc-output-equation-1" class="nav-link" data-scroll-target="#output-equation-1"><span class="header-section-number">1.5</span> output equation #1</a></li>
+  <li><a href="#output-equation-2" id="toc-output-equation-2" class="nav-link" data-scroll-target="#output-equation-2"><span class="header-section-number">1.6</span> output equation #2</a></li>
+  <li><a href="#cost-equation-1" id="toc-cost-equation-1" class="nav-link" data-scroll-target="#cost-equation-1"><span class="header-section-number">1.7</span> cost equation #1</a></li>
+  <li><a href="#cost-equation-2" id="toc-cost-equation-2" class="nav-link" data-scroll-target="#cost-equation-2"><span class="header-section-number">1.8</span> cost equation #2</a></li>
+  </ul></li>
+  <li><a href="#t-тест-равенство-коэффициента-заданному-числу" id="toc-t-тест-равенство-коэффициента-заданному-числу" class="nav-link" data-scroll-target="#t-тест-равенство-коэффициента-заданному-числу"><span class="header-section-number">2</span> t-тест: равенство коэффициента заданному числу</a>
+  <ul class="collapse">
+  <li><a href="#output-equation-3" id="toc-output-equation-3" class="nav-link" data-scroll-target="#output-equation-3"><span class="header-section-number">2.1</span> output equation #3</a></li>
+  <li><a href="#output-equation-4" id="toc-output-equation-4" class="nav-link" data-scroll-target="#output-equation-4"><span class="header-section-number">2.2</span> output equation #4</a></li>
+  <li><a href="#cost-equation-3" id="toc-cost-equation-3" class="nav-link" data-scroll-target="#cost-equation-3"><span class="header-section-number">2.3</span> cost equation #3</a></li>
+  <li><a href="#cost-equation-4" id="toc-cost-equation-4" class="nav-link" data-scroll-target="#cost-equation-4"><span class="header-section-number">2.4</span> cost equation #4</a></li>
+  <li><a href="#sleep-equation-5" id="toc-sleep-equation-5" class="nav-link" data-scroll-target="#sleep-equation-5"><span class="header-section-number">2.5</span> sleep equation #5</a></li>
+  <li><a href="#sleep-equation-6" id="toc-sleep-equation-6" class="nav-link" data-scroll-target="#sleep-equation-6"><span class="header-section-number">2.6</span> sleep equation #6</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Другие форматы</h2><ul><li><a href="list06-t-test.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li><li><a href="list06-t-test.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Задачи по Эконометрике-1: t-тест</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Автор</div>
+    <div class="quarto-title-meta-contents">
+             <p>Н. В. Артамонов, А. Н. Лата (МГИМО МИД России) </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-important callout-titled" title="Важно">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Важно
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Логарифм натуральный; константа включается в модель по умолчанию.</li>
+<li>Данные лежат в папке <code>datasets</code>, описание переменных — в <code>datasets/data-description.md</code>.</li>
+<li>Округление указано в каждой задаче: 3 знака в первом разделе, 2 знака во втором. Тестовая статистика считается по неокруглённым оценкам.</li>
+<li>Коэффициенты подписаны так, как их печатает statsmodels: <code>Intercept</code> — константа, <code>np.log(x)</code> — <span class="math inline">\(\log x\)</span>, <code>I(np.log(x) ** 2)</code> — <span class="math inline">\(\log^2 x\)</span>.</li>
+<li>Индекс коэффициента в гипотезе — имя переменной: <span class="math inline">\(\beta_{capital}\)</span> — коэффициент при <code>np.log(capital)</code>. Альтернатива двусторонняя.</li>
+<li>Неробастные стандартные ошибки — обычные ошибки МНК, робастные — HC3; критические значения и P-значения — по t-распределению (<code>fit(cov_type='HC3', use_t=True)</code>).</li>
+</ul>
+</div>
+</div>
+<section id="t-тест-значимость-коэффициентов" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> t-тест: значимость коэффициентов</h1>
+<section id="sleep-equation-1" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sleep-equation-1"><span class="header-section-number">1.1</span> sleep equation #1</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<p><code>sleep ~ totwrk + age + south + male + smsa + marr + union</code></p>
+<p>Переменные <code>sleep</code> и <code>totwrk</code> измерены в минутах в неделю.</p>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.504473Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.504395Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.506958Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.506618Z&quot;}}" data-execution_count="2">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>5%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>Оцените регрессию.</li>
+<li>Выведите результаты t-теста.</li>
+<li>Вычислите критическое значение.</li>
+<li>Какие коэффициенты значимы?</li>
+</ul>
+<p><strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.519621Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.519538Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.529973Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.529585Z&quot;}}" data-execution_count="3">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3441.297</td>
+<td style="text-align: right;">78.942</td>
+<td style="text-align: right;">43.593</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">-0.169</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-9.363</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">2.841</td>
+<td style="text-align: right;">1.387</td>
+<td style="text-align: right;">2.048</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">101.676</td>
+<td style="text-align: right;">41.834</td>
+<td style="text-align: right;">2.430</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">86.038</td>
+<td style="text-align: right;">34.906</td>
+<td style="text-align: right;">2.465</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-53.925</td>
+<td style="text-align: right;">33.156</td>
+<td style="text-align: right;">-1.626</td>
+<td style="text-align: right;">0.104</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">marr</td>
+<td style="text-align: right;">30.006</td>
+<td style="text-align: right;">41.910</td>
+<td style="text-align: right;">0.716</td>
+<td style="text-align: right;">0.474</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">union</td>
+<td style="text-align: right;">12.440</td>
+<td style="text-align: right;">38.096</td>
+<td style="text-align: right;">0.327</td>
+<td style="text-align: right;">0.744</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<p>Модель была подогнана по 706 наблюдениям.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.975}(698) = 1.963\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 5% (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 5% (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>totwrk</code>, <code>age</code>, <code>south</code>, <code>male</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="sleep-equation-2" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sleep-equation-2"><span class="header-section-number">1.2</span> sleep equation #2</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<p><code>sleep ~ totwrk + age + south + male + smsa + marr + union</code></p>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.530929Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.530857Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.532672Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.532353Z&quot;}}" data-execution_count="4">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>5%</strong></li>
+<li>стандартные ошибки: <strong>робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>Оцените регрессию.</li>
+<li>Выведите результаты t-теста.</li>
+<li>Вычислите критическое значение.</li>
+<li>Какие коэффициенты значимы?</li>
+</ul>
+<p><strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.533511Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.533457Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.542100Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.541815Z&quot;}}" data-execution_count="5">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (робастные стандартные ошибки, HC3):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3441.297</td>
+<td style="text-align: right;">88.891</td>
+<td style="text-align: right;">38.714</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">-0.169</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-8.299</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">2.841</td>
+<td style="text-align: right;">1.362</td>
+<td style="text-align: right;">2.086</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">101.676</td>
+<td style="text-align: right;">42.315</td>
+<td style="text-align: right;">2.403</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">86.038</td>
+<td style="text-align: right;">35.758</td>
+<td style="text-align: right;">2.406</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-53.925</td>
+<td style="text-align: right;">33.372</td>
+<td style="text-align: right;">-1.616</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">marr</td>
+<td style="text-align: right;">30.006</td>
+<td style="text-align: right;">46.090</td>
+<td style="text-align: right;">0.651</td>
+<td style="text-align: right;">0.515</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">union</td>
+<td style="text-align: right;">12.440</td>
+<td style="text-align: right;">37.277</td>
+<td style="text-align: right;">0.334</td>
+<td style="text-align: right;">0.739</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<p>Модель была подогнана по 706 наблюдениям.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.975}(698) = 1.963\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 5% (по робастным стандартным ошибкам HC3)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 5% (по робастным стандартным ошибкам HC3)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>totwrk</code>, <code>age</code>, <code>south</code>, <code>male</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="sleep-equation-3" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sleep-equation-3"><span class="header-section-number">1.3</span> sleep equation #3</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<p><code>sleep ~ totwrk + age + south + male + smsa + marr + union + np.log(hrwage)</code></p>
+<p>Переменная <code>hrwage</code> известна не для всех наблюдений: модель подгоняется по 532 наблюдениям из 706.</p>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.543026Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.542946Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.544679Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.544420Z&quot;}}" data-execution_count="6">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>10%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>Оцените регрессию.</li>
+<li>Выведите результаты t-теста.</li>
+<li>Вычислите критическое значение.</li>
+<li>Какие коэффициенты значимы?</li>
+</ul>
+<p><strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.545520Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.545464Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.553886Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.553527Z&quot;}}" data-execution_count="7">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 14%">
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3453.355</td>
+<td style="text-align: right;">93.371</td>
+<td style="text-align: right;">36.985</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">-0.159</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">-7.629</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">1.950</td>
+<td style="text-align: right;">1.584</td>
+<td style="text-align: right;">1.230</td>
+<td style="text-align: right;">0.219</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">80.244</td>
+<td style="text-align: right;">45.216</td>
+<td style="text-align: right;">1.775</td>
+<td style="text-align: right;">0.077</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">41.098</td>
+<td style="text-align: right;">43.049</td>
+<td style="text-align: right;">0.955</td>
+<td style="text-align: right;">0.340</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-36.093</td>
+<td style="text-align: right;">38.206</td>
+<td style="text-align: right;">-0.945</td>
+<td style="text-align: right;">0.345</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">marr</td>
+<td style="text-align: right;">58.917</td>
+<td style="text-align: right;">46.613</td>
+<td style="text-align: right;">1.264</td>
+<td style="text-align: right;">0.207</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">union</td>
+<td style="text-align: right;">24.479</td>
+<td style="text-align: right;">42.948</td>
+<td style="text-align: right;">0.570</td>
+<td style="text-align: right;">0.569</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(hrwage)</td>
+<td style="text-align: right;">-2.590</td>
+<td style="text-align: right;">32.197</td>
+<td style="text-align: right;">-0.080</td>
+<td style="text-align: right;">0.936</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<p>Модель была подогнана по 532 наблюдениям.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.95}(523) = 1.648\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 10% (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 10% (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>totwrk</code>, <code>south</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="sleep-equation-4" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sleep-equation-4"><span class="header-section-number">1.4</span> sleep equation #4</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<p><code>sleep ~ totwrk + age + south + male + smsa + marr + union + np.log(hrwage)</code></p>
+<p>Переменная <code>hrwage</code> известна не для всех наблюдений: модель подгоняется по 532 наблюдениям из 706.</p>
+<div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.554774Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.554703Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.556474Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.556165Z&quot;}}" data-execution_count="8">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>10%</strong></li>
+<li>стандартные ошибки: <strong>робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>Оцените регрессию.</li>
+<li>Выведите результаты t-теста.</li>
+<li>Вычислите критическое значение.</li>
+<li>Какие коэффициенты значимы?</li>
+</ul>
+<p><strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.557333Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.557282Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.565193Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.564839Z&quot;}}" data-execution_count="9">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (робастные стандартные ошибки, HC3):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 14%">
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3453.355</td>
+<td style="text-align: right;">98.213</td>
+<td style="text-align: right;">35.162</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">-0.159</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">-6.354</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">1.950</td>
+<td style="text-align: right;">1.571</td>
+<td style="text-align: right;">1.241</td>
+<td style="text-align: right;">0.215</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">80.244</td>
+<td style="text-align: right;">47.401</td>
+<td style="text-align: right;">1.693</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">41.098</td>
+<td style="text-align: right;">42.778</td>
+<td style="text-align: right;">0.961</td>
+<td style="text-align: right;">0.337</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-36.093</td>
+<td style="text-align: right;">38.580</td>
+<td style="text-align: right;">-0.936</td>
+<td style="text-align: right;">0.350</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">marr</td>
+<td style="text-align: right;">58.917</td>
+<td style="text-align: right;">48.350</td>
+<td style="text-align: right;">1.219</td>
+<td style="text-align: right;">0.224</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">union</td>
+<td style="text-align: right;">24.479</td>
+<td style="text-align: right;">43.006</td>
+<td style="text-align: right;">0.569</td>
+<td style="text-align: right;">0.569</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(hrwage)</td>
+<td style="text-align: right;">-2.590</td>
+<td style="text-align: right;">32.992</td>
+<td style="text-align: right;">-0.079</td>
+<td style="text-align: right;">0.937</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<p>Модель была подогнана по 532 наблюдениям.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.95}(523) = 1.648\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 10% (по робастным стандартным ошибкам HC3)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 10% (по робастным стандартным ошибкам HC3)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>totwrk</code>, <code>south</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="output-equation-1" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="output-equation-1"><span class="header-section-number">1.5</span> output equation #1</h2>
+<p>Для набора данных <code>Labour</code> рассмотрим регрессию</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>np.log(output) <span class="op">~</span> np.log(capital) <span class="op">+</span> np.log(labour) <span class="op">+</span> np.log(wage) <span class="op">+</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    I(np.log(capital)<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> I(np.log(labour)<span class="op">**</span><span class="dv">2</span>)</span></code></pre></div><button title="Скопировать текст" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Переменные <code>output</code> и <code>capital</code> измерены в млн евро, <code>labour</code> — число работников, <code>wage</code> — в тыс. евро на работника.</p>
+<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.566065Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.565999Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.567593Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.567348Z&quot;}}" data-execution_count="10">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>10%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>Оцените регрессию.</li>
+<li>Выведите результаты t-теста.</li>
+<li>Вычислите критическое значение.</li>
+<li>Какие коэффициенты значимы?</li>
+</ul>
+<p><strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.568376Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.568326Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.575566Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.575335Z&quot;}}" data-execution_count="11">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-4.258</td>
+<td style="text-align: right;">0.257</td>
+<td style="text-align: right;">-16.599</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(capital)</td>
+<td style="text-align: right;">0.140</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">9.743</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(labour)</td>
+<td style="text-align: right;">0.473</td>
+<td style="text-align: right;">0.071</td>
+<td style="text-align: right;">6.672</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(wage)</td>
+<td style="text-align: right;">0.853</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">14.751</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(capital) ** 2)</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">1.735</td>
+<td style="text-align: right;">0.083</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(np.log(labour) ** 2)</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">3.355</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<p>Модель была подогнана по 569 наблюдениям.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.95}(563) = 1.648\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 10% (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 10% (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>np.log(capital)</code>, <code>np.log(labour)</code>, <code>np.log(wage)</code>, <code>I(np.log(capital) ** 2)</code>, <code>I(np.log(labour) ** 2)</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="output-equation-2" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="output-equation-2"><span class="header-section-number">1.6</span> output equation #2</h2>
+<p>Для набора данных <code>Labour</code> рассмотрим регрессию</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>np.log(output) <span class="op">~</span> np.log(capital) <span class="op">+</span> np.log(labour) <span class="op">+</span> np.log(wage) <span class="op">+</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    I(np.log(capital)<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> I(np.log(labour)<span class="op">**</span><span class="dv">2</span>)</span></code></pre></div><button title="Скопировать текст" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.576519Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.576464Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.578020Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.577774Z&quot;}}" data-execution_count="12">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>10%</strong></li>
+<li>стандартные ошибки: <strong>робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>Оцените регрессию.</li>
+<li>Выведите результаты t-теста.</li>
+<li>Вычислите критическое значение.</li>
+<li>Какие коэффициенты значимы?</li>
+</ul>
+<p><strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.578845Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.578796Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.585697Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.585389Z&quot;}}" data-execution_count="13">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (робастные стандартные ошибки, HC3):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-4.258</td>
+<td style="text-align: right;">0.547</td>
+<td style="text-align: right;">-7.782</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(capital)</td>
+<td style="text-align: right;">0.140</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">4.736</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(labour)</td>
+<td style="text-align: right;">0.473</td>
+<td style="text-align: right;">0.197</td>
+<td style="text-align: right;">2.404</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(wage)</td>
+<td style="text-align: right;">0.853</td>
+<td style="text-align: right;">0.086</td>
+<td style="text-align: right;">9.929</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(capital) ** 2)</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.932</td>
+<td style="text-align: right;">0.352</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(np.log(labour) ** 2)</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">1.376</td>
+<td style="text-align: right;">0.169</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<p>Модель была подогнана по 569 наблюдениям.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.95}(563) = 1.648\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 10% (по робастным стандартным ошибкам HC3)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 10% (по робастным стандартным ошибкам HC3)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>np.log(capital)</code>, <code>np.log(labour)</code>, <code>np.log(wage)</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="cost-equation-1" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="cost-equation-1"><span class="header-section-number">1.7</span> cost equation #1</h2>
+<p>Для набора данных <code>Electricity</code> рассмотрим регрессию</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>np.log(cost) <span class="op">~</span> np.log(q) <span class="op">+</span> I(np.log(q)<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    np.log(pl) <span class="op">+</span> np.log(pk) <span class="op">+</span> np.log(pf)</span></code></pre></div><button title="Скопировать текст" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Переменные: <code>cost</code> — общие издержки, <code>q</code> — выпуск, <code>pl</code>, <code>pk</code>, <code>pf</code> — цены труда, капитала и топлива.</p>
+<div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.586576Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.586509Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.588202Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.587889Z&quot;}}" data-execution_count="14">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>1%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>Оцените регрессию.</li>
+<li>Выведите результаты t-теста.</li>
+<li>Вычислите критическое значение.</li>
+<li>Какие коэффициенты значимы?</li>
+</ul>
+<p><strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.589024Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.588973Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.595571Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.595332Z&quot;}}" data-execution_count="15">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-6.739</td>
+<td style="text-align: right;">0.706</td>
+<td style="text-align: right;">-9.541</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(q)</td>
+<td style="text-align: right;">0.403</td>
+<td style="text-align: right;">0.032</td>
+<td style="text-align: right;">12.734</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(q) ** 2)</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">14.024</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pl)</td>
+<td style="text-align: right;">0.146</td>
+<td style="text-align: right;">0.070</td>
+<td style="text-align: right;">2.073</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(pk)</td>
+<td style="text-align: right;">0.157</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">2.721</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pf)</td>
+<td style="text-align: right;">0.685</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: right;">16.043</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<p>Модель была подогнана по 158 наблюдениям.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.995}(152) = 2.609\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 1% (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 1% (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>np.log(q)</code>, <code>I(np.log(q) ** 2)</code>, <code>np.log(pk)</code>, <code>np.log(pf)</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="cost-equation-2" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="cost-equation-2"><span class="header-section-number">1.8</span> cost equation #2</h2>
+<p>Для набора данных <code>Electricity</code> рассмотрим регрессию</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>np.log(cost) <span class="op">~</span> np.log(q) <span class="op">+</span> I(np.log(q)<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    np.log(pl) <span class="op">+</span> np.log(pk) <span class="op">+</span> np.log(pf)</span></code></pre></div><button title="Скопировать текст" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.596532Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.596463Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.598150Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.597877Z&quot;}}" data-execution_count="16">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>1%</strong></li>
+<li>стандартные ошибки: <strong>робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>Оцените регрессию.</li>
+<li>Выведите результаты t-теста.</li>
+<li>Вычислите критическое значение.</li>
+<li>Какие коэффициенты значимы?</li>
+</ul>
+<p><strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.598977Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.598926Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.605271Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.604973Z&quot;}}" data-execution_count="17">
+<p><strong>Результаты <span class="math inline">\(t\)</span>-теста для коэффициентов (робастные стандартные ошибки, HC3):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Coef.</th>
+<th style="text-align: right;">Std.Err.</th>
+<th style="text-align: right;">t-value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;">Signif.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-6.739</td>
+<td style="text-align: right;">0.847</td>
+<td style="text-align: right;">-7.954</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(q)</td>
+<td style="text-align: right;">0.403</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">6.086</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(q) ** 2)</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">7.419</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pl)</td>
+<td style="text-align: right;">0.146</td>
+<td style="text-align: right;">0.085</td>
+<td style="text-align: right;">1.711</td>
+<td style="text-align: right;">0.089</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(pk)</td>
+<td style="text-align: right;">0.157</td>
+<td style="text-align: right;">0.062</td>
+<td style="text-align: right;">2.522</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pf)</td>
+<td style="text-align: right;">0.685</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">13.188</td>
+<td style="text-align: right;">&lt;0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span></p>
+<p>Модель была подогнана по 158 наблюдениям.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.995}(152) = 2.609\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 1% (по робастным стандартным ошибкам HC3)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 1% (по робастным стандартным ошибкам HC3)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>np.log(q)</code>, <code>I(np.log(q) ** 2)</code>, <code>np.log(pf)</code></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="t-тест-равенство-коэффициента-заданному-числу" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> t-тест: равенство коэффициента заданному числу</h1>
+<section id="output-equation-3" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="output-equation-3"><span class="header-section-number">2.1</span> output equation #3</h2>
+<p>Для набора данных <code>Labour</code> рассмотрим регрессию <strong>np.log(output) на np.log(capital), np.log(labour)</strong>.</p>
+<p>Результаты оценивания:</p>
+<div id="cell-35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.606128Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.606062Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.618704Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.618337Z&quot;}}" data-execution_count="18">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">(1)</th>
+<th style="text-align: left;">(2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dep. Variable</td>
+<td style="text-align: left;">np.log(output)</td>
+<td style="text-align: left;">np.log(output)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(capital)</td>
+<td style="text-align: left;">0.2076***</td>
+<td style="text-align: left;">0.2076***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01719)</td>
+<td style="text-align: left;">(0.03159)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(labour)</td>
+<td style="text-align: left;">0.7148***</td>
+<td style="text-align: left;">0.7148***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.02314)</td>
+<td style="text-align: left;">(0.04362)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: left;">-1.711***</td>
+<td style="text-align: left;">-1.711***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.09671)</td>
+<td style="text-align: left;">(0.1841)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R-squared</td>
+<td style="text-align: left;">0.8378</td>
+<td style="text-align: left;">0.8378</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R-squared Adj.</td>
+<td style="text-align: left;">0.8373</td>
+<td style="text-align: left;">0.8373</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F Statistic</td>
+<td style="text-align: left;">1462</td>
+<td style="text-align: left;">486.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Residual Std. Error</td>
+<td style="text-align: left;">0.4781</td>
+<td style="text-align: left;">0.4781</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span>. В скобках — стандартные ошибки: (1) неробастные, (2) HC3.</p>
+<p>Модель была подогнана по 569 наблюдениям.</p>
+</div>
+<div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.619527Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.619471Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.621290Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.620953Z&quot;}}" data-execution_count="19">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>1%</strong></li>
+<li>стандартные ошибки: <strong>неробастные и робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_{capital}=0.5\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Вычислите тестовую статистику. Вычислите критическое значение. Какой можно сделать вывод?</p>
+<p><strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.622084Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.622034Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.623805Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.623501Z&quot;}}" data-execution_count="20">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.995}(566) = 2.58\)</span></p>
+</div>
+</div>
+</div>
+<p><strong>Неробастный t-тест</strong></p>
+<div id="cell-40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.624726Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.624656Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.627192Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.626863Z&quot;}}" data-execution_count="21">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 13%">
+<col style="width: 30%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">np.log(capital)</td>
+<td style="text-align: right;">0.2076</td>
+<td style="text-align: right;">0.01719</td>
+<td style="text-align: right;">-17.01</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 17.01 &gt; 2.58\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+</div>
+</div>
+</div>
+<p><strong>Робастный t-тест (HC3)</strong></p>
+<div id="cell-42" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.628100Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.628034Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.630388Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.630114Z&quot;}}" data-execution_count="22">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 12%">
+<col style="width: 35%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка (HC3)</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">np.log(capital)</td>
+<td style="text-align: right;">0.2076</td>
+<td style="text-align: right;">0.03159</td>
+<td style="text-align: right;">-9.26</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 9.26 &gt; 2.58\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="output-equation-4" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="output-equation-4"><span class="header-section-number">2.2</span> output equation #4</h2>
+<p>Для набора данных <code>Labour</code> рассмотрим регрессию <strong>np.log(output) на np.log(capital), np.log(labour)</strong>.</p>
+<p>Результаты оценивания:</p>
+<div id="cell-44" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.631281Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.631227Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.642442Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.642119Z&quot;}}" data-execution_count="23">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">(1)</th>
+<th style="text-align: left;">(2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dep. Variable</td>
+<td style="text-align: left;">np.log(output)</td>
+<td style="text-align: left;">np.log(output)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(capital)</td>
+<td style="text-align: left;">0.2076***</td>
+<td style="text-align: left;">0.2076***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01719)</td>
+<td style="text-align: left;">(0.03159)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(labour)</td>
+<td style="text-align: left;">0.7148***</td>
+<td style="text-align: left;">0.7148***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.02314)</td>
+<td style="text-align: left;">(0.04362)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: left;">-1.711***</td>
+<td style="text-align: left;">-1.711***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.09671)</td>
+<td style="text-align: left;">(0.1841)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R-squared</td>
+<td style="text-align: left;">0.8378</td>
+<td style="text-align: left;">0.8378</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R-squared Adj.</td>
+<td style="text-align: left;">0.8373</td>
+<td style="text-align: left;">0.8373</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F Statistic</td>
+<td style="text-align: left;">1462</td>
+<td style="text-align: left;">486.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Residual Std. Error</td>
+<td style="text-align: left;">0.4781</td>
+<td style="text-align: left;">0.4781</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span>. В скобках — стандартные ошибки: (1) неробастные, (2) HC3.</p>
+<p>Модель была подогнана по 569 наблюдениям.</p>
+</div>
+<div id="cell-45" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.643270Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.643220Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.644945Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.644664Z&quot;}}" data-execution_count="24">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>10%</strong></li>
+<li>стандартные ошибки: <strong>неробастные и робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_{labour}=0.7\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Вычислите тестовую статистику. Вычислите критическое значение. Какой можно сделать вывод?</p>
+<p><strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-47" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.645770Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.645714Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.647448Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.647180Z&quot;}}" data-execution_count="25">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.95}(566) = 1.65\)</span></p>
+</div>
+</div>
+</div>
+<p><strong>Неробастный t-тест</strong></p>
+<div id="cell-49" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.648286Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.648234Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.650610Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.650322Z&quot;}}" data-execution_count="26">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 14%">
+<col style="width: 30%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">np.log(labour)</td>
+<td style="text-align: right;">0.7148</td>
+<td style="text-align: right;">0.02314</td>
+<td style="text-align: right;">0.64</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 0.64 &lt; 1.65\)</span>, гипотеза <span class="math inline">\(H_0\)</span> не отвергается.</p>
+</div>
+</div>
+</div>
+<p><strong>Робастный t-тест (HC3)</strong></p>
+<div id="cell-51" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.651470Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.651406Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.653826Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.653500Z&quot;}}" data-execution_count="27">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 12%">
+<col style="width: 36%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка (HC3)</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">np.log(labour)</td>
+<td style="text-align: right;">0.7148</td>
+<td style="text-align: right;">0.04362</td>
+<td style="text-align: right;">0.34</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 0.34 &lt; 1.65\)</span>, гипотеза <span class="math inline">\(H_0\)</span> не отвергается.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="cost-equation-3" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="cost-equation-3"><span class="header-section-number">2.3</span> cost equation #3</h2>
+<p>Для набора данных <code>Electricity</code> рассмотрим регрессию <strong>np.log(cost) на np.log(q), np.log(pl), np.log(pk), np.log(pf)</strong>.</p>
+<p>Результаты оценивания:</p>
+<div id="cell-53" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.654733Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.654662Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.667240Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.666927Z&quot;}}" data-execution_count="28">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">(1)</th>
+<th style="text-align: left;">(2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dep. Variable</td>
+<td style="text-align: left;">np.log(cost)</td>
+<td style="text-align: left;">np.log(cost)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(q)</td>
+<td style="text-align: left;">0.8381***</td>
+<td style="text-align: left;">0.8381***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.009387)</td>
+<td style="text-align: left;">(0.0205)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pl)</td>
+<td style="text-align: left;">0.04426</td>
+<td style="text-align: left;">0.04426</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.1058)</td>
+<td style="text-align: left;">(0.119)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pk)</td>
+<td style="text-align: left;">0.1884**</td>
+<td style="text-align: left;">0.1884**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.08707)</td>
+<td style="text-align: left;">(0.089)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pf)</td>
+<td style="text-align: left;">0.7131***</td>
+<td style="text-align: left;">0.7131***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.06436)</td>
+<td style="text-align: left;">(0.0814)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: left;">-7.472***</td>
+<td style="text-align: left;">-7.472***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(1.063)</td>
+<td style="text-align: left;">(1.156)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R-squared</td>
+<td style="text-align: left;">0.9822</td>
+<td style="text-align: left;">0.9822</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R-squared Adj.</td>
+<td style="text-align: left;">0.9817</td>
+<td style="text-align: left;">0.9817</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F Statistic</td>
+<td style="text-align: left;">2107</td>
+<td style="text-align: left;">552.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Residual Std. Error</td>
+<td style="text-align: left;">0.2087</td>
+<td style="text-align: left;">0.2087</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span>. В скобках — стандартные ошибки: (1) неробастные, (2) HC3.</p>
+<p>Модель была подогнана по 158 наблюдениям.</p>
+</div>
+<div id="cell-54" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.668214Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.668150Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.669933Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.669665Z&quot;}}" data-execution_count="29">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>5%</strong></li>
+<li>стандартные ошибки: <strong>неробастные и робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_{q}=1\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Вычислите тестовую статистику. Вычислите критическое значение. Какой можно сделать вывод?</p>
+<p><strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-56" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.670780Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.670724Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.672545Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.672221Z&quot;}}" data-execution_count="30">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.975}(153) = 1.98\)</span></p>
+</div>
+</div>
+</div>
+<p><strong>Неробастный t-тест</strong></p>
+<div id="cell-58" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.673509Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.673436Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.675984Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.675665Z&quot;}}" data-execution_count="31">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 14%">
+<col style="width: 31%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">np.log(q)</td>
+<td style="text-align: right;">0.8381</td>
+<td style="text-align: right;">0.009387</td>
+<td style="text-align: right;">-17.25</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 17.25 &gt; 1.98\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+</div>
+</div>
+</div>
+<p><strong>Робастный t-тест (HC3)</strong></p>
+<div id="cell-60" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.676941Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.676878Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.679644Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.679267Z&quot;}}" data-execution_count="32">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 37%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка (HC3)</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">np.log(q)</td>
+<td style="text-align: right;">0.8381</td>
+<td style="text-align: right;">0.0205</td>
+<td style="text-align: right;">-7.90</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 7.90 &gt; 1.98\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="cost-equation-4" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="cost-equation-4"><span class="header-section-number">2.4</span> cost equation #4</h2>
+<p>Для набора данных <code>Electricity</code> рассмотрим регрессию <strong>np.log(cost) на np.log(q), np.log(pl), np.log(pk), np.log(pf)</strong>.</p>
+<p>Результаты оценивания:</p>
+<div id="cell-62" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.680533Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.680473Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.693320Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.693043Z&quot;}}" data-execution_count="33">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">(1)</th>
+<th style="text-align: left;">(2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dep. Variable</td>
+<td style="text-align: left;">np.log(cost)</td>
+<td style="text-align: left;">np.log(cost)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(q)</td>
+<td style="text-align: left;">0.8381***</td>
+<td style="text-align: left;">0.8381***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.009387)</td>
+<td style="text-align: left;">(0.0205)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pl)</td>
+<td style="text-align: left;">0.04426</td>
+<td style="text-align: left;">0.04426</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.1058)</td>
+<td style="text-align: left;">(0.119)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pk)</td>
+<td style="text-align: left;">0.1884**</td>
+<td style="text-align: left;">0.1884**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.08707)</td>
+<td style="text-align: left;">(0.089)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pf)</td>
+<td style="text-align: left;">0.7131***</td>
+<td style="text-align: left;">0.7131***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.06436)</td>
+<td style="text-align: left;">(0.0814)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: left;">-7.472***</td>
+<td style="text-align: left;">-7.472***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(1.063)</td>
+<td style="text-align: left;">(1.156)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R-squared</td>
+<td style="text-align: left;">0.9822</td>
+<td style="text-align: left;">0.9822</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R-squared Adj.</td>
+<td style="text-align: left;">0.9817</td>
+<td style="text-align: left;">0.9817</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F Statistic</td>
+<td style="text-align: left;">2107</td>
+<td style="text-align: left;">552.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Residual Std. Error</td>
+<td style="text-align: left;">0.2087</td>
+<td style="text-align: left;">0.2087</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span>. В скобках — стандартные ошибки: (1) неробастные, (2) HC3.</p>
+<p>Модель была подогнана по 158 наблюдениям.</p>
+</div>
+<div id="cell-63" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.694473Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.694318Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.696322Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.695970Z&quot;}}" data-execution_count="34">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>10%</strong></li>
+<li>стандартные ошибки: <strong>неробастные и робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_{pf}=1\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Вычислите тестовую статистику. Вычислите критическое значение. Какой можно сделать вывод?</p>
+<p><strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-65" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.697157Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.697105Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.698928Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.698587Z&quot;}}" data-execution_count="35">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.95}(153) = 1.65\)</span></p>
+</div>
+</div>
+</div>
+<p><strong>Неробастный t-тест</strong></p>
+<div id="cell-67" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.699792Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.699739Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.702249Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.701917Z&quot;}}" data-execution_count="36">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 14%">
+<col style="width: 31%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">np.log(pf)</td>
+<td style="text-align: right;">0.7131</td>
+<td style="text-align: right;">0.06436</td>
+<td style="text-align: right;">-4.46</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 4.46 &gt; 1.65\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+</div>
+</div>
+</div>
+<p><strong>Робастный t-тест (HC3)</strong></p>
+<div id="cell-69" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.703067Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.703016Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.705389Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.705065Z&quot;}}" data-execution_count="37">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 37%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка (HC3)</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">np.log(pf)</td>
+<td style="text-align: right;">0.7131</td>
+<td style="text-align: right;">0.0814</td>
+<td style="text-align: right;">-3.52</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 3.52 &gt; 1.65\)</span>, гипотеза <span class="math inline">\(H_0\)</span> отвергается.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="sleep-equation-5" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sleep-equation-5"><span class="header-section-number">2.5</span> sleep equation #5</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<p><code>sleep ~ totwrk + age + south + male + smsa + yngkid + marr + union</code></p>
+<p>Результаты оценивания:</p>
+<div id="cell-71" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.706209Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.706157Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.721676Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.721376Z&quot;}}" data-execution_count="38">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">(1)</th>
+<th style="text-align: left;">(2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dep. Variable</td>
+<td style="text-align: left;">sleep</td>
+<td style="text-align: left;">sleep</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: left;">-0.1691***</td>
+<td style="text-align: left;">-0.1691***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01807)</td>
+<td style="text-align: left;">(0.02035)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">2.714*</td>
+<td style="text-align: left;">2.714*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(1.472)</td>
+<td style="text-align: left;">(1.451)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: left;">102.3**</td>
+<td style="text-align: left;">102.3**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(41.93)</td>
+<td style="text-align: left;">(42.59)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">87.11**</td>
+<td style="text-align: left;">87.11**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(35.17)</td>
+<td style="text-align: left;">(35.96)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: left;">-54.19</td>
+<td style="text-align: left;">-54.19</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(33.19)</td>
+<td style="text-align: left;">(33.45)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yngkid</td>
+<td style="text-align: left;">-13.05</td>
+<td style="text-align: left;">-13.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(50.46)</td>
+<td style="text-align: left;">(54.58)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">marr</td>
+<td style="text-align: left;">31.36</td>
+<td style="text-align: left;">31.36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(42.26)</td>
+<td style="text-align: left;">(46.27)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">union</td>
+<td style="text-align: left;">11.87</td>
+<td style="text-align: left;">11.87</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(38.19)</td>
+<td style="text-align: left;">(37.53)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: left;">3447***</td>
+<td style="text-align: left;">3447***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(81.84)</td>
+<td style="text-align: left;">(91.67)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R-squared</td>
+<td style="text-align: left;">0.1314</td>
+<td style="text-align: left;">0.1314</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R-squared Adj.</td>
+<td style="text-align: left;">0.1214</td>
+<td style="text-align: left;">0.1214</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F Statistic</td>
+<td style="text-align: left;">13.18</td>
+<td style="text-align: left;">10.44</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Residual Std. Error</td>
+<td style="text-align: left;">416.6</td>
+<td style="text-align: left;">416.6</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span>. В скобках — стандартные ошибки: (1) неробастные, (2) HC3.</p>
+<p>Модель была подогнана по 706 наблюдениям.</p>
+</div>
+<div id="cell-72" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.722561Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.722506Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.724302Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.723967Z&quot;}}" data-execution_count="39">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>1%</strong></li>
+<li>стандартные ошибки: <strong>неробастные и робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_{male}=90\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Вычислите тестовую статистику. Вычислите критическое значение. Какой можно сделать вывод?</p>
+<p><strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-74" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.725128Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.725075Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.726770Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.726526Z&quot;}}" data-execution_count="40">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.995}(697) = 2.58\)</span></p>
+</div>
+</div>
+</div>
+<p><strong>Неробастный t-тест</strong></p>
+<div id="cell-76" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.727664Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.727610Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.730039Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.729702Z&quot;}}" data-execution_count="41">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 14%">
+<col style="width: 31%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">87.11</td>
+<td style="text-align: right;">35.17</td>
+<td style="text-align: right;">-0.08</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 0.08 &lt; 2.58\)</span>, гипотеза <span class="math inline">\(H_0\)</span> не отвергается.</p>
+</div>
+</div>
+</div>
+<p><strong>Робастный t-тест (HC3)</strong></p>
+<div id="cell-78" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.730927Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.730869Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.733373Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.732987Z&quot;}}" data-execution_count="42">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 37%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка (HC3)</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">87.11</td>
+<td style="text-align: right;">35.96</td>
+<td style="text-align: right;">-0.08</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 0.08 &lt; 2.58\)</span>, гипотеза <span class="math inline">\(H_0\)</span> не отвергается.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="sleep-equation-6" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="sleep-equation-6"><span class="header-section-number">2.6</span> sleep equation #6</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<p><code>sleep ~ totwrk + age + south + male + smsa + yngkid + marr + union</code></p>
+<p>Результаты оценивания:</p>
+<div id="cell-80" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.734184Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.734121Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.749221Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.748943Z&quot;}}" data-execution_count="43">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">(1)</th>
+<th style="text-align: left;">(2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dep. Variable</td>
+<td style="text-align: left;">sleep</td>
+<td style="text-align: left;">sleep</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: left;">-0.1691***</td>
+<td style="text-align: left;">-0.1691***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01807)</td>
+<td style="text-align: left;">(0.02035)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">2.714*</td>
+<td style="text-align: left;">2.714*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(1.472)</td>
+<td style="text-align: left;">(1.451)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: left;">102.3**</td>
+<td style="text-align: left;">102.3**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(41.93)</td>
+<td style="text-align: left;">(42.59)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">87.11**</td>
+<td style="text-align: left;">87.11**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(35.17)</td>
+<td style="text-align: left;">(35.96)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: left;">-54.19</td>
+<td style="text-align: left;">-54.19</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(33.19)</td>
+<td style="text-align: left;">(33.45)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yngkid</td>
+<td style="text-align: left;">-13.05</td>
+<td style="text-align: left;">-13.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(50.46)</td>
+<td style="text-align: left;">(54.58)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">marr</td>
+<td style="text-align: left;">31.36</td>
+<td style="text-align: left;">31.36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(42.26)</td>
+<td style="text-align: left;">(46.27)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">union</td>
+<td style="text-align: left;">11.87</td>
+<td style="text-align: left;">11.87</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(38.19)</td>
+<td style="text-align: left;">(37.53)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: left;">3447***</td>
+<td style="text-align: left;">3447***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(81.84)</td>
+<td style="text-align: left;">(91.67)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R-squared</td>
+<td style="text-align: left;">0.1314</td>
+<td style="text-align: left;">0.1314</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R-squared Adj.</td>
+<td style="text-align: left;">0.1214</td>
+<td style="text-align: left;">0.1214</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F Statistic</td>
+<td style="text-align: left;">13.18</td>
+<td style="text-align: left;">10.44</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Residual Std. Error</td>
+<td style="text-align: left;">416.6</td>
+<td style="text-align: left;">416.6</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span>. В скобках — стандартные ошибки: (1) неробастные, (2) HC3.</p>
+<p>Модель была подогнана по 706 наблюдениям.</p>
+</div>
+<div id="cell-81" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.750092Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.750041Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.751747Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.751472Z&quot;}}" data-execution_count="44">
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>1%</strong></li>
+<li>стандартные ошибки: <strong>неробастные и робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_{south}=100\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Вычислите тестовую статистику. Вычислите критическое значение. Какой можно сделать вывод?</p>
+<p><strong>Ответ округлите до 2-х десятичных знаков.</strong></p>
+<div id="cell-83" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.752591Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.752536Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.754163Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.753939Z&quot;}}" data-execution_count="45">
+<div class="callout callout-style-default callout-note callout-titled" title="Критическое значение">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Критическое значение
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(t_{crit} = t_{0.995}(697) = 2.58\)</span></p>
+</div>
+</div>
+</div>
+<p><strong>Неробастный t-тест</strong></p>
+<div id="cell-85" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.755076Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.755015Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.757321Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.757047Z&quot;}}" data-execution_count="46">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 14%">
+<col style="width: 31%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">102.3</td>
+<td style="text-align: right;">41.93</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 0.05 &lt; 2.58\)</span>, гипотеза <span class="math inline">\(H_0\)</span> не отвергается.</p>
+</div>
+</div>
+</div>
+<p><strong>Робастный t-тест (HC3)</strong></p>
+<div id="cell-87" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:44:51.758269Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:44:51.758204Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:44:51.760506Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:44:51.760230Z&quot;}}" data-execution_count="47">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 37%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Оценка</th>
+<th style="text-align: right;">Стандартная ошибка (HC3)</th>
+<th style="text-align: right;">Тестовая статистика</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">102.3</td>
+<td style="text-align: right;">42.59</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Вывод">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Вывод
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\lvert t\rvert = 0.05 &lt; 2.58\)</span>, гипотеза <span class="math inline">\(H_0\)</span> не отвергается.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Скопировано");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Скопировано");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

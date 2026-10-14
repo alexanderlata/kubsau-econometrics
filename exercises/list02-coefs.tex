@@ -1,0 +1,674 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  russian,
+]{article}
+\usepackage{xcolor}
+\usepackage[top=20mm,left=20mm,right=20mm,bottom=20mm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setmainfont[]{Times New Roman}
+  \setsansfont[]{Arial}
+  \setmonofont[]{Courier New}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off,provide=*]{babel}
+\else
+\usepackage[bidi=default,shorthands=off,provide=*]{babel}
+\fi
+\ifPDFTeX
+\else
+\babelfont{rm}[]{Times New Roman}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список Иллюстраций}
+\else
+  \newcommand\listfigurename{Список Иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список Таблиц}
+\else
+  \newcommand\listtablename{Список Таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Список Каталогов}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={Задачи по Эконометрике-1: Интерпретация коэффициентов},
+  pdfauthor={Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)},
+  pdflang={ru},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Задачи по Эконометрике-1: Интерпретация коэффициентов}
+\author{Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Важно}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Логарифм везде натуральный; константа включается в модель по
+  умолчанию.
+\item
+  Данные лежат в папке \texttt{datasets/}, описание переменных --- в
+  \texttt{datasets/data-description.md}.
+\item
+  Оценки для \texttt{sleep75} округляются до 2-х десятичных знаков, для
+  остальных наборов данных --- до 3-х.
+\item
+  Ответы считаются по неокруглённым оценкам.
+\item
+  Коэффициенты подписаны так, как их печатает statsmodels:
+  \texttt{Intercept} --- константа, \texttt{np.log(x)} --- коэффициент
+  при \(\log x\).
+\item
+  Образец интерпретации дан по одному на каждый тип модели:
+  уровень--уровень, уровень--лог, лог--уровень, лог--лог и бинарная
+  переменная. В остальных задачах приведены только оценки.
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{Модели
+уровень--уровень}\label{ux43cux43eux434ux435ux43bux438-ux443ux440ux43eux432ux435ux43dux44cux443ux440ux43eux432ux435ux43dux44c}
+
+\subsection{sleep equation \#1}\label{sleep-equation-1}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию \textbf{sleep на
+totwrk, male}.
+
+Объясняющие переменные: \texttt{totwrk} и \texttt{male}; контрольных
+нет.
+
+Переменные: \texttt{sleep} --- ночной сон, минут в неделю;
+\texttt{totwrk} --- работа, минут в неделю; \texttt{male} = 1 для
+мужчин.
+
+Запишите спецификацию модели.
+
+Оцените модель на данных и укажите коэффициенты подогнанной модели.
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+Ответ:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3573.20 \\
+totwrk & -0.17 \\
+male & 88.84 \\
+\end{longtable}
+}
+
+Модель была подогнана по 706 наблюдениям.
+
+Интерпретируйте оценки коэффициентов при объясняющих переменных.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Ответ}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Уровень--уровень. При увеличении времени работы (\texttt{totwrk}) на 1
+  минуту в неделю при прочих равных время сна (\texttt{sleep}) в среднем
+  уменьшается на 0.17 минуты в неделю.
+\item
+  Бинарная переменная. У мужчин (\texttt{male} = 1) при прочих равных
+  время сна в среднем на 88.84 минуты в неделю больше, чем у женщин.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{sleep equation \#2}\label{sleep-equation-2}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ totwrk\ +\ male\ +\ smsa\ +\ age\ +\ south\ +\ yngkid\ +\ marr\ +\ union}
+
+Объясняющие переменные: \texttt{totwrk} и \texttt{male}; остальные ---
+контрольные.
+
+Переменные: \texttt{smsa} = 1 для жителей крупной городской агломерации;
+\texttt{age} --- возраст, лет; \texttt{south} = 1 для жителей Юга;
+\texttt{yngkid} = 1, если есть ребёнок младше 3 лет; \texttt{marr} = 1
+для состоящих в браке; \texttt{union} = 1 для членов профсоюза.
+
+Запишите спецификацию модели.
+
+Оцените модель на данных и укажите коэффициенты подогнанной модели.
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+Ответ:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3446.83 \\
+totwrk & -0.17 \\
+male & 87.11 \\
+smsa & -54.19 \\
+age & 2.71 \\
+south & 102.27 \\
+yngkid & -13.05 \\
+marr & 31.36 \\
+union & 11.87 \\
+\end{longtable}
+}
+
+Модель была подогнана по 706 наблюдениям.
+
+Интерпретируйте оценки коэффициентов при объясняющих переменных.
+
+\section{Полулогарифмические
+модели}\label{ux43fux43eux43bux443ux43bux43eux433ux430ux440ux438ux444ux43cux438ux447ux435ux441ux43aux438ux435-ux43cux43eux434ux435ux43bux438}
+
+\subsection{sleep equation \#3}\label{sleep-equation-3}
+
+Для набора данных \texttt{sleep75} рассмотрим регрессию
+
+\texttt{sleep\ \textasciitilde{}\ np.log(hrwage)\ +\ smsa\ +\ totwrk\ +\ male\ +\ marr\ +\ age\ +\ south\ +\ yngkid}
+
+Объясняющие переменные: \texttt{np.log(hrwage)} и \texttt{smsa};
+остальные --- контрольные.
+
+Переменные: \texttt{hrwage} --- почасовая зарплата.
+
+Запишите спецификацию модели.
+
+Оцените модель на данных и укажите коэффициенты подогнанной модели.
+\textbf{Ответ округлите до 2-х десятичных знаков.}
+
+Ответ:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 3440.19 \\
+np.log(hrwage) & -1.39 \\
+smsa & -36.96 \\
+totwrk & -0.16 \\
+male & 36.87 \\
+marr & 53.34 \\
+age & 2.37 \\
+south & 76.27 \\
+yngkid & 47.92 \\
+\end{longtable}
+}
+
+Модель была подогнана по 532 наблюдениям.
+
+Интерпретируйте оценки коэффициентов при объясняющих переменных.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Ответ}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Уровень--лог. При увеличении почасовой зарплаты (\texttt{hrwage}) на
+  1\% при прочих равных время сна (\texttt{sleep}) в среднем уменьшается
+  примерно на 0.014 минуты в неделю (оценка, делённая на 100).
+\item
+  Бинарная переменная. У жителей крупной городской агломерации
+  (\texttt{smsa} = 1) при прочих равных время сна в среднем на 36.96
+  минуты в неделю меньше, чем у остальных.
+\end{itemize}
+
+\end{tcolorbox}
+
+В наборе данных 706 наблюдений, а модель подогнана по 532. Чем это
+объясняется?
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Ответ}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+У 174 человек значение \texttt{hrwage} пропущено: все они не входят в
+состав рабочей силы (\texttt{inlf} = 0). При подгонке statsmodels
+отбрасывает наблюдения с пропусками.
+
+\end{tcolorbox}
+
+\subsection{wage equation \#1}\label{wage-equation-1}
+
+Для набора данных \texttt{wage2} рассмотрим регрессию
+\textbf{np.log(wage) на age, IQ}.
+
+Объясняющие переменные: \texttt{age} и \texttt{IQ}; контрольных нет.
+
+Переменные: \texttt{wage} --- месячная зарплата; \texttt{age} ---
+возраст, лет; \texttt{IQ} --- результат теста IQ, баллов.
+
+Запишите спецификацию модели.
+
+Оцените модель на данных и укажите коэффициенты подогнанной модели.
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+Ответ:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 5.077 \\
+age & 0.024 \\
+IQ & 0.009 \\
+\end{longtable}
+}
+
+Модель была подогнана по 935 наблюдениям.
+
+Интерпретируйте оценки коэффициентов при объясняющих переменных.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Ответ}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+Лог--уровень.
+
+\begin{itemize}
+\tightlist
+\item
+  При увеличении возраста (\texttt{age}) на 1 год при прочих равных
+  зарплата (\texttt{wage}) в среднем увеличивается примерно на 2.4\%
+  (оценка, умноженная на 100).
+\item
+  При увеличении \texttt{IQ} на 1 балл при прочих равных зарплата в
+  среднем увеличивается примерно на 0.9\%.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{wage equation \#2}\label{wage-equation-2}
+
+Для набора данных \texttt{wage2} рассмотрим регрессию
+
+\texttt{np.log(wage)\ \textasciitilde{}\ age\ +\ IQ\ +\ south\ +\ urban\ +\ married\ +\ KWW}
+
+Объясняющие переменные: \texttt{age} и \texttt{IQ}; остальные ---
+контрольные.
+
+Переменные: \texttt{south} = 1 для жителей Юга; \texttt{urban} = 1 для
+жителей крупной городской агломерации; \texttt{married} = 1 для
+состоящих в браке; \texttt{KWW} --- результат теста на знание рынка
+труда, баллов.
+
+Запишите спецификацию модели.
+
+Оцените модель на данных и укажите коэффициенты подогнанной модели.
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+Ответ:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & 5.126 \\
+age & 0.014 \\
+IQ & 0.007 \\
+south & -0.101 \\
+urban & 0.165 \\
+married & 0.191 \\
+KWW & 0.007 \\
+\end{longtable}
+}
+
+Модель была подогнана по 935 наблюдениям.
+
+Интерпретируйте оценки коэффициентов при объясняющих переменных.
+
+\section{Модели
+лог--лог}\label{ux43cux43eux434ux435ux43bux438-ux43bux43eux433ux43bux43eux433}
+
+\subsection{output equation \#1}\label{output-equation-1}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию
+\textbf{np.log(output) на np.log(capital), np.log(labour)}.
+
+Объясняющие переменные: \texttt{np.log(capital)} и
+\texttt{np.log(labour)}; контрольных нет.
+
+Переменные: \texttt{output} --- добавленная стоимость, млн евро;
+\texttt{capital} --- основной капитал, млн евро; \texttt{labour} ---
+число работников.
+
+Запишите спецификацию модели.
+
+Оцените модель на данных и укажите коэффициенты подогнанной модели.
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+Ответ:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -1.711 \\
+np.log(capital) & 0.208 \\
+np.log(labour) & 0.715 \\
+\end{longtable}
+}
+
+Модель была подогнана по 569 наблюдениям.
+
+Интерпретируйте оценки коэффициентов при объясняющих переменных.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Ответ}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+Лог--лог.
+
+\begin{itemize}
+\tightlist
+\item
+  При увеличении капитала (\texttt{capital}) на 1\% при прочих равных
+  выпуск (\texttt{output}) в среднем увеличивается примерно на 0.208\%.
+\item
+  При увеличении числа работников (\texttt{labour}) на 1\% при прочих
+  равных выпуск в среднем увеличивается примерно на 0.715\%.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{output equation \#2}\label{output-equation-2}
+
+Для набора данных \texttt{Labour} рассмотрим регрессию
+\textbf{np.log(output) на np.log(capital), np.log(labour),
+np.log(wage)}.
+
+Объясняющие переменные: \texttt{np.log(capital)} и
+\texttt{np.log(labour)}; остальные --- контрольные.
+
+Переменные: \texttt{wage} --- затраты на оплату труда на одного
+работника, тыс. евро.
+
+Запишите спецификацию модели.
+
+Оцените модель на данных и укажите коэффициенты подогнанной модели.
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+Ответ:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -5.007 \\
+np.log(capital) & 0.149 \\
+np.log(labour) & 0.720 \\
+np.log(wage) & 0.921 \\
+\end{longtable}
+}
+
+Модель была подогнана по 569 наблюдениям.
+
+Интерпретируйте оценки коэффициентов при объясняющих переменных.
+
+\subsection{cost equation \#1}\label{cost-equation-1}
+
+Для набора данных \texttt{Electricity} рассмотрим регрессию
+\textbf{np.log(cost) на np.log(q)}.
+
+Объясняющая переменная: \texttt{np.log(q)}; контрольных нет.
+
+Переменные: \texttt{cost} --- общие издержки; \texttt{q} --- выпуск.
+
+Запишите спецификацию модели.
+
+Оцените модель на данных и укажите коэффициенты подогнанной модели.
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+Ответ:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -3.841 \\
+np.log(q) & 0.836 \\
+\end{longtable}
+}
+
+Модель была подогнана по 158 наблюдениям.
+
+Интерпретируйте оценку коэффициента при объясняющей переменной.
+
+\subsection{cost equation \#2}\label{cost-equation-2}
+
+Для набора данных \texttt{Electricity} рассмотрим регрессию
+\textbf{np.log(cost) на np.log(q), np.log(pl), np.log(pf), np.log(pk)}.
+
+Объясняющая переменная: \texttt{np.log(q)}; остальные --- контрольные.
+
+Переменные: \texttt{pl} --- ставка заработной платы; \texttt{pf} ---
+цена топлива; \texttt{pk} --- индекс цены капитала.
+
+Запишите спецификацию модели.
+
+Оцените модель на данных и укажите коэффициенты подогнанной модели.
+\textbf{Ответ округлите до 3-х десятичных знаков.}
+
+Ответ:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+Переменная & Оценка \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Intercept & -7.472 \\
+np.log(q) & 0.838 \\
+np.log(pl) & 0.044 \\
+np.log(pf) & 0.713 \\
+np.log(pk) & 0.188 \\
+\end{longtable}
+}
+
+Модель была подогнана по 158 наблюдениям.
+
+Интерпретируйте оценку коэффициента при объясняющей переменной.
+
+
+
+
+\end{document}

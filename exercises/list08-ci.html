@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Н. В. Артамонов, А. Н. Лата (МГИМО МИД России)">
+
+<title>Задачи по Эконометрике-1: Доверительные интервалы</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="list08-ci_files/libs/clipboard/clipboard.min.js"></script>
+<script src="list08-ci_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="list08-ci_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="list08-ci_files/libs/quarto-html/popper.min.js"></script>
+<script src="list08-ci_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="list08-ci_files/libs/quarto-html/anchor.min.js"></script>
+<link href="list08-ci_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="list08-ci_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="list08-ci_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="list08-ci_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="list08-ci_files/libs/bootstrap/bootstrap-07adbd1a4704a02577050796401b62cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<style>
+table { width: auto !important; margin-left: auto; margin-right: auto; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Содержание</h2>
+   
+  <ul>
+  <li><a href="#построение-доверительных-интервалов" id="toc-построение-доверительных-интервалов" class="nav-link active" data-scroll-target="#построение-доверительных-интервалов"><span class="header-section-number">1</span> Построение доверительных интервалов</a>
+  <ul class="collapse">
+  <li><a href="#sleep-equation-1" id="toc-sleep-equation-1" class="nav-link" data-scroll-target="#sleep-equation-1"><span class="header-section-number">1.1</span> sleep equation #1</a></li>
+  <li><a href="#output-equation" id="toc-output-equation" class="nav-link" data-scroll-target="#output-equation"><span class="header-section-number">1.2</span> output equation</a></li>
+  <li><a href="#cost-equation-1" id="toc-cost-equation-1" class="nav-link" data-scroll-target="#cost-equation-1"><span class="header-section-number">1.3</span> cost equation #1</a></li>
+  </ul></li>
+  <li><a href="#доверительные-интервалы-и-t-тест" id="toc-доверительные-интервалы-и-t-тест" class="nav-link" data-scroll-target="#доверительные-интервалы-и-t-тест"><span class="header-section-number">2</span> Доверительные интервалы и t-тест</a>
+  <ul class="collapse">
+  <li><a href="#sleep-equation-2" id="toc-sleep-equation-2" class="nav-link" data-scroll-target="#sleep-equation-2"><span class="header-section-number">2.1</span> sleep equation #2</a></li>
+  <li><a href="#cost-equation-2" id="toc-cost-equation-2" class="nav-link" data-scroll-target="#cost-equation-2"><span class="header-section-number">2.2</span> cost equation #2</a></li>
+  </ul></li>
+  <li><a href="#доверительные-интервалы-и-сравнение-моделей" id="toc-доверительные-интервалы-и-сравнение-моделей" class="nav-link" data-scroll-target="#доверительные-интервалы-и-сравнение-моделей"><span class="header-section-number">3</span> Доверительные интервалы и сравнение моделей</a>
+  <ul class="collapse">
+  <li><a href="#sleep-equation-3" id="toc-sleep-equation-3" class="nav-link" data-scroll-target="#sleep-equation-3"><span class="header-section-number">3.1</span> sleep equation #3</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Другие форматы</h2><ul><li><a href="list08-ci.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li><li><a href="list08-ci.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Задачи по Эконометрике-1: Доверительные интервалы</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Автор</div>
+    <div class="quarto-title-meta-contents">
+             <p>Н. В. Артамонов, А. Н. Лата (МГИМО МИД России) </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-important callout-titled" title="Важно">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Важно
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Логарифм натуральный; константа включается в модель по умолчанию.</li>
+<li>Данные лежат в <code>datasets/</code> (<code>sleep75.csv</code>, <code>Labour.csv</code>, <code>Electricity.csv</code>), описание — в <code>datasets/data-description.md</code>.</li>
+<li>Ответы округляются до 3-х десятичных знаков и считаются по неокруглённым оценкам.</li>
+<li>Коэффициенты подписаны как в statsmodels: <code>Intercept</code> — константа, <code>np.log(x)</code> — <span class="math inline">\(\log x\)</span>, <code>I(x ** 2)</code> — <span class="math inline">\(x^2\)</span>.</li>
+<li>Робастные стандартные ошибки — HC3; границы доверительных интервалов — по квантилям t-распределения: <code>fit(cov_type='HC3', use_t=True)</code>, затем <code>conf_int(alpha=…)</code>.</li>
+</ul>
+</div>
+</div>
+<section id="построение-доверительных-интервалов" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Построение доверительных интервалов</h1>
+<section id="sleep-equation-1" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sleep-equation-1"><span class="header-section-number">1.1</span> sleep equation #1</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию (<code>sleep</code> и <code>totwrk</code> — минуты в неделю)</p>
+<p><code>sleep ~ totwrk + age + south + male + smsa + yngkid + marr</code></p>
+<p>Постройте 90%-доверительные интервалы (неробастные и робастные) для каждого коэффициента. <strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<p>Ответ:</p>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.133141Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.133065Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.154763Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.154451Z&quot;}}" data-execution_count="2">
+<p><strong>90%-е доверительные интервалы (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Нижняя граница</th>
+<th style="text-align: right;">Верхняя граница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3317.954</td>
+<td style="text-align: right;">3583.872</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">-0.199</td>
+<td style="text-align: right;">-0.139</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">0.269</td>
+<td style="text-align: right;">5.109</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">32.662</td>
+<td style="text-align: right;">170.475</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">29.851</td>
+<td style="text-align: right;">145.487</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-109.302</td>
+<td style="text-align: right;">-0.193</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yngkid</td>
+<td style="text-align: right;">-96.876</td>
+<td style="text-align: right;">68.952</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">marr</td>
+<td style="text-align: right;">-38.349</td>
+<td style="text-align: right;">100.770</td>
+</tr>
+</tbody>
+</table>
+<p><strong>90%-е доверительные интервалы (робастные стандартные ошибки, HC3):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Нижняя граница</th>
+<th style="text-align: right;">Верхняя граница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3301.820</td>
+<td style="text-align: right;">3600.005</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">-0.203</td>
+<td style="text-align: right;">-0.136</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">0.318</td>
+<td style="text-align: right;">5.061</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">31.548</td>
+<td style="text-align: right;">171.588</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">28.619</td>
+<td style="text-align: right;">146.719</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-109.835</td>
+<td style="text-align: right;">0.340</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yngkid</td>
+<td style="text-align: right;">-103.344</td>
+<td style="text-align: right;">75.419</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">marr</td>
+<td style="text-align: right;">-44.867</td>
+<td style="text-align: right;">107.289</td>
+</tr>
+</tbody>
+</table>
+<p>Модель была подогнана по 706 наблюдениям.</p>
+</div>
+</section>
+<section id="output-equation" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="output-equation"><span class="header-section-number">1.2</span> output equation</h2>
+<p>Для набора данных <code>Labour</code> рассмотрим регрессию <strong>np.log(output) на np.log(capital), np.log(labour)</strong> (<code>output</code> — добавленная стоимость, <code>capital</code> — основные фонды, млн евро; <code>labour</code> — число работников).</p>
+<p>Постройте 95%-доверительные интервалы (неробастные и робастные) для каждого коэффициента. <strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<p>Ответ:</p>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.161942Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.161855Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.173237Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.172948Z&quot;}}" data-execution_count="3">
+<p><strong>95%-е доверительные интервалы (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Нижняя граница</th>
+<th style="text-align: right;">Верхняя граница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-1.901</td>
+<td style="text-align: right;">-1.522</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(capital)</td>
+<td style="text-align: right;">0.174</td>
+<td style="text-align: right;">0.241</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(labour)</td>
+<td style="text-align: right;">0.669</td>
+<td style="text-align: right;">0.760</td>
+</tr>
+</tbody>
+</table>
+<p><strong>95%-е доверительные интервалы (робастные стандартные ошибки, HC3):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Нижняя граница</th>
+<th style="text-align: right;">Верхняя граница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-2.073</td>
+<td style="text-align: right;">-1.350</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(capital)</td>
+<td style="text-align: right;">0.146</td>
+<td style="text-align: right;">0.270</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(labour)</td>
+<td style="text-align: right;">0.629</td>
+<td style="text-align: right;">0.801</td>
+</tr>
+</tbody>
+</table>
+<p>Модель была подогнана по 569 наблюдениям.</p>
+</div>
+</section>
+<section id="cost-equation-1" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="cost-equation-1"><span class="header-section-number">1.3</span> cost equation #1</h2>
+<p>Для набора данных <code>Electricity</code> рассмотрим регрессию (<code>cost</code> — общие издержки, <code>q</code> — выпуск, <code>pl</code>, <code>pk</code>, <code>pf</code> — цены труда, капитала и топлива)</p>
+<pre><code>np.log(cost) ~ np.log(q) + I(np.log(q)**2) +
+               np.log(pl) + np.log(pk) + np.log(pf)</code></pre>
+<p>Постройте 99%-доверительные интервалы (неробастные и робастные) для каждого коэффициента. <strong>Ответ округлите до 3-х десятичных знаков.</strong></p>
+<p>Ответ:</p>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.174339Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.174280Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.189020Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.188748Z&quot;}}" data-execution_count="4">
+<p><strong>99%-е доверительные интервалы (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Нижняя граница</th>
+<th style="text-align: right;">Верхняя граница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-8.581</td>
+<td style="text-align: right;">-4.896</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(q)</td>
+<td style="text-align: right;">0.320</td>
+<td style="text-align: right;">0.486</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(q) ** 2)</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">0.036</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pl)</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.330</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(pk)</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.308</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pf)</td>
+<td style="text-align: right;">0.573</td>
+<td style="text-align: right;">0.796</td>
+</tr>
+</tbody>
+</table>
+<p><strong>99%-е доверительные интервалы (робастные стандартные ошибки, HC3):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Нижняя граница</th>
+<th style="text-align: right;">Верхняя граница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-8.949</td>
+<td style="text-align: right;">-4.529</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(q)</td>
+<td style="text-align: right;">0.230</td>
+<td style="text-align: right;">0.576</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(q) ** 2)</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">0.041</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pl)</td>
+<td style="text-align: right;">-0.077</td>
+<td style="text-align: right;">0.369</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">np.log(pk)</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.320</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pf)</td>
+<td style="text-align: right;">0.549</td>
+<td style="text-align: right;">0.820</td>
+</tr>
+</tbody>
+</table>
+<p>Модель была подогнана по 158 наблюдениям.</p>
+</div>
+</section>
+</section>
+<section id="доверительные-интервалы-и-t-тест" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Доверительные интервалы и t-тест</h1>
+<section id="sleep-equation-2" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sleep-equation-2"><span class="header-section-number">2.1</span> sleep equation #2</h2>
+<p>Для набора данных <code>sleep75</code> рассмотрим регрессию</p>
+<pre><code>sleep ~ totwrk + age + I(age**2) + south + male + smsa + yngkid + marr + union</code></pre>
+<p>Ниже приведены 90%-доверительные интервалы для коэффициентов.</p>
+<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.190105Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.190036Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.199066Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.198739Z&quot;}}" data-execution_count="5">
+<p><strong>90%-е доверительные интервалы (неробастные стандартные ошибки):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Нижняя граница</th>
+<th style="text-align: right;">Верхняя граница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3269.356</td>
+<td style="text-align: right;">4007.222</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: right;">-0.197</td>
+<td style="text-align: right;">-0.137</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">-26.347</td>
+<td style="text-align: right;">11.084</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(age ** 2)</td>
+<td style="text-align: right;">-0.098</td>
+<td style="text-align: right;">0.347</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">south</td>
+<td style="text-align: right;">31.483</td>
+<td style="text-align: right;">169.733</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">28.681</td>
+<td style="text-align: right;">144.571</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: right;">-108.584</td>
+<td style="text-align: right;">0.775</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yngkid</td>
+<td style="text-align: right;">-101.543</td>
+<td style="text-align: right;">65.622</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">marr</td>
+<td style="text-align: right;">-34.936</td>
+<td style="text-align: right;">104.904</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">union</td>
+<td style="text-align: right;">-49.590</td>
+<td style="text-align: right;">76.328</td>
+</tr>
+</tbody>
+</table>
+<p>Модель была подогнана по 706 наблюдениям.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>10%</strong></li>
+<li>стандартные ошибки: <strong>неробастные</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента, альтернатива двусторонняя</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Какие коэффициенты значимы?</p>
+<p>Коэффициент значим на уровне 10%, если 90%-доверительный интервал не содержит ноль.</p>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.200096Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.200020Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.202142Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.201799Z&quot;}}" data-execution_count="6">
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 10% (по неробастным стандартным ошибкам)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 10% (по неробастным стандартным ошибкам)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>totwrk</code>, <code>south</code>, <code>male</code></p>
+</div>
+</div>
+</div>
+<p>На <a href="#fig-sleep-ci" class="quarto-xref">Рисунок&nbsp;1</a> интервалы показаны в исходных единицах (константа не показана).</p>
+<div id="cell-fig-sleep-ci" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.203174Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.203097Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.258089Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.257681Z&quot;}}" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div id="fig-sleep-ci" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sleep-ci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list08-ci_files/figure-html/fig-sleep-ci-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sleep-ci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;1: sleep equation #2: 90%-доверительные интервалы для коэффициентов
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Почему интервалы для <code>totwrk</code> и <code>I(age ** 2)</code> на рисунке почти не видны? Значит ли это, что эти коэффициенты оценены точнее остальных?</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ответ">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Ответ
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Нет: ширина интервала зависит от единиц измерения регрессора. <code>totwrk</code> измерен в минутах в неделю, поэтому коэффициент и его стандартная ошибка малы по величине. Чтобы сравнивать коэффициенты между собой, их приводят к одному масштабу — <a href="#fig-sleep-ci-std" class="quarto-xref">Рисунок&nbsp;2</a>.</p>
+</div>
+</div>
+<p>Шкалированный коэффициент показывает, на сколько стандартных отклонений меняется зависимая переменная при увеличении регрессора на одно стандартное отклонение; значимость коэффициентов при шкалировании не меняется.</p>
+<div id="cell-fig-sleep-ci-std" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.259251Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.259166Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.304080Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.303702Z&quot;}}" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div id="fig-sleep-ci-std" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sleep-ci-std-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list08-ci_files/figure-html/fig-sleep-ci-std-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sleep-ci-std-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;2: sleep equation #2: 90%-доверительные интервалы для шкалированных коэффициентов
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cost-equation-2" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="cost-equation-2"><span class="header-section-number">2.2</span> cost equation #2</h2>
+<p>Для набора данных <code>Electricity</code> рассмотрим регрессию</p>
+<pre><code>np.log(cost) ~ np.log(q) + I(np.log(q)**2) + np.log(pl) + I(np.log(pl)**2) +
+               np.log(pk) + I(np.log(pk)**2) + np.log(pf) + I(np.log(pf)**2)</code></pre>
+<p>Ниже приведены 99%-доверительные интервалы для коэффициентов.</p>
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.305601Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.305502Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.320544Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.319526Z&quot;}}" data-execution_count="9">
+<p><strong>99%-е доверительные интервалы (робастные стандартные ошибки, HC3):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: right;">Нижняя граница</th>
+<th style="text-align: right;">Верхняя граница</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-129.940</td>
+<td style="text-align: right;">41.133</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(q)</td>
+<td style="text-align: right;">0.223</td>
+<td style="text-align: right;">0.570</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(q) ** 2)</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">0.042</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pl)</td>
+<td style="text-align: right;">-11.254</td>
+<td style="text-align: right;">27.921</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(pl) ** 2)</td>
+<td style="text-align: right;">-1.544</td>
+<td style="text-align: right;">0.633</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pk)</td>
+<td style="text-align: right;">-3.795</td>
+<td style="text-align: right;">4.668</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(pk) ** 2)</td>
+<td style="text-align: right;">-0.559</td>
+<td style="text-align: right;">0.487</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">np.log(pf)</td>
+<td style="text-align: right;">-3.909</td>
+<td style="text-align: right;">5.707</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I(np.log(pf) ** 2)</td>
+<td style="text-align: right;">-0.734</td>
+<td style="text-align: right;">0.673</td>
+</tr>
+</tbody>
+</table>
+<p>Модель была подогнана по 158 наблюдениям.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Условия теста">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Важное уведомление</span>Условия теста
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>уровень значимости: <strong>1%</strong></li>
+<li>стандартные ошибки: <strong>робастные (HC3)</strong></li>
+<li>гипотеза: <span class="math inline">\(H_0:\beta_j=0\)</span> для каждого коэффициента, альтернатива двусторонняя</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Какие коэффициенты значимы?</p>
+<p>Коэффициент значим на уровне 1%, если 99%-доверительный интервал не содержит ноль.</p>
+<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.322234Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.322118Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.325423Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.324774Z&quot;}}" data-execution_count="10">
+<div class="callout callout-style-default callout-note callout-titled" title="Коэффициенты, значимые на уровне 1% (по робастным стандартным ошибкам HC3)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Уведомление</span>Коэффициенты, значимые на уровне 1% (по робастным стандартным ошибкам HC3)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>np.log(q)</code>, <code>I(np.log(q) ** 2)</code></p>
+</div>
+</div>
+</div>
+<p>На <a href="#fig-cost-ci" class="quarto-xref">Рисунок&nbsp;3</a> интервалы показаны в исходных единицах (константа не показана).</p>
+<div id="cell-fig-cost-ci" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.326595Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.326526Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.373733Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.373201Z&quot;}}" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div id="fig-cost-ci" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cost-ci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list08-ci_files/figure-html/fig-cost-ci-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cost-ci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;3: cost equation #2: робастные 99%-доверительные интервалы для коэффициентов
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Почему интервал для <code>np.log(pl)</code> намного шире остальных, а интервалы для <code>np.log(q)</code> и <code>I(np.log(q) ** 2)</code> почти не видны?</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ответ">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Ответ
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ширина интервала зависит от разброса регрессора: <code>np.log(pl)</code> меняется в выборке мало (стандартное отклонение 0.17 против 1.81 у <code>np.log(q)</code>). Кроме того, <code>np.log(pl)</code> и его квадрат почти линейно зависимы, поэтому оба коэффициента оценены неточно. Чтобы сравнивать коэффициенты между собой, их приводят к одному масштабу — <a href="#fig-cost-ci-std" class="quarto-xref">Рисунок&nbsp;4</a>: интервал для <code>np.log(pl)</code> остаётся самым широким.</p>
+</div>
+</div>
+<p>Шкалированный коэффициент показывает, на сколько стандартных отклонений меняется зависимая переменная при увеличении регрессора на одно стандартное отклонение; значимость коэффициентов при шкалировании не меняется.</p>
+<div id="cell-fig-cost-ci-std" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.375237Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.375129Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.420813Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.420308Z&quot;}}" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div id="fig-cost-ci-std" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cost-ci-std-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list08-ci_files/figure-html/fig-cost-ci-std-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cost-ci-std-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;4: cost equation #2: робастные 99%-доверительные интервалы для шкалированных коэффициентов
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="доверительные-интервалы-и-сравнение-моделей" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Доверительные интервалы и сравнение моделей</h1>
+<section id="sleep-equation-3" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sleep-equation-3"><span class="header-section-number">3.1</span> sleep equation #3</h2>
+<p>Для набора данных <code>sleep75</code> регрессия</p>
+<p><code>sleep ~ totwrk + age + I(age**2) + smsa + marr</code></p>
+<p>оценена по трём выборкам: Север (<code>south = 0</code>), Юг (<code>south = 1</code>) и общая. В таблице — оценки и стандартные ошибки, на <a href="#fig-models-ci" class="quarto-xref">Рисунок&nbsp;5</a> — 95%-доверительные интервалы.</p>
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.421944Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.421869Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.455715Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.455114Z&quot;}}" data-execution_count="13">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Север</th>
+<th style="text-align: left;">Юг</th>
+<th style="text-align: left;">Общая</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dep. Variable</td>
+<td style="text-align: left;">sleep</td>
+<td style="text-align: left;">sleep</td>
+<td style="text-align: left;">sleep</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">totwrk</td>
+<td style="text-align: left;">-0.159***</td>
+<td style="text-align: left;">-0.074</td>
+<td style="text-align: left;">-0.147***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.018)</td>
+<td style="text-align: left;">(0.045)</td>
+<td style="text-align: left;">(0.017)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">-5.507</td>
+<td style="text-align: left;">-12.882</td>
+<td style="text-align: left;">-8.675</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(12.557)</td>
+<td style="text-align: left;">(25.039)</td>
+<td style="text-align: left;">(11.271)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I(age ** 2)</td>
+<td style="text-align: left;">0.084</td>
+<td style="text-align: left;">0.273</td>
+<td style="text-align: left;">0.140</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.150)</td>
+<td style="text-align: left;">(0.299)</td>
+<td style="text-align: left;">(0.135)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smsa</td>
+<td style="text-align: left;">-59.812*</td>
+<td style="text-align: left;">16.055</td>
+<td style="text-align: left;">-69.924**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(35.379)</td>
+<td style="text-align: left;">(96.789)</td>
+<td style="text-align: left;">(32.330)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">marr</td>
+<td style="text-align: left;">28.034</td>
+<td style="text-align: left;">152.296*</td>
+<td style="text-align: left;">47.598</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(46.960)</td>
+<td style="text-align: left;">(86.153)</td>
+<td style="text-align: left;">(41.450)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: left;">3664.188***</td>
+<td style="text-align: left;">3435.410***</td>
+<td style="text-align: left;">3675.413***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(244.380)</td>
+<td style="text-align: left;">(494.979)</td>
+<td style="text-align: left;">(219.803)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R-squared</td>
+<td style="text-align: left;">0.129</td>
+<td style="text-align: left;">0.140</td>
+<td style="text-align: left;">0.118</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R-squared Adj.</td>
+<td style="text-align: left;">0.122</td>
+<td style="text-align: left;">0.106</td>
+<td style="text-align: left;">0.112</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F Statistic</td>
+<td style="text-align: left;">16.928***</td>
+<td style="text-align: left;">4.043***</td>
+<td style="text-align: left;">18.768***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Observations</td>
+<td style="text-align: left;">576</td>
+<td style="text-align: left;">130</td>
+<td style="text-align: left;">706</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residual Std. Error</td>
+<td style="text-align: left;">421.078</td>
+<td style="text-align: left;">393.300</td>
+<td style="text-align: left;">418.809</td>
+</tr>
+</tbody>
+</table>
+<p><em>Signif. codes:</em> <code>***</code> <span class="math inline">\(p&lt;0.01\)</span>, <code>**</code> <span class="math inline">\(p&lt;0.05\)</span>, <code>*</code> <span class="math inline">\(p&lt;0.1\)</span>. В скобках — неробастные стандартные ошибки.</p>
+</div>
+<div id="cell-fig-models-ci" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-04T22:37:12.458696Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-04T22:37:12.458570Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-04T22:37:12.597463Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-04T22:37:12.596885Z&quot;}}" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div id="fig-models-ci" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-models-ci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="list08-ci_files/figure-html/fig-models-ci-output-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-models-ci-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Рисунок&nbsp;5: sleep equation #3: 95%-доверительные интервалы для коэффициентов трёх моделей (неробастные стандартные ошибки)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ol type="1">
+<li>Для каких коэффициентов 95%-доверительные интервалы моделей «Север» и «Юг» не пересекаются?</li>
+<li>Можно ли по пересечению интервалов сделать вывод, что коэффициенты в двух подвыборках одинаковы? Каким тестом проверяется эта гипотеза?</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ответ">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Совет</span>Ответ
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Интервалы пересекаются для всех коэффициентов. Пересечение интервалов не является тестом равенства коэффициентов; гипотеза об отсутствии структурных сдвигов проверяется F-тестом (тест Чоу), см. листок list07-F-test.</p>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Скопировано");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Скопировано");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
