@@ -12,6 +12,7 @@
 |[how-to-install-Python.md](how-to-install-Python.md)|Установка Python и окружения `courses`|
 |[linregression-with-Python.md](linregression-with-Python.md)|Работа с регрессией в Python (пакет `statsmodels`)|
 |[syllabus.md](syllabus.md)|Календарно-тематический план|
+|[jupyter-shortcut.md](jupyter-shortcut.md)|Ярлык для запуска JupyterLab с нужным окружением и в нужной папке|
 
 
 ## Необходимые библиотеки Python
